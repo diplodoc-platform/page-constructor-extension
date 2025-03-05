@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules
 /runtime
 /plugin
@@ -21,3 +22,17 @@ example/node/_assets
 /cache
 /coverage
 /external
+=======
+.DS_Store
+.vscode
+.idea
+.env
+
+/build
+/coverage
+/node_modules
+
+# libraries
+npm-debug.log
+
+>>>>>>> f88494f (Initial commit)
