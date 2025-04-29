@@ -1,70 +1,83 @@
 #!/usr/bin/env node
-
-const esbuild = require('esbuild');
-const {inlineScss} = require('esbuild-inline-sass');
-
-const {
-    compilerOptions: {target},
-} = require('../tsconfig.json');
+const {build} = require('esbuild');
+const {sassPlugin} = require('esbuild-sass-plugin');
 
 const common = {
     bundle: true,
     sourcemap: true,
-    target: target,
     tsconfig: './tsconfig.json',
 };
 
-const commonPlugin = {
-    external: ['markdown-it', 'node:*'],
-    define: {
-        PACKAGE: JSON.stringify(require('../package.json').name),
-    },
-};
-
-const commonRuntime = {
-    entryPoints: ['src/runtime/index.ts'],
-    loader: {
-        '.svg': 'text',
-    },
-    plugins: [inlineScss()],
-};
-
-esbuild.build({
+const nodePlugin = {
     ...common,
-    ...commonRuntime,
-    outfile: 'build/runtime/index-node.js',
-    platform: 'node',
-    minify: true,
-});
-
-esbuild.build({
-    ...common,
-    ...commonRuntime,
-    external: ['@gravity-ui/page-constructor', 'ts-dedent'],
-    outfile: 'build/runtime/index.js',
-    platform: 'neutral',
-});
-
-esbuild.build({
-    ...common,
-    entryPoints: ['src/react/index.ts'],
-    outfile: 'build/react/index.js',
-    platform: 'neutral',
-    external: ['react'],
-});
-
-esbuild.build({
-    ...common,
-    ...commonPlugin,
     entryPoints: ['src/plugin/index-node.ts'],
-    outfile: 'build/plugin/index-node.js',
     platform: 'node',
-});
+    outfile: 'build/plugin/index-node.js',
+    jsx: 'automatic',
+    plugins: [
+      {
+        name: 'css-mock',
+        setup(build) {
+          // Перехватывает все запросы к CSS файлам
+          build.onResolve({ filter: /\.(css|scss)$/ }, args => {
+            return {
+              path: args.path,
+              namespace: 'css-mock',
+            };
+          });
+  
+          // Возвращает пустой модуль для CSS
+          build.onLoad({ filter: /.*/, namespace: 'css-mock' }, () => {
+            return {
+              contents: 'module.exports = {};',
+              loader: 'js',
+            };
+          });
+        },
+      },
+    ],
+    external: [
+        // '@gravity-ui/page-constructor',
+    ],
+};
 
-esbuild.build({
+// Build browser plugin
+const browserPlugin = {
+  ...common,
+  entryPoints: ['src/plugin/index.ts'],
+  platform: 'browser',
+  format: 'esm',
+  outdir: 'build/plugin',
+  plugins: [sassPlugin()],
+  alias: {
+      '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
+  },
+  external: [
+      'node:*',
+  ],
+};
+
+// Build runtime bundle for browser
+const runtimeBundle = {
     ...common,
-    ...commonPlugin,
-    entryPoints: ['src/plugin/index.ts'],
-    outfile: 'build/plugin/index.js',
-    platform: 'neutral',
-});
+    entryPoints: ['src/runtime/index.tsx'],
+    platform: 'browser',
+    format: 'esm',
+    outfile: 'build/runtime/index.js',
+    jsx: 'automatic',
+    plugins: [sassPlugin()],
+    external: [
+        // Mark @gravity-ui/page-constructor as external to avoid bundling it
+        // '@gravity-ui/page-constructor',
+        // 'react',
+        // 'react-dom',
+    ],
+    alias: {
+      '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
+  },
+    // minify: true,
+};
+
+build(nodePlugin)
+build(browserPlugin)
+build(runtimeBundle)

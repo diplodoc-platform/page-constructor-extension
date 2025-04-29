@@ -10,19 +10,16 @@
   },
   "exports": {
     ".": {
+      "types": "./build/plugin/index.d.ts",
       "node": "./build/plugin/index-node.js",
       "default": "./build/plugin/index.js"
     },
     "./plugin": {
       "node": "./build/plugin/index-node.js",
-      "default": "./build/plugin/index.js"
+      "default": "./build/plugin/index.js",
+      "style": "./build/plugin/index.css"
     },
-    "./runtime": {
-      "node": "./build/runtime/index-node.js",
-      "default": "./build/runtime/index.js"
-    },
-    "./react": "./build/react/index.js",
-    "./hooks": "./build/react/index.js"
+    "./plugin/style": "./build/plugin/index.css"
   },
   "typesVersions": {
     "*": {
@@ -38,7 +35,7 @@
     }
   },
   "scripts": {
-    "build": "run-p build:*",
+    "build": "rm -rf build && run-p build:*",
     "build:js": "./esbuild/build.js",
     "build:declarations": "tsc --emitDeclarationOnly --outDir ./build",
     "prepublishOnly": "npm run build",
@@ -83,6 +80,8 @@
   },
   "dependencies": {
     "@gravity-ui/page-constructor": "^5.28.5",
+    "cheerio": "^1.0.0",
     "ts-dedent": "^2.2.0"
   }
 }
+

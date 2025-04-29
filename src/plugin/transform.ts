@@ -1,116 +1,104 @@
-import type {
-    MarkdownItPluginCb,
-    MarkdownItPluginOpts,
-} from '@diplodoc/transform/lib/plugins/typings';
-import type ParserCore from 'markdown-it/lib/parser_core';
-import type Token from 'markdown-it/lib/token';
+// @ts-nocheck
+import type MarkdownIt from 'markdown-it';
+import {load} from 'js-yaml';
+import {type Runtime, copyRuntime, dynrequire, hidden} from './utils';
+import {ENV_FLAG_NAME} from './const';
+import {pageConstructorDirective} from './directive';
+import {TokenType} from './const';
+import { block } from '@gravity-ui/page-constructor';
+import { getPageConstructorContent } from '../renderer/factory';
 
-import MarkdownIt from 'markdown-it';
-
-import {PluginOptions} from './types';
-
-function isPageConstructorBlock(token: Token) {
-    return token.type === 'fence' && token.info.match(/^\s*page-constructor(\s*|$)/);
-}
-
-function hidden<B extends Record<string | symbol, unknown>, F extends string | symbol, V>(
-    box: B,
-    field: F,
-    value: V,
-) {
-    if (!(field in box)) {
-        Object.defineProperty(box, field, {
-            enumerable: false,
-            value: value,
-        });
-    }
-
-    return box as B & {[P in F]: V};
-}
-
-const registerTransforms = (
-    md: MarkdownIt,
-    {
-        classes,
-        runtime,
-        onBundle,
-        bundle,
-        output,
-        updateTokens,
-    }: PluginOptions & {
-        output: string;
-        updateTokens: boolean;
-    },
-) => {
-    const applyTransforms: ParserCore.RuleCore = ({tokens, env}) => {
-        hidden(env, 'bundled', new Set<string>());
-
-        const blocks = tokens.filter(isPageConstructorBlock);
-
-        if (updateTokens && blocks.length) {
-            blocks.forEach((token) => {
-                token.type = 'page-constructor';
-                token.attrSet('class', `page-constructor ${classes}`);
-            });
-        }
-
-        if (blocks.length) {
-            env.meta = env.meta || {};
-            env.meta.script = env.meta.script || [];
-            env.meta.script.push(runtime);
-
-            if (bundle && onBundle) {
-                onBundle(env, output, runtime);
-            }
-        }
-    };
-
-    try {
-        md.core.ruler.after('fence', 'page-constructor', applyTransforms);
-    } catch (e) {
-        md.core.ruler.push('page-constructor', applyTransforms);
-    }
+export type TransformOptions = {
+    runtime?:
+        | string
+        | {
+              script: string;
+              style: string;
+          };
+    bundle?: boolean;
 };
 
-type InputOptions = MarkdownItPluginOpts & {
+type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
+    runtime: Runtime;
+};
+
+const registerTransform = (
+    md: MarkdownIt,
+    {
+        runtime,
+        bundle,
+        output,
+    }: Pick<NormalizedPluginOptions, 'bundle' | 'runtime'> & {
+        output: string;
+    },
+) => {
+
+    md.use(pageConstructorDirective);
+    
+    md.core.ruler.push('yfm_page_constructor_after', ({env}) => {
+        hidden(env, 'bundled', new Set<string>());
+
+        if (env?.[ENV_FLAG_NAME]) {
+            env.meta = env.meta || {};
+            env.meta.script = env.meta.script || [];
+            env.meta.script.push(runtime.script);
+            env.meta.style = env.meta.style || [];
+            env.meta.style.push(runtime.style);
+
+            if (bundle) {
+                copyRuntime({runtime, output}, env.bundled);
+            }
+        }
+    }
+);
+};
+
+type InputOptions = {
     destRoot: string;
 };
 
-export function transform(options: Partial<PluginOptions> = {}) {
-    const {
-        runtime = '_assets/page-constructor-extension.js',
-        classes = 'yfm-page-constructor',
-        bundle = true,
-        onBundle,
-    } = options;
+export function transform(options: Partial<TransformOptions> = {}) {
+    const {bundle = true} = options;
 
-    const plugin: MarkdownItPluginCb<{output: string}> = function (md: MarkdownIt, {output = '.'}) {
-        registerTransforms(md, {
-            classes,
+    if (bundle && typeof options.runtime === 'string') {
+        throw new TypeError('Option `runtime` should be record when `bundle` is enabled.');
+    }
+
+    const runtime: Runtime =
+        typeof options.runtime === 'string'
+            ? {script: options.runtime, style: options.runtime}
+            : options.runtime || {
+                  script: '_assets/page-constructor.js',
+                  style: '_assets/page-constructor.css',
+              };
+
+    const plugin: MarkdownIt.PluginWithOptions<{output?: string}> = function (
+        md: MarkdownIt,
+        {output = '.'} = {},
+    ) {
+        registerTransform(md, {
             runtime,
             bundle,
-            onBundle,
             output,
-            updateTokens: true,
         });
-
-        md.renderer.rules['page-constructor'] = (tokens, idx) => {
+        md.renderer.rules['yfm_page-constructor'] = (tokens, idx) => {
             const token = tokens[idx];
-            const code = encodeURIComponent(token.content.trimStart());
-            
-            return `<div class="page-constructor" data-content="${code}"></div>`;
+            const yamlContent = load(token.content.trimStart());
+            const content = getPageConstructorContent({blocks: yamlContent});
+            // const content = {blocks: load(token.content.trimStart())} as PageContent;
+
+            return content as string;
         };
     };
 
     Object.assign(plugin, {
-        collect(input: string, {destRoot}: InputOptions) {
-            const md = new MarkdownIt().use((md: MarkdownIt) => {
-                registerTransforms(md, {
-                    classes,
+        collect(input: string, {destRoot = '.'}: InputOptions) {
+            const MdIt = dynrequire('markdown-it');
+            const md = new MdIt().use((md: MarkdownIt) => {
+                registerTransform(md, {
                     runtime,
                     bundle,
                     output: destRoot,
-                    updateTokens: false,
                 });
             });
 
@@ -120,3 +108,4 @@ export function transform(options: Partial<PluginOptions> = {}) {
 
     return plugin;
 }
+
