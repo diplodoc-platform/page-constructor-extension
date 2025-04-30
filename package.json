@@ -11,7 +11,6 @@
   "exports": {
     ".": {
       "types": "./build/plugin/index.d.ts",
-      "node": "./build/plugin/index-node.js",
       "default": "./build/plugin/index.js"
     },
     "./plugin": {
@@ -19,7 +18,13 @@
       "default": "./build/plugin/index.js",
       "style": "./build/plugin/index.css"
     },
-    "./plugin/style": "./build/plugin/index.css"
+    "./react": "./build/react/index.js",
+    "./plugin/style": "./build/plugin/index.css",
+    "./roo": {
+      "node": "./build/plugin_roo/index.js",
+      "default": "./build/plugin_roo/index.js"
+    },
+    "./roo/react": "./build/react_roo/index.js"
   },
   "typesVersions": {
     "*": {
@@ -31,6 +36,15 @@
       ],
       "runtime": [
         "./build/runtime/index.d.ts"
+      ],
+      "react": [
+        "./build/react/index.d.ts"
+      ],
+      "roo": [
+        "./build/plugin_roo/index.d.ts"
+      ],
+      "roo/react": [
+        "./build/react_roo/index.d.ts"
       ]
     }
   },
@@ -38,6 +52,7 @@
     "build": "rm -rf build && run-p build:*",
     "build:js": "./esbuild/build.js",
     "build:declarations": "tsc --emitDeclarationOnly --outDir ./build",
+    "build:roo": "./esbuild/build_roo.js",
     "prepublishOnly": "npm run build",
     "test": "exit 0",
     "lint": "lint update && lint",

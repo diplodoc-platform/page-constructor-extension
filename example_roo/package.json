@@ -1,0 +1,21 @@
+{
+  "name": "page-constructor-roo-example",
+  "version": "1.0.0",
+  "description": "Example for page-constructor-roo extension",
+  "main": "index.js",
+  "scripts": {
+    "start": "esbuild index.js --bundle --outfile=bundle.js --servedir=. --serve=3001",
+    "build": "esbuild index.js --bundle --outfile=bundle.js",
+    "build:roo": "cd .. && npm run build:roo && cd example_roo && npm run build"
+  },
+  "dependencies": {
+    "@diplodoc/transform": "^4.0.0",
+    "@gravity-ui/page-constructor": "^4.0.0",
+    "js-yaml": "^4.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.0"
+  }
+}
