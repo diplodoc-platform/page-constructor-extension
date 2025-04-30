@@ -8,6 +8,19 @@ import {TokenType} from './const';
 import { block } from '@gravity-ui/page-constructor';
 import { getPageConstructorContent } from '../renderer/factory';
 
+// Добавляем скрипт для гидратации
+const HYDRATION_SCRIPT = `
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Проверяем, что функция гидратации доступна
+    if (typeof window.ReactComponents !== 'undefined' && 
+        typeof window.ReactComponents.hydratePageConstructors === 'function') {
+      window.ReactComponents.hydratePageConstructors();
+    }
+  });
+</script>
+`;
+
 export type TransformOptions = {
     runtime?:
         | string
@@ -16,6 +29,7 @@ export type TransformOptions = {
               style: string;
           };
     bundle?: boolean;
+    enableHydration?: boolean;
 };
 
 type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
@@ -28,8 +42,10 @@ const registerTransform = (
         runtime,
         bundle,
         output,
+        enableHydration = true,
     }: Pick<NormalizedPluginOptions, 'bundle' | 'runtime'> & {
         output: string;
+        enableHydration?: boolean;
     },
 ) => {
 
@@ -45,6 +61,12 @@ const registerTransform = (
             env.meta.style = env.meta.style || [];
             env.meta.style.push(runtime.style);
 
+            // Добавляем скрипт для гидратации, если она включена
+            if (enableHydration) {
+                env.meta.html = env.meta.html || [];
+                env.meta.html.push(HYDRATION_SCRIPT);
+            }
+            console.log(runtime, 'ffvvv111')
             if (bundle) {
                 copyRuntime({runtime, output}, env.bundled);
             }
@@ -58,7 +80,7 @@ type InputOptions = {
 };
 
 export function transform(options: Partial<TransformOptions> = {}) {
-    const {bundle = true} = options;
+    const {bundle = true, enableHydration = true} = options;
 
     if (bundle && typeof options.runtime === 'string') {
         throw new TypeError('Option `runtime` should be record when `bundle` is enabled.');
@@ -71,7 +93,6 @@ export function transform(options: Partial<TransformOptions> = {}) {
                   script: '_assets/page-constructor.js',
                   style: '_assets/page-constructor.css',
               };
-
     const plugin: MarkdownIt.PluginWithOptions<{output?: string}> = function (
         md: MarkdownIt,
         {output = '.'} = {},
@@ -80,25 +101,30 @@ export function transform(options: Partial<TransformOptions> = {}) {
             runtime,
             bundle,
             output,
+            enableHydration,
         });
         md.renderer.rules['yfm_page-constructor'] = (tokens, idx) => {
             const token = tokens[idx];
             const yamlContent = load(token.content.trimStart());
+            console.log('vvvvvs11')
             const content = getPageConstructorContent({blocks: yamlContent});
             // const content = {blocks: load(token.content.trimStart())} as PageContent;
 
             return content as string;
         };
     };
+    console.log(runtime, 'ffefff111')
 
     Object.assign(plugin, {
         collect(input: string, {destRoot = '.'}: InputOptions) {
             const MdIt = dynrequire('markdown-it');
+            console.log('ggg111')
             const md = new MdIt().use((md: MarkdownIt) => {
                 registerTransform(md, {
                     runtime,
                     bundle,
                     output: destRoot,
+                    enableHydration,
                 });
             });
 
@@ -108,4 +134,3 @@ export function transform(options: Partial<TransformOptions> = {}) {
 
     return plugin;
 }
-

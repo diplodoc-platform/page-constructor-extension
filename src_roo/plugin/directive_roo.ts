@@ -3,13 +3,13 @@ import type MarkdownIt from 'markdown-it';
 
 import {directiveParser, registerContainerDirective} from '@diplodoc/directive';
 
-import {ClassNames, ENV_FLAG_NAME, TokenType} from './const';
+import {ClassNames, ENV_FLAG_NAME, TokenType} from './const_roo';
 
-export const pageConstructorDirective: MarkdownIt.PluginSimple = (md) => {
+export const reactComponentDirective: MarkdownIt.PluginSimple = (md) => {
     md.use(directiveParser());
-    console.log('vvv11222333')
+
     registerContainerDirective(md, {
-        name: 'page-constructor',
+        name: 'react-component',
         type: 'code_block',
         match(_params, state) {
             state.env ??= {};
@@ -19,11 +19,10 @@ export const pageConstructorDirective: MarkdownIt.PluginSimple = (md) => {
         },
         container: {
             tag: 'div',
-            token: TokenType.PageConstructor,
+            token: TokenType.ReactComponent,
             attrs: {
-                class: ClassNames.PageConstructor,
+                class: ClassNames.ReactComponent,
             },
         },
-     
     });
 };

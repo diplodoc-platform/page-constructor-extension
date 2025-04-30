@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import React from 'react';
 import { PageContent, PageConstructor, PageConstructorProvider } from '@gravity-ui/page-constructor';
 
@@ -15,7 +14,7 @@ export function createPageConstructorElement(content: PageContent, isServer: boo
 // Функция для гидратации компонентов на клиенте
 export function hydratePageConstructors() {
     if (typeof document === 'undefined') return;
-        console.log('hydratePageConstructor111s');
+    
     // Находим все контейнеры компонентов
     const containers = document.querySelectorAll('.page-constructor-container');
     
@@ -42,6 +41,5 @@ export function hydratePageConstructors() {
 
 // Запускаем гидратацию при загрузке DOM
 if (typeof window !== 'undefined') {
-    console.log('test123123')
     window.addEventListener('DOMContentLoaded', hydratePageConstructors);
 }

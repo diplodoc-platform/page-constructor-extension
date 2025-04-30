@@ -38,6 +38,7 @@ const nodePlugin = {
     ],
     external: [
         // '@gravity-ui/page-constructor',
+                // 'consolidated-events'
     ],
 };
 
@@ -54,6 +55,7 @@ const browserPlugin = {
   },
   external: [
       'node:*',
+            //   'consolidated-events'
   ],
 };
 
@@ -62,15 +64,16 @@ const runtimeBundle = {
     ...common,
     entryPoints: ['src/runtime/index.tsx'],
     platform: 'browser',
-    format: 'esm',
+    format: 'iife',
     outfile: 'build/runtime/index.js',
-    jsx: 'automatic',
+    // jsx: 'automatic',
     plugins: [sassPlugin()],
     external: [
         // Mark @gravity-ui/page-constructor as external to avoid bundling it
         // '@gravity-ui/page-constructor',
         // 'react',
         // 'react-dom',
+        // 'consolidated-events'
     ],
     alias: {
       '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',

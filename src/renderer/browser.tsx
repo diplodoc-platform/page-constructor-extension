@@ -1,65 +1,38 @@
+// @ts-nocheck
+
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { flushSync } from 'react-dom';
-// import { PageContent } from '@gravity-ui/page-constructor';
-// import { createPageConstructorElement } from '../runtime/index';
-// import { PageConstructorProvider, PageConstructor } from '@gravity-ui/page-constructor';
-import '../styles/index.scss'
+import { PageContent } from '@gravity-ui/page-constructor';
+import { createPageConstructorElement, hydratePageConstructors } from '../runtime';
+import '../styles/index.scss';
 
-// Простой компонент кнопки с console.log
-const TestButton = () => {
-    const handleClick = () => {
-      console.log('Button clicked!');
-    };
-  
-    return (
-      <button 
-        onClick={handleClick}
-        style={{
-          padding: '10px 20px',
-          backgroundColor: '#007bff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer'
-        }}
-      >
-        Click me
-      </button>
-    );
-  };
-  
-  // Функция для создания HTML контента
-  export function createPageConstructorContent() {
-    console.log('createPageConstructorElement - browser')
+// Функция для создания HTML контента
+export function createPageConstructorContent(content: PageContent): string {
+    try {
+        const div = document.createElement('div');
+        const root = createRoot(div);
+        
+        flushSync(() => {
+            root.render(createPageConstructorElement(content, false));
+        });
+        
+        const html = div.innerHTML;
+        root.unmount();
+        
+        // Оборачиваем HTML в div с данными компонента в data-атрибуте
+        // Это будет использовано для гидратации на клиенте
+        return `<div class="page-constructor-container" data-content='${JSON.stringify(content)}'>${html}</div>`;
+    } catch (error: any) {
+        console.error('Error rendering Page Constructor in browser:', error);
+        return `<div class="page-constructor-error">Error rendering component: ${error.message || 'Unknown error'}</div>`;
+    }
+}
 
-    const div = document.createElement('div');
-    const root = createRoot(div);
-    
-    flushSync(() => {
-      root.render(<TestButton />);
-    });
-    
-    const html = div.innerHTML;
-    root.unmount();
-    
-    return html;
-  }
+// Экспортируем функцию гидратации для использования в клиентском коде
+export { hydratePageConstructors };
 
-// export function createPageConstructorContent(content: PageContent): string {
-//     const div = document.createElement('div');
-//     const root = createRoot(div);
-//     console.log('111')
-//     flushSync(() => {
-//         root.render(
-//             createPageConstructorElement(content, false)
-//     //  <PageConstructorProvider ssrConfig={{isServer: false   }}>
-//     //         <PageConstructor content={content} />
-//     //     </PageConstructorProvider>
-//         );
-//     });
-    
-//     const html = div.innerHTML;
-//     // root.unmount();
-    
-//     return html;
-// }
+// Запускаем гидратацию при загрузке DOM
+if (typeof window !== 'undefined') {
+    window.addEventListener('DOMContentLoaded', hydratePageConstructors);
+}
