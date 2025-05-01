@@ -2,6 +2,9 @@
 import React from 'react';
 import { PageContent, PageConstructor, PageConstructorProvider } from '@gravity-ui/page-constructor';
 
+// import '@gravity-ui/uikit/styles/styles.css';
+import '@gravity-ui/page-constructor/styles/styles.scss';
+// 
 // Создание элемента PageConstructor
 export function createPageConstructorElement(content: PageContent, isServer: boolean) {
     return (

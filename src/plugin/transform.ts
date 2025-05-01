@@ -7,6 +7,7 @@ import {pageConstructorDirective} from './directive';
 import {TokenType} from './const';
 import { block } from '@gravity-ui/page-constructor';
 import { getPageConstructorContent } from '../renderer/factory';
+import { preTransformYfmBlocks } from './pretransform';
 
 // Добавляем скрипт для гидратации
 const HYDRATION_SCRIPT = `
@@ -66,7 +67,6 @@ const registerTransform = (
                 env.meta.html = env.meta.html || [];
                 env.meta.html.push(HYDRATION_SCRIPT);
             }
-            console.log(runtime, 'ffvvv111')
             if (bundle) {
                 copyRuntime({runtime, output}, env.bundled);
             }
@@ -103,22 +103,21 @@ export function transform(options: Partial<TransformOptions> = {}) {
             output,
             enableHydration,
         });
-        md.renderer.rules['yfm_page-constructor'] = (tokens, idx) => {
+        md.renderer.rules['yfm_page-constructor'] = (tokens, idx, options, env, self) => {
             const token = tokens[idx];
             const yamlContent = load(token.content.trimStart());
-            console.log('vvvvvs11')
-            const content = getPageConstructorContent({blocks: yamlContent});
-            // const content = {blocks: load(token.content.trimStart())} as PageContent;
-
-            return content as string;
+            
+            // Создаем объект контента без претрансформации
+            const content = {blocks: yamlContent};
+            
+            // Просто возвращаем контент без обработки
+            return getPageConstructorContent(content);
         };
     };
-    console.log(runtime, 'ffefff111')
 
     Object.assign(plugin, {
         collect(input: string, {destRoot = '.'}: InputOptions) {
             const MdIt = dynrequire('markdown-it');
-            console.log('ggg111')
             const md = new MdIt().use((md: MarkdownIt) => {
                 registerTransform(md, {
                     runtime,
@@ -134,3 +133,5 @@ export function transform(options: Partial<TransformOptions> = {}) {
 
     return plugin;
 }
+
+

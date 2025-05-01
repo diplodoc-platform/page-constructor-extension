@@ -5,6 +5,7 @@ import transform from '@diplodoc/transform';
 import notes from '@diplodoc/transform/lib/plugins/notes/index.js';
 import {transform as pageConstructorPlugin} from '@diplodoc/page-constructor-extension/plugin';
 
+// import '@gravity-ui/uikit/styles/styles.css';
 // CSS import removed - not needed for server-side rendering
 
 async function generateHtml() {
@@ -46,6 +47,7 @@ async function generateHtml() {
         <meta charset="UTF-8">
         <title>Test useRenderPageConstructorBlocks</title>
         ${styleLinks}
+        <link rel="stylesheet" href="yfm-override.css">
         
         <!-- Подключаем React и ReactDOM для гидратации -->
         <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -61,6 +63,9 @@ async function generateHtml() {
         ${htmlContent}
         
         <!-- Скрипт для запуска гидратации -->
+        <div class="page-constructor-container">
+            <div class="yfm"><a href="https://github.com/diplodoc-platform/transform">@diplodoc/transform</a></div>
+        </div>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 // Проверяем, что функция гидратации доступна

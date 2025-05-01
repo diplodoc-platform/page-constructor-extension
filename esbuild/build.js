@@ -51,10 +51,13 @@ const browserPlugin = {
   outdir: 'build/plugin',
   plugins: [sassPlugin()],
   alias: {
-      '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
+    '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
+    '~@gravity-ui/uikit/styles/styles.css': '@gravity-ui/uikit/styles/styles.css',
   },
   external: [
       'node:*',
+      'fs',
+      'path'
             //   'consolidated-events'
   ],
 };
@@ -77,6 +80,7 @@ const runtimeBundle = {
     ],
     alias: {
       '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
+      '~@gravity-ui/uikit/styles/styles.css': '@gravity-ui/uikit/styles/styles.css',
   },
     // minify: true,
 };

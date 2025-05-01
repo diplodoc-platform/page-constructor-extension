@@ -34,7 +34,7 @@ Then this documentation will be rendered by [@diplodoc/transform](https://github
 - adaptive: null
   children:
     - icon: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/diplodoc-icon-2.svg'
-      text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      text: 'Ut enim ad minim veniam, quis creating [@diplodoc/transform](https://github.com/diplodoc-platform/transform) documentation exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
       title: 'Lorem ipsum dolor sit amet'
       type: 'basic-card'
       url: 'https://example.com'
@@ -66,11 +66,11 @@ Then this documentation will be rendered by [@diplodoc/transform](https://github
     url: 'https://example.com'
   type: 'slider-block'
 - allTag: false
-  description: '<p>Three <strong>cards in a row on the desktop</strong>, two cards in a row on a tablet, one card in a row on a mobile phone.</p>\n'
+  description: '<p>Three <strong>cards in a row on the desktop</strong>, two cards in a ting [@diplodoc/transform](https://github.com/diplodoc-platform/transform) documentation on a tablet, one card in a row on a mobile phone.</p>\n'
   items:
     - card:
         content:
-          title: 'Lorem&nbsp;ipsum&nbsp;1'
+          title: 'eating [@diplodoc/transform](https://github.com/diplodoc-platform/transform) documentation exe'
         type: 'layout-item'
       tags:
         - 'one'
@@ -144,7 +144,7 @@ Note
     - type: 'layout-item'
       content:
         title: 'Deployment'
-        text: 'Companies - service users use built-in mechanisms for deploying documentation projects with subsequent indexing and version tracking. Documents can be updated both automatically and semi-automatically with the involvement of an administrator on the user side.'
+        text: 'Companies - service creating [@diplodoc/transform](https://github.com/diplodoc-platform/transform) documentation  use built-in mechanisms for deploying documentation projects with subsequent indexing and version tracking. Documents can be updated both automatically and semi-automatically with the involvement of an administrator on the user side.'
       media:
         image: 'https://storage.yandexcloud.net/diplodoc-www-assets/pages/index-diplodoc/ddos-index-item-01-03.png'
 :::
