@@ -1,12 +1,8 @@
 import {readFile, writeFile, mkdir} from 'node:fs/promises';
-import fs from 'node:fs';
 import path from 'node:path';
 import transform from '@diplodoc/transform';
 import notes from '@diplodoc/transform/lib/plugins/notes/index.js';
 import {transform as pageConstructorPlugin} from '@diplodoc/page-constructor-extension/plugin';
-
-// import '@gravity-ui/uikit/styles/styles.css';
-// CSS import removed - not needed for server-side rendering
 
 async function generateHtml() {
     // Создаем директорию build, если она не существует
@@ -28,17 +24,20 @@ async function generateHtml() {
             }), 
             notes
         ],
+        // needToSanitizeHtml: false,
+        // sanitizeOptions: {
+        //   disableStyleSanitizer: true,
+        // },
     });
 
     // Extract styles and scripts from the transform result
+    console.log(result.meta,'333111');
     const styles = result.meta?.style || [];
     const scripts = result.meta?.script || [];
-    const htmlBlocks = result.meta?.html || []; // Получаем HTML блоки (включая скрипт гидратации)
 
     // Create style and script links
     const styleLinks = styles.map(style => `<link rel="stylesheet" href="${style}">`).join('\n        ');
-    const scriptLinks = scripts.map(script => `<script src="${script}" defer></script>`).join('\n        ');
-    const htmlContent = htmlBlocks.join('\n        '); // Добавляем HTML блоки (скрипт гидратации)
+    const scriptLinks = scripts.map(script => `<script src="${script}"></script>`).join('\n        ');
 
     const html = `
 <!DOCTYPE html>
@@ -48,36 +47,12 @@ async function generateHtml() {
         <title>Test useRenderPageConstructorBlocks</title>
         ${styleLinks}
         <link rel="stylesheet" href="yfm-override.css">
-        
-        <!-- Подключаем React и ReactDOM для гидратации -->
-        <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-        <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-        
     </head>
     <body>
         <div id="root" class="yfm">${result.html}</div>
-        <script src="./build/test.js"></script>
-        ${scriptLinks}
-        
-        <!-- Добавляем HTML блоки (скрипт гидратации) -->
-        ${htmlContent}
         
         <!-- Скрипт для запуска гидратации -->
-        <div class="page-constructor-container">
-            <div class="yfm"><a href="https://github.com/diplodoc-platform/transform">@diplodoc/transform</a></div>
-        </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Проверяем, что функция гидратации доступна
-                if (typeof window.ReactComponents !== 'undefined' && 
-                    typeof window.ReactComponents.hydratePageConstructors === 'function') {
-                    console.log('Hydrating page constructors...');
-                    window.ReactComponents.hydratePageConstructors();
-                } else {
-                    console.warn('Hydration function not found');
-                }
-            });
-        </script>
+        ${scriptLinks}
     </body>
 </html>
     `;

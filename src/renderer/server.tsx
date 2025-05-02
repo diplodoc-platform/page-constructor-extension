@@ -23,7 +23,7 @@ export function createPageConstructorContent(content: PageContent): string {
         
         // Оборачиваем HTML в div с данными компонента в data-атрибуте
         // Это будет использовано для гидратации на клиенте
-        return `<div class="page-constructor-container" data-content-encoded="${encodedContent}">${html}</div>`;
+        return `<div class="page-constructor-container" data-content-encoded="${encodedContent}" id=${Math.floor(Math.random() * Math.pow(10, 8)).toString().padStart(8, '0')}>${html}</div>`;
     } catch (error: any) {
         console.error('Error rendering Page Constructor:', error);
         return `<div class="page-constructor-error">Error rendering component: ${error.message || 'Unknown error'}</div>`;

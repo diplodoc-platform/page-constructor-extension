@@ -9,7 +9,7 @@
     "build:node": "node node/build.js",
     "build": "npm run build:browser && npm run build:node",
     "br": "cd browser && rm -rf build && node build.js && npx http-server -o browser/index-browser.html",
-    "nd": "cd node && rm -rf build index-node.html _assets && node build.js && node node.js && npx http-server -o ./node/index-node.html",
+    "nd": "cd node && rm -rf build index-node.html _assets && node build.js && node node.js && cp /Users/martyanov-av/WebstormProjects/diplodoc/extensions/page-constructor/build/runtime/index.js.map /Users/martyanov-av/WebstormProjects/diplodoc/extensions/page-constructor/example/node/build/index.js.map && npx http-server -o ./node/index-node.html",
     "clear": "rm -rf build"
   },
   "dependencies": {

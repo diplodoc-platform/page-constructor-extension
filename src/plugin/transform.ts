@@ -9,18 +9,6 @@ import { block } from '@gravity-ui/page-constructor';
 import { getPageConstructorContent } from '../renderer/factory';
 import { preTransformYfmBlocks } from './pretransform';
 
-// Добавляем скрипт для гидратации
-const HYDRATION_SCRIPT = `
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Проверяем, что функция гидратации доступна
-    if (typeof window.ReactComponents !== 'undefined' && 
-        typeof window.ReactComponents.hydratePageConstructors === 'function') {
-      window.ReactComponents.hydratePageConstructors();
-    }
-  });
-</script>
-`;
 
 export type TransformOptions = {
     runtime?:
@@ -52,27 +40,25 @@ const registerTransform = (
 
     md.use(pageConstructorDirective);
     
-    md.core.ruler.push('yfm_page_constructor_after', ({env}) => {
+    md.core.ruler.push('yfm_page_constructor', ({env}) => {
         hidden(env, 'bundled', new Set<string>());
 
-        if (env?.[ENV_FLAG_NAME]) {
+        // Check if we've already processed this environment
+        if (env?.[ENV_FLAG_NAME] && !env.pageConstructorProcessed) {
             env.meta = env.meta || {};
             env.meta.script = env.meta.script || [];
             env.meta.script.push(runtime.script);
             env.meta.style = env.meta.style || [];
             env.meta.style.push(runtime.style);
 
-            // Добавляем скрипт для гидратации, если она включена
-            if (enableHydration) {
-                env.meta.html = env.meta.html || [];
-                env.meta.html.push(HYDRATION_SCRIPT);
-            }
             if (bundle) {
                 copyRuntime({runtime, output}, env.bundled);
             }
+            
+            // Mark as processed so we don't add scripts multiple times
+            env.pageConstructorProcessed = true;
         }
-    }
-);
+    });
 };
 
 type InputOptions = {
@@ -107,11 +93,21 @@ export function transform(options: Partial<TransformOptions> = {}) {
             const token = tokens[idx];
             const yamlContent = load(token.content.trimStart());
             
-            // Создаем объект контента без претрансформации
-            const content = {blocks: yamlContent};
+            // Create content object
+            const content = {blocks: yamlContent, animated: true};
             
-            // Просто возвращаем контент без обработки
-            return getPageConstructorContent(content);
+            // Store the original content in the environment for potential use
+            env.originalPageConstructorContent = JSON.parse(JSON.stringify(content));
+            
+            // Set ssrConfig in the environment
+            // This will be used by preTransformYfmBlocks to determine if we're on the server
+            env.ssrConfig = { isServer: true };
+            
+            // Apply pre-transformation
+            const transformedContent = preTransformYfmBlocks({blocks: yamlContent, animated: true}, env, md);
+            
+            // Use the getPageConstructorContent function
+            return getPageConstructorContent(transformedContent);
         };
     };
 
@@ -133,5 +129,6 @@ export function transform(options: Partial<TransformOptions> = {}) {
 
     return plugin;
 }
+
 
 

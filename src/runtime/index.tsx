@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { PageContent, PageConstructor, PageConstructorProvider } from '@gravity-ui/page-constructor';
+import { hydrateRoot } from 'react-dom/client';
 
 // @import '@gravity-ui/uikit/styles/styles.css';
 import '@gravity-ui/page-constructor/styles/styles.scss';
@@ -15,9 +16,11 @@ export function createPageConstructorElement(content: PageContent, isServer: boo
         // На сервере применяем претрансформацию YFM блоков
         processedContent = preTransformContent(content);
     }
+
+    if(!processedContent) return null;
     
     return (
-        <PageConstructorProvider ssrConfig={{ isServer }}>
+        <PageConstructorProvider ssrConfig={{ isServer }} projectSettings={{isAnimationEnabled: false}}>
             <PageConstructor content={processedContent} />
         </PageConstructorProvider>
     );
@@ -47,23 +50,26 @@ export function hydratePageConstructors() {
             const decodedContent = decodeURIComponent(encodedContent);
             const contentData = JSON.parse(decodedContent);
       
-            // Импортируем ReactDOM динамически, чтобы избежать проблем с серверным рендерингом
-            import('react-dom/client').then(({ hydrateRoot }) => {
-                // Гидратируем компонент
+            // Гидратируем компонент напрямую, без динамического импорта
+            // Так как runtime/index.tsx подключается только на клиенте
+            try {
                 hydrateRoot(
                     container,
                     createPageConstructorElement(contentData, false)
                 );
-            }).catch(error => {
-                console.error('Failed to import ReactDOM:', error);
-            });
+            } catch (error) {
+                console.error('Failed to hydrate component:', error);
+            }
         } catch (error) {
             console.error('Failed to hydrate component:', error);
         }
     });
 }
 
-// Запускаем гидратацию при загрузке DOM
+// Экспортируем функцию в глобальный объект
 if (typeof window !== 'undefined') {
+    window.ReactComponents = window.ReactComponents || {};
+    window.ReactComponents.hydratePageConstructors = hydratePageConstructors;
+
     window.addEventListener('DOMContentLoaded', hydratePageConstructors);
 }
