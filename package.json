@@ -81,7 +81,7 @@
   "dependencies": {
     "@gravity-ui/page-constructor": "^5.28.5",
     "cheerio": "^1.0.0",
+    "esbuild-plugin-polyfill-node": "^0.3.0",
     "ts-dedent": "^2.2.0"
   }
 }
-

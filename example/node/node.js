@@ -12,22 +12,28 @@ async function generateHtml() {
     const {result} = await transform(markdown, {
         plugins: [
             // Настраиваем плагин с правильными параметрами для copyRuntime
-            pageConstructorPlugin({ 
+            pageConstructorPlugin({
                 bundle: true, // Включаем bundle для копирования runtime файлов
-                enableHydration: true, // Включаем гидратацию
                 runtime: {
                     script: 'build/index.js', // Путь к скрипту относительно output
                     style: 'build/index.css', // Путь к стилям относительно output
-                }
+                },
+                // // Пример использования пользовательских резолверов ссылок
+                // assetLinkResolver: (link) => {
+                //     console.log('Resolving asset link:', link);
+                //     // Пример: добавляем префикс к ссылкам на ассеты
+                //     return link.startsWith('http') ? link : `/assets/${link}`;
+                // },
+                // contentLinkResolver: (link) => {
+                //     console.log('Resolving content link:', link);
+                //     // Пример: преобразуем .md ссылки в .html
+                //     return link.endsWith('.md') ? link.replace('.md', '.html') : link;
+                // }
             }, {
                 output: path.resolve('./') // Указываем output директорию для copyRuntime
             }), 
             notes
         ],
-        // needToSanitizeHtml: false,
-        // sanitizeOptions: {
-        //   disableStyleSanitizer: true,
-        // },
     });
 
     // Extract styles and scripts from the transform result
@@ -46,7 +52,7 @@ async function generateHtml() {
         <meta charset="UTF-8">
         <title>Test useRenderPageConstructorBlocks</title>
         ${styleLinks}
-        <link rel="stylesheet" href="yfm-override.css">
+        <link rel="stylesheet" href="example.css">
     </head>
     <body>
         <div id="root" class="yfm">${result.html}</div>

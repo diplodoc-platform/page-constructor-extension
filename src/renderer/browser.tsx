@@ -1,11 +1,10 @@
-// @ts-nocheck
-
-import React from 'react';
+// import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { flushSync } from 'react-dom';
 import { PageContent } from '@gravity-ui/page-constructor';
 import { createPageConstructorElement, hydratePageConstructors } from '../runtime';
-import '../styles/index.scss';
+
+// import '../runtime/index.scss';
 
 // Функция для создания HTML контента
 export function createPageConstructorContent(content: PageContent): string {
@@ -20,9 +19,9 @@ export function createPageConstructorContent(content: PageContent): string {
         const html = div.innerHTML;
         root.unmount();
         
-        // Оборачиваем HTML в div с данными компонента в data-атрибуте
-        // Это будет использовано для гидратации на клиенте
-        return `<div class="page-constructor-container" data-content='${JSON.stringify(content)}'>${html}</div>`;
+        const encodedContent = encodeURIComponent(JSON.stringify(content));
+        
+        return `<div class="page-constructor-container" data-content-encoded="${encodedContent}">${html}</div>`;
     } catch (error: any) {
         console.error('Error rendering Page Constructor in browser:', error);
         return `<div class="page-constructor-error">Error rendering component: ${error.message || 'Unknown error'}</div>`;

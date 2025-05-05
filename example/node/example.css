@@ -1,12 +1,16 @@
-
-:where(.page-constructor-container) img {
-    box-sizing: initial;
-    max-width: initial;
-    max-height: initial;
-    border: initial;
-    vertical-align: initial;
-    height: initial;
+.g-root {
+  --g-color-text-link: #027bf3
 }
+
+.page-constructor-container img {
+  object-fit: unset;
+  max-height: unset;
+}
+
+/* :where(.page-constructor-container) img {
+  object-fit: unset;
+  max-height: unset;
+} */
 /* .yfm img, .yfm svg {
     box-sizing: initial;
     max-width: initial;

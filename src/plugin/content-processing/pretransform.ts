@@ -3,7 +3,6 @@ import { preprocess, PreloadParams, TransformerRaw } from './preprocess';
 
 /**
  * Pre-transforms YFM blocks inside page-constructor content
- * Similar to how it's done in the output-html feature
  * 
  * @param content - The page constructor content with blocks
  * @param env - The markdown-it environment
@@ -11,11 +10,6 @@ import { preprocess, PreloadParams, TransformerRaw } from './preprocess';
  * @returns The content with transformed YFM blocks
  */
 export function preTransformYfmBlocks(content: { blocks: any }, env: any, md: MarkdownIt) {
-    // Проверяем, что мы на сервере
-    // Если мы на клиенте, просто возвращаем исходный контент
-    if (env.ssrConfig && !env.ssrConfig.isServer) {
-        return content;
-    }
     
     if (!content.blocks) {
         return content;

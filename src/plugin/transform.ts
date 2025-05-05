@@ -7,7 +7,8 @@ import {pageConstructorDirective} from './directive';
 import {TokenType} from './const';
 import { block } from '@gravity-ui/page-constructor';
 import { getPageConstructorContent } from '../renderer/factory';
-import { preTransformYfmBlocks } from './pretransform';
+import { preTransformYfmBlocks } from './content-processing/pretransform';
+import { modifyPageConstructorLinks } from './content-processing/link-resolver';
 
 
 export type TransformOptions = {
@@ -18,11 +19,14 @@ export type TransformOptions = {
               style: string;
           };
     bundle?: boolean;
-    enableHydration?: boolean;
+    assetLinkResolver?: (link: string) => string;
+    contentLinkResolver?: (link: string) => string;
 };
 
 type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
     runtime: Runtime;
+    assetLinkResolver?: (link: string) => string;
+    contentLinkResolver?: (link: string) => string;
 };
 
 const registerTransform = (
@@ -31,10 +35,10 @@ const registerTransform = (
         runtime,
         bundle,
         output,
-        enableHydration = true,
-    }: Pick<NormalizedPluginOptions, 'bundle' | 'runtime'> & {
+        assetLinkResolver,
+        contentLinkResolver,
+    }: Pick<NormalizedPluginOptions, 'bundle' | 'runtime' | 'assetLinkResolver' | 'contentLinkResolver'> & {
         output: string;
-        enableHydration?: boolean;
     },
 ) => {
 
@@ -66,7 +70,11 @@ type InputOptions = {
 };
 
 export function transform(options: Partial<TransformOptions> = {}) {
-    const {bundle = true, enableHydration = true} = options;
+    const {
+        bundle = true,
+        assetLinkResolver,
+        contentLinkResolver
+    } = options;
 
     if (bundle && typeof options.runtime === 'string') {
         throw new TypeError('Option `runtime` should be record when `bundle` is enabled.');
@@ -87,26 +95,26 @@ export function transform(options: Partial<TransformOptions> = {}) {
             runtime,
             bundle,
             output,
-            enableHydration,
+            assetLinkResolver,
+            contentLinkResolver,
         });
         md.renderer.rules['yfm_page-constructor'] = (tokens, idx, options, env, self) => {
             const token = tokens[idx];
             const yamlContent = load(token.content.trimStart());
             
-            // Create content object
-            const content = {blocks: yamlContent, animated: true};
+            let content = 'blocks' in yamlContent ? yamlContent : {blocks: yamlContent};
             
-            // Store the original content in the environment for potential use
-            env.originalPageConstructorContent = JSON.parse(JSON.stringify(content));
+            if (assetLinkResolver || contentLinkResolver) {
+                content = modifyPageConstructorLinks({
+                    data: content,
+                    getAssetLink: assetLinkResolver || ((link) => link),
+                    getContentLink: contentLinkResolver || ((link) => link),
+                    lang: env.lang || 'en',
+                });
+            }
             
-            // Set ssrConfig in the environment
-            // This will be used by preTransformYfmBlocks to determine if we're on the server
-            env.ssrConfig = { isServer: true };
+            const transformedContent = preTransformYfmBlocks(content, env, md);
             
-            // Apply pre-transformation
-            const transformedContent = preTransformYfmBlocks({blocks: yamlContent, animated: true}, env, md);
-            
-            // Use the getPageConstructorContent function
             return getPageConstructorContent(transformedContent);
         };
     };
@@ -119,7 +127,8 @@ export function transform(options: Partial<TransformOptions> = {}) {
                     runtime,
                     bundle,
                     output: destRoot,
-                    enableHydration,
+                    assetLinkResolver,
+                    contentLinkResolver,
                 });
             });
 

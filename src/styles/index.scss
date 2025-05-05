@@ -1,3 +1,10 @@
-.pc-layout {
-    min-height: auto !important;
+@import 'overrides.scss';
+
+.page-constructor-container {
+    padding-bottom: 20px;
 }
+
+// .page-constructor-container img {
+//     object-fit: unset;
+//     max-height: unset;
+// }

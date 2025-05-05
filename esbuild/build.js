@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const {build} = require('esbuild');
 const {sassPlugin} = require('esbuild-sass-plugin');
+const { polyfillNode } = require('esbuild-plugin-polyfill-node');
 
 const common = {
     bundle: true,
@@ -49,7 +50,15 @@ const browserPlugin = {
   platform: 'browser',
   format: 'esm',
   outdir: 'build/plugin',
-  plugins: [sassPlugin()],
+  plugins: [sassPlugin(), polyfillNode({
+    polyfills: {
+      fs: true,
+      path: true,
+      process: true,
+      buffer: true,
+      util: true,
+    }
+  }),],
   alias: {
     '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
     '~@gravity-ui/uikit/styles/styles.css': '@gravity-ui/uikit/styles/styles.css',
@@ -70,13 +79,23 @@ const runtimeBundle = {
     format: 'iife',
     outfile: 'build/runtime/index.js',
     // jsx: 'automatic',
-    plugins: [sassPlugin()],
+    plugins: [sassPlugin(), polyfillNode({
+      polyfills: {
+        fs: true,
+        path: true,
+        process: true,
+        buffer: true,
+        util: true,
+      }
+    }),],
     external: [
         // Mark @gravity-ui/page-constructor as external to avoid bundling it
         // '@gravity-ui/page-constructor',
         // 'react',
         // 'react-dom',
         // 'consolidated-events'
+        'fs',
+        'path'
     ],
     alias: {
       '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
