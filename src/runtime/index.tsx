@@ -3,6 +3,13 @@ import {hydrateRoot} from 'react-dom/client';
 
 import './index.scss';
 
+// Extend Window interface to include our custom property
+declare global {
+    interface Window {
+        hydratePageConstructors: typeof hydratePageConstructors;
+    }
+}
+
 export function createPageConstructorElement(content: PageContent, isServer?: boolean) {
     const isServerEnv =
         isServer === undefined

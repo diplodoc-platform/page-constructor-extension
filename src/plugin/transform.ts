@@ -111,6 +111,8 @@ export function transform(options: Partial<TransformOptions> = {}) {
 
             const transformedContent = preTransformYfmBlocks(content, env, md);
 
+            if (!('blocks' in transformedContent)) return token.content;
+            // Ensure transformedContent has the blocks property required by PageContent
             return getPageConstructorContent(transformedContent);
         };
     };

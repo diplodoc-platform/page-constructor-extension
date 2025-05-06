@@ -47,8 +47,6 @@ const nodePlugin = {
         'node:*',
         'react',
         'react-dom',
-        // '@gravity-ui/page-constructor',
-        // '@diplodoc/transform',
         'markdown-it',
     ],
 };
@@ -69,10 +67,10 @@ const browserPlugin = {
     mainFields: ['main', 'module'],
     external: [
         'node:*',
-        // 'react', // TODO: убрать из бандла
-        // 'react-dom', // TODO: убрать из бандла
-        // '@gravity-ui/page-constructor',
-        // '@diplodoc/transform',
+        'react',
+        'react-dom',
+        '@gravity-ui/page-constructor',
+        'undici',
         'markdown-it',
     ],
 };
