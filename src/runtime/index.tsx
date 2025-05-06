@@ -1,6 +1,7 @@
 import {PageConstructor, PageConstructorProvider, PageContent} from '@gravity-ui/page-constructor';
 import {hydrateRoot} from 'react-dom/client';
 
+import {ClassNames} from '../plugin/const';
 import './index.scss';
 
 // Extend Window interface to include our custom property
@@ -26,7 +27,7 @@ export function createPageConstructorElement(content: PageContent, isServer?: bo
 export function hydratePageConstructors() {
     if (typeof document === 'undefined') return;
 
-    const containers = document.querySelectorAll('.page-constructor-container');
+    const containers = document.querySelectorAll(`.${ClassNames.PageConstructor}`);
 
     containers.forEach((container) => {
         try {
@@ -59,8 +60,8 @@ export function setupPageConstructorObserver() {
                 mutation.addedNodes.forEach((node) => {
                     if (node.nodeType === Node.ELEMENT_NODE) {
                         if (
-                            (node as Element).classList?.contains('page-constructor-container') ||
-                            (node as Element).querySelector?.('.page-constructor-container')
+                            (node as Element).classList?.contains(ClassNames.PageConstructor) ||
+                            (node as Element).querySelector?.(`.${ClassNames.PageConstructor}`)
                         ) {
                             needsHydration = true;
                         }

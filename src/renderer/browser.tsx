@@ -2,6 +2,7 @@ import {createRoot} from 'react-dom/client';
 import {flushSync} from 'react-dom';
 import {PageContent} from '@gravity-ui/page-constructor';
 
+import {ClassNames} from '../plugin/const';
 import {createPageConstructorElement} from '../runtime';
 
 export function createPageConstructorContent(content: PageContent): string {
@@ -19,7 +20,7 @@ export function createPageConstructorContent(content: PageContent): string {
 
         const encodedContent = encodeURIComponent(JSON.stringify(content));
 
-        return `<div class="page-constructor-container" data-content-encoded="${encodedContent}">${html}</div>`;
+        return `<div class="${ClassNames.PageConstructor}" data-content-encoded="${encodedContent}">${html}</div>`;
     } catch (error: any) {
         console.error('Error rendering Page Constructor in browser:', error);
         return `<div class="page-constructor-error">Error rendering component: ${error.message || 'Unknown error'}</div>`;
