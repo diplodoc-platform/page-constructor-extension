@@ -43,12 +43,7 @@ const nodePlugin = {
             },
         },
     ],
-    external: [
-        'node:*',
-        'react',
-        'react-dom',
-        'markdown-it',
-    ],
+    external: ['node:*', 'react', 'react-dom', 'markdown-it'],
 };
 
 // Build browser plugin

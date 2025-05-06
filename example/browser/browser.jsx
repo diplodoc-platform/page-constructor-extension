@@ -23,7 +23,7 @@ const App = ({}) => {
         hydratePageConstructors();
     }, []);
 
-/*
+    /*
 flushSync - Cannot be called during React rendering cycle, causes "flushSync called from lifecycle method" error
 root.unmount() - Cannot unmount synchronously during rendering, causes race conditions
 Hydration - Initial client render must match DOM structure, pre-transforming content prevents mismatch 
