@@ -1,14 +1,38 @@
-# Simple example
+# Page Constructor Extension Example
 
-```
+This example demonstrates how to use the Page Constructor extension in Diplodoc documentation.
+
+## Getting Started
+
+Install dependencies and start the example:
+
+```bash
 npm i
 npm start
 ```
 
-Then this documentation will be rendered by [@diplodoc/transform](https://github.com/diplodoc-platform/transform) and opened in your default browser.
+This will render the documentation using [@diplodoc/transform](https://github.com/diplodoc-platform/transform) and open it in your default browser.
 
-## Page constructor block
+## Example Structure
 
+This example includes:
+
+- **Browser Example**: Shows how to use the Page Constructor extension in a browser environment
+  - `browser/browser.jsx`: Main entry point for the browser example
+  - `browser/build.js`: Build script for the browser example
+  - `browser/index-browser.html`: HTML template for the browser example
+
+- **Node Example**: Shows how to use the Page Constructor extension in a Node.js environment
+  - `node/node.js`: Example of using the extension in Node.js
+  - `node/example.css`: Styles for the Node.js example
+
+## Page Constructor Usage
+
+The example demonstrates various Page Constructor blocks:
+
+### Header Block
+
+```markdown
 ::: page-constructor
 blocks:
   - type: 'header-block'
@@ -17,258 +41,71 @@ blocks:
     title: 'Diplodoc'
     resetPaddings: true
     verticalOffset: 'l'
-    description: 'Платформа для создания технической доd by [@diplodoc/transform](https://github.com/diplodoc-platform/transform) and openedкументации в концепции Docs as Сode с открытым исходным кодом. Простое и удобное решение для развёртывания документации больших и маленьких команд.'
+    description: 'Platform description'
     background:
       light:
         image:
           mobile: '../_images/cover.png'
-          desktop: 'https://storage.yandexcloud.net/diplodoc-www-assets/pages/index-diplodoc/ddos-index-cover.png'
-          disableCompress: true
+          desktop: 'https://example.com/image.png'
         color: '#C6FE4D'
-        fullWidth: true
       dark:
         image:
           mobile: '../_images/cover-dark.png'
-          desktop: 'https://storage.yandexcloud.net/diplodoc-www-assets/pages/index-diplodoc/ddos-index-cover-dark.png'
-          disableCompress: true
+          desktop: 'https://example.com/image-dark.png'
         color: '#C6FE4D'
-        fullWidth: true
     buttons:
-      - text: 'Начать'
+      - text: 'Get Started'
         theme: 'outlined'
-        size: 'promo'
         url: '/'
-      - text: 'GitHub'
-        theme: 'outlined'
-        size: 'promo'
-        url: 'https://github.com/diplodoc-platform'
+:::
+```
+
+### Extended Features Block
+
+```markdown
+::: page-constructor
+blocks:
   - type: 'extended-features-block'
     title:
-      text: 'Преимущества платформы'
+      text: 'Platform Benefits'
     items:
-      - title: 'Простота использования'
-        icon: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/diplodoc-icon-1.svg'
-        text: 'Работа с документами как с кодом: в привычной среде и с минимальными усилиями по развёртыванию и поддержке.'
-      - title: 'Скорость работы'
-        icon: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/diplodoc-icon-2.svg'
-        text: 'Быстрая сборка, валидация и выкладка документации любого размера. Полная интеграция в существующие CI/CD-системы для ускорения работы.'
-      - title: 'Общепринятый формат Markdown'
-        icon: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/diplodoc-icon-3.svg'
-        text: 'Простой, понятный и широко распространенный синтаксис с поддержкой базового Markdown. Концентрируйтесь на контенте, а не на том, как доставить его до пользователя.'
-      - title: 'Обширная функциональность'
-        icon: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/diplodoc-icon-4.svg'
-        text: 'Создание документов любой сложности, в том числе генерация из единого источника и работа с переменными. Широкие возможности по кастомизации и отображению гарантируют удовлетворённость конечных пользователей.'
-      - title: 'Интеграция с системами автоматической документации'
-        icon: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/diplodoc-icon-5.svg'
-        text: 'Поддержка широко распространённой OpenAPI-спецификации «из коробки». Обеспечение работы специализированных систем через интерфейс подключаемых внешних документов.'
-      - title: 'Интегрированный поиск'
-        icon: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/diplodoc-icon-6.svg'
-        text: 'Самый частотный пользовательский сцd by [@diplodoc/transform](https://github.com/diplodoc-platform/transform) and opened енарий по поиску документов на базе платформы без дополнительных затрат и усилий по поддержке.'
+      - title: 'Easy to Use'
+        icon: 'https://example.com/icon1.svg'
+        text: 'Work with documents as code in a familiar environment.'
+      - title: 'Fast Performance'
+        icon: 'https://example.com/icon2.svg'
+        text: 'Quick build, validation, and deployment of documentation of any size.'
 :::
-
-```
-npm i
-npm start
 ```
 
-Then this documentation will be rendered by [@diplodoc/transform](https://github.com/diplodoc-platform/transform) and opened in your default browser.
+### Filter Block
 
+```markdown
 ::: page-constructor
-- type: 'filter-block'
-  centered: true
-  title:
-    text: 'Нам доверяют'
-  tags:
-    - id: 'one'
-      label: 'DoubleСloud'
-    - id: 'two'
-      label: 'Yandex Support'
-    - id: 'three'
-      label: 'Yandex Cloud'
-    - id: 'four'
-      label: 'YDB'
-    - id: 'five'
-      label: 'CatBoost'
-  colSizes:
-    all: 12
-    xl: 12
-    md: 12
-    sm: 12
-  items:
-    - tags:
-        - 'one'
-      card:
-        type: 'layout-item'
-        media:
-          image: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/diplodoc-tab-1.png'
-          disableCompress: true
-        border: true
-        content:
-          links:
-            - text: 'Посмотреть документацию'
-              url: 'https://double.cloud/docs/en/'
-              theme: 'normal'
-              arrow: true
-              color: #54BA7E
-
-    - tags:
-        - 'two'
-      card:
-        type: 'layout-item'
-        media:
-          image: 'https://storage.yandexcloud.net/diplodoc-www-assets/pages/index-diplodoc/ddos-index-trust-support.png'
-          disableCompress: true
-        border: true
-        content:
-          links:
-            - text: 'Посмотреть документацию'
-              url: 'https://yandex.ru/support2/audience/ru/'
-              theme: 'normal'
-              arrow: true
-              color: #54BA7E
-    - tags:
-        - 'three'
-      card:
-        type: 'layout-item'
-        media:
-          image: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/ddos-index-trust-yandex-cloud.png'
-          disableCompress: true
-        border: true
-        content:
-          links:
-            - text: 'Посмотреть документацию'
-              url: 'https://cloud.yandex.ru/docs/compute/'
-              theme: 'normal'
-              arrow: true
-              color: #54BA7E
-    - tags:
-        - 'four'
-      card:
-        type: 'layout-item'
-        media:
-          image: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/ddos-index-trust-ydb.png'
-          disableCompress: true
-        border: true
-        content:
-          links:
-            - text: 'Посмотреть документацию'
-              url: 'https://ydb.tech/en/docs/'
-              theme: 'normal'
-              arrow: true
-              color: #54BA7E
-    - tags:
-        - 'five'
-      card:
-        type: 'layout-item'
-        media:
-          image: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/ddos-index-trust-yandex-cat.png'
-          disableCompress: true
-        border: true
-        content:
-          links:
-            - text: 'Посмотреть документацию'
-              url: 'https://catboost.ai/en/docs/'
-              theme: 'normal'
-              arrow: true
-              color: #54BA7E
+blocks:
+  - type: 'filter-block'
+    centered: true
+    title:
+      text: 'Trusted By'
+    tags:
+      - id: 'one'
+        label: 'Company One'
+      - id: 'two'
+        label: 'Company Two'
+    items:
+      - tags:
+          - 'one'
+        card:
+          type: 'layout-item'
+          media:
+            image: 'https://example.com/image1.png'
+          content:
+            links:
+              - text: 'View Documentation'
+                url: 'https://example.com/docs'
 :::
+```
 
-::: page-constructor
-- type: 'filter-block'
-  centered: true
-  title:
-    text: 'Нам доверяют'
-  tags:
-    - id: 'one'
-      label: 'DoubleСloud'
-    - id: 'two'
-      label: 'Yandex Support'
-    - id: 'three'
-      label: 'Yandex Cloud'
-    - id: 'four'
-      label: 'YDB'
-    - id: 'five'
-      label: 'CatBoost'
-  colSizes:
-    all: 12
-    xl: 12
-    md: 12
-    sm: 12
-  items:
-    - tags:
-        - 'one'
-      card:
-        type: 'layout-item'
-        media:
-          image: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/diplodoc-tab-1.png'
-          disableCompress: true
-        border: true
-        content:
-          links:
-            - text: 'Посмотреть документацию'
-              url: 'https://double.cloud/docs/en/'
-              theme: 'normal'
-              arrow: true
-              color: #54BA7E
+## Customization
 
-    - tags:
-        - 'two'
-      card:
-        type: 'layout-item'
-        media:
-          image: 'https://storage.yandexcloud.net/diplodoc-www-assets/pages/index-diplodoc/ddos-index-trust-support.png'
-          disableCompress: true
-        border: true
-        content:
-          links:
-            - text: 'Посмотреть документацию'
-              url: 'https://yandex.ru/support2/audience/ru/'
-              theme: 'normal'
-              arrow: true
-              color: #54BA7E
-    - tags:
-        - 'three'
-      card:
-        type: 'layout-item'
-        media:
-          image: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/ddos-index-trust-yandex-cloud.png'
-          disableCompress: true
-        border: true
-        content:
-          links:
-            - text: 'Посмотреть документацию'
-              url: 'https://cloud.yandex.ru/docs/compute/'
-              theme: 'normal'
-              arrow: true
-              color: #54BA7E
-    - tags:
-        - 'four'
-      card:
-        type: 'layout-item'
-        media:
-          image: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/ddos-index-trust-ydb.png'
-          disableCompress: true
-        border: true
-        content:
-          links:
-            - text: 'Посмотреть документацию'
-              url: 'https://ydb.tech/en/docs/'
-              theme: 'normal'
-              arrow: true
-              color: #54BA7E
-    - tags:
-        - 'five'
-      card:
-        type: 'layout-item'
-        media:
-          image: 'https://storage.yandexcloud.net/cloud-www-assets/pages/index-diplodoc/ddos-index-trust-yandex-cat.png'
-          disableCompress: true
-        border: true
-        content:
-          links:
-            - text: 'Посмотреть документацию'
-              url: 'https://catboost.ai/en/docs/'
-              theme: 'normal'
-              arrow: true
-              color: #54BA7E
-:::
+You can customize the Page Constructor blocks by modifying the YAML content in the page-constructor directive. See the [Page Constructor documentation](https://github.com/gravity-ui/page-constructor) for more information on available block types and their properties.
