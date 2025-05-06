@@ -17,7 +17,6 @@ export function createPageConstructorElement(content: PageContent, isServer?: bo
 }
 
 export function hydratePageConstructors() {
-    console.log('hydratePageConstructors');
     if (typeof document === 'undefined') return;
 
     const containers = document.querySelectorAll('.page-constructor-container');

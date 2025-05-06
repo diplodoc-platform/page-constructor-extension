@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const {visualizer} = require('esbuild-visualizer');
-const {analyzeMetafile} = require('esbuild');
 
 const generateVisualization = async (metaPath, outputPath) => {
     try {
@@ -19,11 +18,8 @@ const generateVisualization = async (metaPath, outputPath) => {
 
 const processBuildMeta = async (result, config) => {
     if (result.metafile) {
-        // Print bundle analysis to console
-        // const analysis = await analyzeMetafile(result.metafile);
-        // console.log('\nBundle analysis:\n' + analysis);
         let metaPath;
-        
+
         if (config.outfile) {
             const outDir = path.dirname(config.outfile);
             const baseName = path.basename(config.outfile, path.extname(config.outfile));
@@ -31,11 +27,11 @@ const processBuildMeta = async (result, config) => {
         } else if (config.outdir) {
             metaPath = `${config.outdir}/meta.json`;
         }
-        
+
         if (metaPath) {
             fs.writeFileSync(metaPath, JSON.stringify(result.metafile, null, 2));
             console.log(`Build complete with metafile at ${metaPath}`);
-            
+
             const visualizationPath = metaPath.replace('.json', '.html');
             await generateVisualization(metaPath, visualizationPath);
         }
@@ -44,5 +40,5 @@ const processBuildMeta = async (result, config) => {
 
 module.exports = {
     generateVisualization,
-    processBuildMeta
+    processBuildMeta,
 };

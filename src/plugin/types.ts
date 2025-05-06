@@ -1,6 +1,13 @@
+export type Runtime = {
+    script: string;
+    style: string;
+};
+
 export type PluginOptions = {
-    runtime: string;
+    runtime: string | Runtime;
     classes: string;
     bundle: boolean;
-    onBundle?: (env: {bundled: Set<string>}, output: string, runtime: string) => void;
+    assetLinkResolver?: (link: string) => string;
+    contentLinkResolver?: (link: string) => string;
+    onBundle?: (env: {bundled: Set<string>}, output: string, runtime: Runtime) => void;
 };

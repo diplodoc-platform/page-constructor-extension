@@ -7,7 +7,7 @@ import {ClassNames, ENV_FLAG_NAME, TokenType} from './const';
 
 export const pageConstructorDirective: MarkdownIt.PluginSimple = (md) => {
     md.use(directiveParser());
-    console.log('vvv11222333')
+
     registerContainerDirective(md, {
         name: 'page-constructor',
         type: 'code_block',
@@ -24,6 +24,5 @@ export const pageConstructorDirective: MarkdownIt.PluginSimple = (md) => {
                 class: ClassNames.PageConstructor,
             },
         },
-     
     });
 };

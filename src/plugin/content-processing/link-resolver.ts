@@ -1,5 +1,5 @@
 //@ts-nocheck
-import {cloneDeepWith, isArray, isString, every} from 'lodash';
+import {cloneDeepWith, every, isArray, isString} from 'lodash';
 import {isLocalUrl} from '@diplodoc/transform/lib/utils';
 
 const FILE_PATTERNS = {
@@ -40,12 +40,7 @@ function hasFileExtension(link, pattern) {
     return pattern.test(link);
 }
 
-function modifyPageConstructorLinks({
-    data,
-    getAssetLink,
-    getContentLink,
-    lang,
-}) {
+function modifyPageConstructorLinks({data, getAssetLink, getContentLink, lang}) {
     return modifyValuesByKeys(data, LINK_KEYS_PAGE_CONSTRUCTOR_CONFIG, (link) => {
         const validateLink = (item) => {
             if (!isLocalUrl(item)) {
@@ -67,6 +62,4 @@ function modifyPageConstructorLinks({
     });
 }
 
-export {
-    modifyPageConstructorLinks
-};
+export {modifyPageConstructorLinks};

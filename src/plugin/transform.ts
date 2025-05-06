@@ -1,15 +1,17 @@
 // @ts-nocheck
-import type MarkdownIt from 'markdown-it';
+import MarkdownIt from 'markdown-it';
 import {load} from 'js-yaml';
-import {type Runtime, copyRuntime, dynrequire, hidden} from './utils';
-import {ENV_FLAG_NAME} from './const';
-import {pageConstructorDirective} from './directive';
-import {TokenType} from './const';
-import { block } from '@gravity-ui/page-constructor';
-import { getPageConstructorContent } from '../renderer/factory';
-import { preTransformYfmBlocks } from './content-processing/pretransform';
-import { modifyPageConstructorLinks } from './content-processing/link-resolver';
+import {block} from '@gravity-ui/page-constructor';
 
+import {getPageConstructorContent} from '../renderer/factory';
+
+import {hidden} from './utils';
+import {ENV_FLAG_NAME, TokenType} from './const';
+import {pageConstructorDirective} from './directive';
+
+// import { preTransformYfmBlocks } from './content-processing/pretransform';
+// import { modifyPageConstructorLinks } from './content-processing/link-resolver';
+import {PluginOptions, Runtime} from './types';
 
 export type TransformOptions = {
     runtime?:
@@ -21,6 +23,7 @@ export type TransformOptions = {
     bundle?: boolean;
     assetLinkResolver?: (link: string) => string;
     contentLinkResolver?: (link: string) => string;
+    onBundle?: (env: {bundled: Set<string>}, output: string, runtime: Runtime) => void;
 };
 
 type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
@@ -29,7 +32,7 @@ type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
     contentLinkResolver?: (link: string) => string;
 };
 
-const registerTransform = (
+const registerTransforms = (
     md: MarkdownIt,
     {
         runtime,
@@ -37,13 +40,16 @@ const registerTransform = (
         output,
         assetLinkResolver,
         contentLinkResolver,
-    }: Pick<NormalizedPluginOptions, 'bundle' | 'runtime' | 'assetLinkResolver' | 'contentLinkResolver'> & {
+        onBundle,
+    }: Pick<
+        NormalizedPluginOptions,
+        'bundle' | 'runtime' | 'assetLinkResolver' | 'contentLinkResolver' | 'onBundle'
+    > & {
         output: string;
     },
 ) => {
-
     md.use(pageConstructorDirective);
-    
+
     md.core.ruler.push('yfm_page_constructor', ({env}) => {
         hidden(env, 'bundled', new Set<string>());
 
@@ -55,10 +61,10 @@ const registerTransform = (
             env.meta.style = env.meta.style || [];
             env.meta.style.push(runtime.style);
 
-            if (bundle) {
-                copyRuntime({runtime, output}, env.bundled);
+            if (bundle && onBundle) {
+                onBundle(env, output, runtime);
             }
-            
+
             // Mark as processed so we don't add scripts multiple times
             env.pageConstructorProcessed = true;
         }
@@ -70,11 +76,7 @@ type InputOptions = {
 };
 
 export function transform(options: Partial<TransformOptions> = {}) {
-    const {
-        bundle = true,
-        assetLinkResolver,
-        contentLinkResolver
-    } = options;
+    const {bundle = true, assetLinkResolver, contentLinkResolver, onBundle} = options;
 
     if (bundle && typeof options.runtime === 'string') {
         throw new TypeError('Option `runtime` should be record when `bundle` is enabled.');
@@ -91,44 +93,45 @@ export function transform(options: Partial<TransformOptions> = {}) {
         md: MarkdownIt,
         {output = '.'} = {},
     ) {
-        registerTransform(md, {
+        registerTransforms(md, {
             runtime,
             bundle,
             output,
             assetLinkResolver,
             contentLinkResolver,
+            onBundle,
         });
         md.renderer.rules['yfm_page-constructor'] = (tokens, idx, options, env, self) => {
             const token = tokens[idx];
             const yamlContent = load(token.content.trimStart());
-            
-            let content = 'blocks' in yamlContent ? yamlContent : {blocks: yamlContent};
-            
-            if (assetLinkResolver || contentLinkResolver) {
-                content = modifyPageConstructorLinks({
-                    data: content,
-                    getAssetLink: assetLinkResolver || ((link) => link),
-                    getContentLink: contentLinkResolver || ((link) => link),
-                    lang: env.lang || 'en',
-                });
-            }
-            
-            const transformedContent = preTransformYfmBlocks(content, env, md);
-            
-            return getPageConstructorContent(transformedContent);
+
+            const content = 'blocks' in yamlContent ? yamlContent : {blocks: yamlContent};
+
+            // if (assetLinkResolver || contentLinkResolver) {
+            //     content = modifyPageConstructorLinks({
+            //         data: content,
+            //         getAssetLink: assetLinkResolver || ((link) => link),
+            //         getContentLink: contentLinkResolver || ((link) => link),
+            //         lang: env.lang || 'en',
+            //     });
+            // }
+
+            // const transformedContent = preTransformYfmBlocks(content, env, md);
+
+            return getPageConstructorContent(content);
         };
     };
 
     Object.assign(plugin, {
         collect(input: string, {destRoot = '.'}: InputOptions) {
-            const MdIt = dynrequire('markdown-it');
-            const md = new MdIt().use((md: MarkdownIt) => {
-                registerTransform(md, {
+            const md = new MarkdownIt().use((md: MarkdownIt) => {
+                registerTransforms(md, {
                     runtime,
                     bundle,
                     output: destRoot,
                     assetLinkResolver,
                     contentLinkResolver,
+                    onBundle,
                 });
             });
 
@@ -138,6 +141,3 @@ export function transform(options: Partial<TransformOptions> = {}) {
 
     return plugin;
 }
-
-
-

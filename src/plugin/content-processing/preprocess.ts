@@ -6,8 +6,8 @@ import {
 } from '@gravity-ui/page-constructor';
 import {
     BlocksConfig,
-    Parser,
     TransformerRaw as GravityTransformerRaw,
+    Parser,
     config,
     contentTransformer,
 } from '@gravity-ui/page-constructor/server';

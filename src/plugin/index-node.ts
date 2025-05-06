@@ -1,6 +1,6 @@
-import { createPageConstructorContent } from '../renderer/server';
-import { setPageConstructorImplementation } from '../renderer/factory';
+import {createPageConstructorContent} from '../renderer/server';
+import {setPageConstructorImplementation} from '../renderer/factory';
 
 setPageConstructorImplementation(createPageConstructorContent);
 
-export {transform} from './transform';
+export {transform} from './transform-node';

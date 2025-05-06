@@ -1,5 +1,5 @@
-import { createPageConstructorContent } from '../renderer/browser';
-import { setPageConstructorImplementation } from '../renderer/factory';
+import {createPageConstructorContent} from '../renderer/browser';
+import {setPageConstructorImplementation} from '../renderer/factory';
 
 setPageConstructorImplementation(createPageConstructorContent);
 
