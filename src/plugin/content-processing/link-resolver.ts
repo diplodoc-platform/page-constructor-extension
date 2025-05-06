@@ -40,7 +40,7 @@ function hasFileExtension(link, pattern) {
     return pattern.test(link);
 }
 
-function modifyPageConstructorLinks({data, getAssetLink, getContentLink, lang}) {
+function modifyPageConstructorLinks({data, getAssetLink, getContentLink}) {
     return modifyValuesByKeys(data, LINK_KEYS_PAGE_CONSTRUCTOR_CONFIG, (link) => {
         const validateLink = (item) => {
             if (!isLocalUrl(item)) {

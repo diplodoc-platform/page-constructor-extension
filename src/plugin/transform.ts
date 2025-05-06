@@ -1,17 +1,15 @@
-// @ts-nocheck
 import MarkdownIt from 'markdown-it';
 import {load} from 'js-yaml';
-import {block} from '@gravity-ui/page-constructor';
+import {PageContent} from '@gravity-ui/page-constructor';
 
 import {getPageConstructorContent} from '../renderer/factory';
 
 import {hidden} from './utils';
-import {ENV_FLAG_NAME, TokenType} from './const';
+import {ENV_FLAG_NAME} from './const';
 import {pageConstructorDirective} from './directive';
-
-// import { preTransformYfmBlocks } from './content-processing/pretransform';
-// import { modifyPageConstructorLinks } from './content-processing/link-resolver';
-import {PluginOptions, Runtime} from './types';
+import {preTransformYfmBlocks} from './content-processing/pretransform';
+import {modifyPageConstructorLinks} from './content-processing/link-resolver';
+import {Runtime} from './types';
 
 export type TransformOptions = {
     runtime?:
@@ -38,8 +36,6 @@ const registerTransforms = (
         runtime,
         bundle,
         output,
-        assetLinkResolver,
-        contentLinkResolver,
         onBundle,
     }: Pick<
         NormalizedPluginOptions,
@@ -97,28 +93,25 @@ export function transform(options: Partial<TransformOptions> = {}) {
             runtime,
             bundle,
             output,
-            assetLinkResolver,
-            contentLinkResolver,
             onBundle,
         });
-        md.renderer.rules['yfm_page-constructor'] = (tokens, idx, options, env, self) => {
+        md.renderer.rules['yfm_page-constructor'] = (tokens, idx, _options, env, _self) => {
             const token = tokens[idx];
-            const yamlContent = load(token.content.trimStart());
+            const yamlContent = load(token.content.trimStart()) as PageContent;
 
-            const content = 'blocks' in yamlContent ? yamlContent : {blocks: yamlContent};
+            let content = 'blocks' in yamlContent ? yamlContent : {blocks: yamlContent};
 
-            // if (assetLinkResolver || contentLinkResolver) {
-            //     content = modifyPageConstructorLinks({
-            //         data: content,
-            //         getAssetLink: assetLinkResolver || ((link) => link),
-            //         getContentLink: contentLinkResolver || ((link) => link),
-            //         lang: env.lang || 'en',
-            //     });
-            // }
+            if (assetLinkResolver || contentLinkResolver) {
+                content = modifyPageConstructorLinks({
+                    data: content,
+                    getAssetLink: assetLinkResolver || ((link: string) => link),
+                    getContentLink: contentLinkResolver || ((link: string) => link),
+                });
+            }
 
-            // const transformedContent = preTransformYfmBlocks(content, env, md);
+            const transformedContent = preTransformYfmBlocks(content, env, md);
 
-            return getPageConstructorContent(content);
+            return getPageConstructorContent(transformedContent);
         };
     };
 

@@ -1,16 +1,16 @@
-// @ts-nocheck
-
-import React from 'react';
-import { PageContent, PageConstructor, PageConstructorProvider } from '@gravity-ui/page-constructor';
-import { hydrateRoot } from 'react-dom/client';
+import {PageConstructor, PageConstructorProvider, PageContent} from '@gravity-ui/page-constructor';
+import {hydrateRoot} from 'react-dom/client';
 
 import './index.scss';
 
 export function createPageConstructorElement(content: PageContent, isServer?: boolean) {
-    const isServerEnv = isServer !== undefined ? isServer : (typeof window === 'undefined' && typeof global !== 'undefined');
+    const isServerEnv =
+        isServer === undefined
+            ? typeof window === 'undefined' && typeof global !== 'undefined'
+            : isServer;
 
     return (
-        <PageConstructorProvider ssrConfig={{ isServer: false }}>
+        <PageConstructorProvider ssrConfig={{isServer: isServerEnv}}>
             <PageConstructor content={content} />
         </PageConstructorProvider>
     );
@@ -20,21 +20,20 @@ export function hydratePageConstructors() {
     if (typeof document === 'undefined') return;
 
     const containers = document.querySelectorAll('.page-constructor-container');
-    
-    containers.forEach(container => {
+
+    containers.forEach((container) => {
         try {
             if (container.getAttribute('data-hydrated') === 'true') return;
-            
+
             const encodedContent = container.getAttribute('data-content-encoded');
-            
+
+            if (!encodedContent) return;
+
             const decodedContent = decodeURIComponent(encodedContent);
             const contentData = JSON.parse(decodedContent);
-      
-            hydrateRoot(
-                container,
-                createPageConstructorElement(contentData, false)
-            );
-            
+
+            hydrateRoot(container, createPageConstructorElement(contentData, false));
+
             container.setAttribute('data-hydrated', 'true');
         } catch (error) {
             console.error('Failed to hydrate component:', error);
@@ -44,33 +43,35 @@ export function hydratePageConstructors() {
 
 export function setupPageConstructorObserver() {
     if (typeof document === 'undefined' || typeof window === 'undefined') return;
-    
+
     const observer = new MutationObserver((mutations) => {
         let needsHydration = false;
-        
-        mutations.forEach(mutation => {
+
+        mutations.forEach((mutation) => {
             if (mutation.type === 'childList') {
-                mutation.addedNodes.forEach(node => {
+                mutation.addedNodes.forEach((node) => {
                     if (node.nodeType === Node.ELEMENT_NODE) {
-                        if (node.classList?.contains('page-constructor-container') ||
-                            node.querySelector?.('.page-constructor-container')) {
+                        if (
+                            (node as Element).classList?.contains('page-constructor-container') ||
+                            (node as Element).querySelector?.('.page-constructor-container')
+                        ) {
                             needsHydration = true;
                         }
                     }
                 });
             }
         });
-        
+
         if (needsHydration) {
             hydratePageConstructors();
         }
     });
-    
+
     observer.observe(document.body, {
         childList: true,
-        subtree: true
+        subtree: true,
     });
-    
+
     hydratePageConstructors();
 }
 

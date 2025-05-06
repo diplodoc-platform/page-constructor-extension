@@ -44,6 +44,7 @@ const nodePlugin = {
         },
     ],
     external: [
+        'node:*',
         'react',
         'react-dom',
         // '@gravity-ui/page-constructor',
@@ -57,7 +58,7 @@ const browserPlugin = {
     ...common,
     entryPoints: ['src/plugin/index.ts'],
     platform: 'neutral',
-    // format: 'esm',
+    format: 'esm',
     outfile: 'build/plugin/index.js',
     plugins: [
         sassPlugin(),

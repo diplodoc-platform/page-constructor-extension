@@ -6,7 +6,7 @@
     "module": "es2022",
     "declaration": true
   },
-  "include": ["src", "example/index.jsx"],
+  "include": ["src", "example/index.jsx", "types.d.ts"],
   "exclude": [],
   "ts-node": {
     "esm": true,

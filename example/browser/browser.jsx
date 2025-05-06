@@ -15,22 +15,20 @@ const transformConfig = {
     plugins: [pageConstructorPlugin({bundle: false}), notes],
 };
 
-const Content = ({html}) => (
-    <div dangerouslySetInnerHTML={{__html: html}} />
-);
+const Content = ({html}) => <div dangerouslySetInnerHTML={{__html: html}} />;
 
 const App = ({}) => {
     const [content, setContent] = useState('');
-    
+
     useEffect(() => {
         const {result} = transform(README_CONTENT, transformConfig);
 
         setContent(result.html);
 
-        setupPageConstructorObserver()
+        setupPageConstructorObserver();
     }, []);
 
-    return (<Content html={content} />);
+    return <Content html={content} />;
 };
 
 const container = document.getElementById('root');

@@ -1,7 +1,6 @@
 import * as esbuild from 'esbuild';
 import {polyfillNode} from 'esbuild-plugin-polyfill-node';
 import {readFileSync} from 'fs';
-import {inlineScss} from 'esbuild-inline-sass';
 import {sassPlugin} from 'esbuild-sass-plugin';
 
 await esbuild.build({
