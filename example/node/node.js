@@ -43,7 +43,7 @@ async function generateHtml() {
 
     // Create style and script links
     const styleLinks = styles.map(style => `<link rel="stylesheet" href="${style}">`).join('\n        ');
-    const scriptLinks = scripts.map(script => `<script src="${script}"></script>`).join('\n        ');
+    const scriptLinks = scripts.map(script => `<script src="${script}" type="module"></script>`).join('\n        ');
 
     const html = `
 <!DOCTYPE html>

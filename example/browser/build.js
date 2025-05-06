@@ -32,7 +32,7 @@ await esbuild.build({
   },
   external: [
         'fs',
-        'path'
+        'path',
   ],
 });
 

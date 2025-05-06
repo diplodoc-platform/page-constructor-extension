@@ -1,12 +1,21 @@
 #!/usr/bin/env node
-const {build} = require('esbuild');
+const {build: esbuild} = require('esbuild');
 const {sassPlugin} = require('esbuild-sass-plugin');
-const { polyfillNode } = require('esbuild-plugin-polyfill-node');
-
+const {polyfillNode} = require('esbuild-plugin-polyfill-node');
+const {processBuildMeta} = require('./utils/dev');
+const {commonjs} = require('@hyrious/esbuild-plugin-commonjs');
 const common = {
     bundle: true,
     sourcemap: true,
     tsconfig: './tsconfig.json',
+    metafile: process.env.NODE_ENV === 'development'
+};
+
+const commonPlugin = {
+  external: ['markdown-it', 'node:*'],
+  define: {
+      PACKAGE: JSON.stringify(require('../package.json').name),
+  },
 };
 
 const nodePlugin = {
@@ -62,12 +71,15 @@ const browserPlugin = {
   alias: {
     '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
     '~@gravity-ui/uikit/styles/styles.css': '@gravity-ui/uikit/styles/styles.css',
+    // 'react': 'node_modules/react/index.js',
+    // 'react-dom': 'node_modules/react-dom/index.js'
   },
   external: [
       'node:*',
       'fs',
-      'path'
-            //   'consolidated-events'
+      'path',
+      'react',
+      'react-dom'
   ],
 };
 
@@ -76,18 +88,22 @@ const runtimeBundle = {
     ...common,
     entryPoints: ['src/runtime/index.tsx'],
     platform: 'browser',
-    format: 'iife',
+    format: 'esm',
     outfile: 'build/runtime/index.js',
+    metafile: true,
     // jsx: 'automatic',
-    plugins: [sassPlugin(), polyfillNode({
-      polyfills: {
-        fs: true,
-        path: true,
-        process: true,
-        buffer: true,
-        util: true,
-      }
-    }),],
+    plugins: [
+      sassPlugin(),
+      // polyfillNode({
+      //   polyfills: {
+      //     fs: true,
+      //     path: true,
+      //     process: true,
+      //     buffer: true,
+      //     util: true,
+      //   }
+      // }),
+    ],
     external: [
         // Mark @gravity-ui/page-constructor as external to avoid bundling it
         // '@gravity-ui/page-constructor',
@@ -100,10 +116,27 @@ const runtimeBundle = {
     alias: {
       '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
       '~@gravity-ui/uikit/styles/styles.css': '@gravity-ui/uikit/styles/styles.css',
+      // 'react': require.resolve('react'),
+      // 'react-dom': require.resolve('react-dom')
   },
     // minify: true,
 };
 
-build(nodePlugin)
-build(browserPlugin)
-build(runtimeBundle)
+
+build(nodePlugin);
+build(browserPlugin);
+build(runtimeBundle);
+
+function build(config) {
+  return esbuild(config)
+      .then(async (result) => {
+          const isDev = process.env.NODE_ENV === 'development';
+          
+          if (isDev) {
+              await processBuildMeta(result, config);
+          }
+          
+          return result;
+      })
+      .catch((e) => console.error(`Build error:`, e));
+};

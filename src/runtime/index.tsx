@@ -7,24 +7,25 @@ import { hydrateRoot } from 'react-dom/client';
 import './index.scss';
 
 export function createPageConstructorElement(content: PageContent, isServer?: boolean) {
-    // Определяем isServer прямо здесь, если не передан явно
     const isServerEnv = isServer !== undefined ? isServer : (typeof window === 'undefined' && typeof global !== 'undefined');
-    
-    
+
     return (
-        <PageConstructorProvider ssrConfig={{ isServer: isServerEnv }}>
+        <PageConstructorProvider ssrConfig={{ isServer: false }}>
             <PageConstructor content={content} />
         </PageConstructorProvider>
     );
 }
 
 export function hydratePageConstructors() {
+    console.log('hydratePageConstructors');
     if (typeof document === 'undefined') return;
-    // Находим все контейнеры компонентов
+
     const containers = document.querySelectorAll('.page-constructor-container');
     
     containers.forEach(container => {
         try {
+            if (container.getAttribute('data-hydrated') === 'true') return;
+            
             const encodedContent = container.getAttribute('data-content-encoded');
             
             const decodedContent = decodeURIComponent(encodedContent);
@@ -34,15 +35,46 @@ export function hydratePageConstructors() {
                 container,
                 createPageConstructorElement(contentData, false)
             );
+            
+            container.setAttribute('data-hydrated', 'true');
         } catch (error) {
             console.error('Failed to hydrate component:', error);
         }
     });
 }
 
-if (typeof window !== 'undefined') {
-    window.hydratePageConstructors = hydratePageConstructors;
-
-    window.addEventListener('DOMContentLoaded', hydratePageConstructors);
+export function setupPageConstructorObserver() {
+    if (typeof document === 'undefined' || typeof window === 'undefined') return;
+    
+    const observer = new MutationObserver((mutations) => {
+        let needsHydration = false;
+        
+        mutations.forEach(mutation => {
+            if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        if (node.classList?.contains('page-constructor-container') ||
+                            node.querySelector?.('.page-constructor-container')) {
+                            needsHydration = true;
+                        }
+                    }
+                });
+            }
+        });
+        
+        if (needsHydration) {
+            hydratePageConstructors();
+        }
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+    
+    hydratePageConstructors();
 }
 
+if (typeof window !== 'undefined') {
+    window.addEventListener('DOMContentLoaded', hydratePageConstructors);
+}
