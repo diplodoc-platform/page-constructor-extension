@@ -22,7 +22,6 @@ const nodePlugin = {
     entryPoints: ['src/plugin/index-node.ts'],
     platform: 'node',
     outfile: 'build/plugin/index-node.js',
-
     plugins: [
         {
             name: 'css-mock',

@@ -99,7 +99,11 @@ export function transform(options: Partial<TransformOptions> = {}) {
             const token = tokens[idx];
             const yamlContent = load(token.content.trimStart()) as PageContent;
 
-            let content = 'blocks' in yamlContent ? yamlContent : {blocks: yamlContent};
+            if (!('blocks' in yamlContent)) {
+                throw new Error('Page constructor content must have a "blocks:" property');
+            }
+            
+            let content = yamlContent;
 
             if (assetLinkResolver || contentLinkResolver) {
                 content = modifyPageConstructorLinks({
@@ -108,11 +112,10 @@ export function transform(options: Partial<TransformOptions> = {}) {
                     getContentLink: contentLinkResolver || ((link: string) => link),
                 });
             }
+            console.log(content, 'fff11111')
+            const transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;
+            console.log(content, 'fff22222')
 
-            const transformedContent = preTransformYfmBlocks(content, env, md);
-
-            if (!('blocks' in transformedContent)) return token.content;
-            // Ensure transformedContent has the blocks property required by PageContent
             return getPageConstructorContent(transformedContent);
         };
     };

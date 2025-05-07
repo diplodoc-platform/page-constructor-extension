@@ -11,10 +11,6 @@ import {PreloadParams, TransformerRaw, preprocess} from './preprocess';
  * @returns The content with transformed YFM blocks
  */
 export function preTransformYfmBlocks(content: {blocks: any}, env: any, md: MarkdownIt) {
-    if (!content.blocks) {
-        return content;
-    }
-
     // Extract YFM strings from the content
     const strings = new Set<string>();
     const extract = (_lang: string, string: string) => {

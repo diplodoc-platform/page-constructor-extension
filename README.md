@@ -110,15 +110,7 @@ blocks:
 :::
 ```
 
-Or with a list format:
-
-```markdown
-::: page-constructor
-- type: 'header-block'
-  title: 'My Header'
-  description: 'This is a description'
-:::
-```
+**Note:** The `blocks:` property is required. Direct list format without the `blocks:` prefix is not supported.
 
 ## Link Resolvers
 
