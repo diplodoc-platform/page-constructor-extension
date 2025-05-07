@@ -102,7 +102,7 @@ export function transform(options: Partial<TransformOptions> = {}) {
             if (!('blocks' in yamlContent)) {
                 throw new Error('Page constructor content must have a "blocks:" property');
             }
-            
+
             let content = yamlContent;
 
             if (assetLinkResolver || contentLinkResolver) {
@@ -112,9 +112,9 @@ export function transform(options: Partial<TransformOptions> = {}) {
                     getContentLink: contentLinkResolver || ((link: string) => link),
                 });
             }
-            console.log(content, 'fff11111')
+            console.log(content, 'fff11111');
             const transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;
-            console.log(content, 'fff22222')
+            console.log(content, 'fff22222');
 
             return getPageConstructorContent(transformedContent);
         };

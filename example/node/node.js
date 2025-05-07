@@ -2,7 +2,7 @@ import {readFile, writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import transform from '@diplodoc/transform';
 import notes from '@diplodoc/transform/lib/plugins/notes/index.js';
-import {transform as pageConstructorPlugin} from '@diplodoc/page-constructor-extension';
+import {transform as pageConstructorPlugin} from '@diplodoc/page-constructor-extension/plugin';
 
 async function generateHtml() {
     const markdown = await readFile('./README.md', 'utf8');
