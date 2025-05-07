@@ -2,14 +2,8 @@ import {PageConstructor, PageConstructorProvider, PageContent} from '@gravity-ui
 import {hydrateRoot} from 'react-dom/client';
 
 import {ClassNames} from '../plugin/const';
-import './index.scss';
 
-// Extend Window interface to include our custom property
-declare global {
-    interface Window {
-        hydratePageConstructors: typeof hydratePageConstructors;
-    }
-}
+import './index.scss';
 
 export function createPageConstructorElement(content: PageContent, isServer?: boolean) {
     const isServerEnv =
