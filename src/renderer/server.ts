@@ -2,7 +2,8 @@ import {renderToString} from 'react-dom/server';
 import {PageContent} from '@gravity-ui/page-constructor';
 
 import {ClassNames} from '../plugin/const';
-import {createPageConstructorElement} from '../runtime';
+
+import {createPageConstructorElement} from './page-constructor-element';
 
 export function createPageConstructorContent(content: PageContent): string {
     try {

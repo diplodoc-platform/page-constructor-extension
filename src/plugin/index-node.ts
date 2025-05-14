@@ -4,3 +4,4 @@ import {setPageConstructorImplementation} from '../renderer/factory';
 setPageConstructorImplementation(createPageConstructorContent);
 
 export {transform} from './transform-node';
+export * from './const';
