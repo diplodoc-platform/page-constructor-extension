@@ -48,7 +48,6 @@
     "build:js": "./esbuild/build.js",
     "build:declarations": "tsc --emitDeclarationOnly --outDir ./build",
     "prepublishOnly": "npm run build",
-    "test": "exit 0",
     "lint": "lint update && lint",
     "lint:fix": "lint update && lint fix",
     "pre-commit": "lint update && lint-staged",
@@ -94,6 +93,7 @@
     "@diplodoc/directive": "^0.3.1",
     "@gravity-ui/page-constructor": "^5.28.5",
     "cheerio": "^1.0.0",
-    "ts-dedent": "^2.2.0"
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21"
   }
 }
