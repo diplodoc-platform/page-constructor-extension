@@ -54,6 +54,31 @@ import '@diplodoc/page-constructor-extension/runtime'
 import '@diplodoc/page-constructor-extension/runtime/styles.css'
 ```
 
+### Rendering Detection
+
+The runtime now automatically detects whether to hydrate or render content based on the content's structure:
+
+- **Server-rendered content** (with pre-rendered HTML) will be hydrated
+- **Browser-rendered content** (empty placeholder) will be fully rendered
+
+This allows you to use a single runtime that intelligently determines the appropriate rendering method, simplifying integration in mixed environments where both server and browser rendering are used.
+
+> **Important note about sanitization:**
+>
+> When using server-side rendering (SSR), all HTML passes through the default sanitizer of the transform.
+> However, when rendering on the client side, Page Constructor content is not sanitized automatically.
+> If you need this functionality in client-side rendering scenarios, you need to handle content sanitization yourself to prevent potential security issues.
+
+```js
+// Import the runtime - it will automatically detect the rendering type
+import '@diplodoc/page-constructor-extension/runtime'
+
+// The renderPageConstructors function is called automatically on DOMContentLoaded
+// but you can also call it manually if needed:
+import { renderPageConstructors } from '@diplodoc/page-constructor-extension/runtime'
+renderPageConstructors();
+```
+
 ## MarkdownIt transform plugin
 
 Plugin for [@diplodoc/transform](https://github.com/diplodoc-platform/transform) package.

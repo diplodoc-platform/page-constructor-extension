@@ -31,6 +31,65 @@ This example includes:
   - `node/node.js`: Example of using the extension in Node.js
   - `node/example.css`: Styles for the Node.js example
 
+## Rendering Detection
+
+The Page Constructor extension now automatically detects whether to hydrate or render content based on the content's structure:
+
+- **Server-rendered content** (with pre-rendered HTML) will be hydrated
+- **Browser-rendered content** (empty placeholder) will be fully rendered
+
+This allows you to use a single runtime that intelligently determines the appropriate rendering method, simplifying integration in mixed environments where both server and browser rendering are used.
+
+> **Important note about sanitization:**
+>
+> When using server-side rendering (SSR), all HTML passes through the default sanitizer of the transform.
+> However, when rendering on the client side, Page Constructor content is not sanitized automatically.
+> If you need this functionality in client-side rendering scenarios, you need to handle content sanitization yourself to prevent potential security issues.
+
+### Browser Example
+
+In the browser example, we import the runtime and call `renderPageConstructors()` which automatically detects the rendering type:
+
+```jsx
+import '@diplodoc/page-constructor-extension/runtime/style';
+
+// Later in the code
+useEffect(() => {
+    if (result && result[ENV_FLAG_NAME]) {
+        import('@diplodoc/page-constructor-extension/runtime')
+            .then(({renderPageConstructors}) => {
+                renderPageConstructors();
+                console.log('Page constructors rendered');
+            })
+            .catch((err) => console.error('Failed to import and render:', err));
+    }
+}, [result]);
+```
+
+### Node Example
+
+In the Node.js example, we generate HTML with the runtime script that will automatically detect and render the content:
+
+```js
+const html = `
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Test useRenderPageConstructorBlocks</title>
+        ${styleLinks}
+        <link rel="stylesheet" href="example.css">
+    </head>
+    <body>
+        <div id="root" class="yfm">${result.html}</div>
+        
+        <!-- Script for automatic rendering detection -->
+        ${scriptLinks}
+    </body>
+</html>
+`;
+```
+
 ## Page Constructor Usage
 
 The example demonstrates various Page Constructor blocks:
