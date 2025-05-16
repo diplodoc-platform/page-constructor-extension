@@ -1,30 +1,38 @@
-import {hydrateRoot} from 'react-dom/client';
+import {hydrateRoot, createRoot} from 'react-dom/client';
 import {createPageConstructorElement} from '../renderer/page-constructor-element'
 import {ClassNames} from '../plugin/const';
 
 import './index.scss';
 
-export function hydratePageConstructors() {
+export function renderPageConstructors() {
     if (typeof document === 'undefined') return;
 
     const containers = document.querySelectorAll(`.${ClassNames.PageConstructor}`);
 
     containers.forEach((container) => {
         try {
-            if (container.getAttribute('data-hydrated') === 'true') return;
+            const isHydrated = container.getAttribute('data-hydrated') === 'true';
+            const isRendered = container.getAttribute('data-rendered') === 'true';
+            
+            if (isHydrated || isRendered) return;
 
             const encodedContent = container.getAttribute('data-content-encoded');
-
             if (!encodedContent) return;
 
             const decodedContent = decodeURIComponent(encodedContent);
             const contentData = JSON.parse(decodedContent);
 
-            hydrateRoot(container, createPageConstructorElement(contentData, false));
-
-            container.setAttribute('data-hydrated', 'true');
+            if (!isHydrated && container.innerHTML.trim() !== '') {
+                hydrateRoot(container, createPageConstructorElement(contentData, false));
+                container.setAttribute('data-hydrated', 'true');
+            }
+            else if (!isRendered) {
+                const root = createRoot(container);
+                root.render(createPageConstructorElement(contentData, false));
+                container.setAttribute('data-rendered', 'true');
+            }
         } catch (error) {
-            console.error('Failed to hydrate component:', error);
+            console.error('Failed to auto-render component:', error);
         }
     });
 }
@@ -33,7 +41,7 @@ export function setupPageConstructorObserver() {
     if (typeof document === 'undefined' || typeof window === 'undefined') return;
 
     const observer = new MutationObserver((mutations) => {
-        let needsHydration = false;
+        let needsProcessing = false;
 
         mutations.forEach((mutation) => {
             if (mutation.type === 'childList') {
@@ -43,15 +51,15 @@ export function setupPageConstructorObserver() {
                             (node as Element).classList?.contains(ClassNames.PageConstructor) ||
                             (node as Element).querySelector?.(`.${ClassNames.PageConstructor}`)
                         ) {
-                            needsHydration = true;
+                            needsProcessing = true;
                         }
                     }
                 });
             }
         });
 
-        if (needsHydration) {
-            hydratePageConstructors();
+        if (needsProcessing) {
+            renderPageConstructors();
         }
     });
 
@@ -60,9 +68,9 @@ export function setupPageConstructorObserver() {
         subtree: true,
     });
 
-    hydratePageConstructors();
+    renderPageConstructors();
 }
 
 if (typeof window !== 'undefined') {
-    // window.addEventListener('DOMContentLoaded', hydratePageConstructors);
+    window.addEventListener('DOMContentLoaded', renderPageConstructors);
 }

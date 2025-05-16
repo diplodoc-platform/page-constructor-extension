@@ -14,32 +14,22 @@ const transformConfig = {
 };
 
 const Content = ({html}) => <div dangerouslySetInnerHTML={{__html: html}} />;
-// Pre-transform the content before rendering
-const {result} = transform(README_CONTENT, transformConfig);
-const initialHtml = result.html;
 
 const App = ({}) => {
+    const {result} = transform(README_CONTENT, transformConfig);
+    const initialHtml = result.html;
     const [content] = useState(initialHtml);
 
     useEffect(() => {
         if (result && result[ENV_FLAG_NAME]) {
             import('@diplodoc/page-constructor-extension/runtime')
-                .then(({hydratePageConstructors}) => {
-                    hydratePageConstructors();
+                .then(({renderPageConstructors}) => {
+                    renderPageConstructors();
                     console.log('Page constructors hydrated');
                 })
                 .catch((err) => console.error('Failed to import and hydrate:', err));
         }
     }, [result]);
-
-    /*
-TODO:
-flushSync - Cannot be called during React rendering cycle, causes "flushSync called from lifecycle method" error
-root.unmount() - Cannot unmount synchronously during rendering, causes race conditions
-Hydration - Initial client render must match DOM structure, pre-transforming content prevents mismatch 
-
-Problems only arise when the transform is called inside a component. Perhaps it should be remade into rendered templates for filling.
-*/
 
     return <Content html={content} />;
 };

@@ -55,7 +55,7 @@ const browserPlugin = {
     plugins: [
         sassPlugin(),
         polyfillNode({
-            include: ['util'], // полифил 'util' для 'object-inspect' //TODO: разорабраться почему тут тянется нодовая зависимость
+            include: ['util'],
         }),
     ],
     mainFields: ['main', 'module'],
