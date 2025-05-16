@@ -1,4 +1,3 @@
-//@ts-nocheck
 import type MarkdownIt from 'markdown-it';
 
 import {directiveParser, registerContainerDirective} from '@diplodoc/directive';
