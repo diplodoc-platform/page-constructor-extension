@@ -5,7 +5,7 @@ import {ClassNames} from '../plugin/const';
 export function createPageConstructorContent(content: PageContent): string {
     try {
         const encodedContent = encodeURIComponent(JSON.stringify(content));
-        
+
         return `<div class="${ClassNames.PageConstructor}" data-content-encoded="${encodedContent}" data-rendered="false"></div>`;
     } catch (error: any) {
         console.error('Error creating Page Constructor placeholder:', error);

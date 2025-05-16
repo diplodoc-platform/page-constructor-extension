@@ -1,5 +1,6 @@
-import {hydrateRoot, createRoot} from 'react-dom/client';
-import {createPageConstructorElement} from '../renderer/page-constructor-element'
+import {createRoot, hydrateRoot} from 'react-dom/client';
+
+import {createPageConstructorElement} from '../renderer/page-constructor-element';
 import {ClassNames} from '../plugin/const';
 
 import './index.scss';
@@ -13,7 +14,7 @@ export function renderPageConstructors() {
         try {
             const isHydrated = container.getAttribute('data-hydrated') === 'true';
             const isRendered = container.getAttribute('data-rendered') === 'true';
-            
+
             if (isHydrated || isRendered) return;
 
             const encodedContent = container.getAttribute('data-content-encoded');
@@ -25,14 +26,14 @@ export function renderPageConstructors() {
             if (!isHydrated && container.innerHTML.trim() !== '') {
                 hydrateRoot(container, createPageConstructorElement(contentData, false));
                 container.setAttribute('data-hydrated', 'true');
-            }
-            else if (!isRendered) {
+            } else if (!isRendered) {
                 const root = createRoot(container);
                 root.render(createPageConstructorElement(contentData, false));
                 container.setAttribute('data-rendered', 'true');
             }
         } catch (error) {
-            console.error('Failed to auto-render component:', error);
+            // eslint-disable-next-line no-console
+            console.error('Failed to render component:', error);
         }
     });
 }

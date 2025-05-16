@@ -12,7 +12,6 @@ import {
     contentTransformer,
 } from '@gravity-ui/page-constructor/server';
 
-// Re-export TransformerRaw for use in other files
 export type TransformerRaw = GravityTransformerRaw;
 
 export interface MetaData {
