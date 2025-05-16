@@ -1,22 +1,8 @@
-import {PageConstructor, PageConstructorProvider, PageContent} from '@gravity-ui/page-constructor';
 import {hydrateRoot} from 'react-dom/client';
-
+import {createPageConstructorElement} from '../renderer/page-constructor-element'
 import {ClassNames} from '../plugin/const';
 
 import './index.scss';
-
-export function createPageConstructorElement(content: PageContent, isServer?: boolean) {
-    const isServerEnv =
-        isServer === undefined
-            ? typeof window === 'undefined' && typeof global !== 'undefined'
-            : isServer;
-
-    return (
-        <PageConstructorProvider ssrConfig={{isServer: isServerEnv}}>
-            <PageConstructor content={content} />
-        </PageConstructorProvider>
-    );
-}
 
 export function hydratePageConstructors() {
     if (typeof document === 'undefined') return;
@@ -78,5 +64,5 @@ export function setupPageConstructorObserver() {
 }
 
 if (typeof window !== 'undefined') {
-    window.addEventListener('DOMContentLoaded', hydratePageConstructors);
+    // window.addEventListener('DOMContentLoaded', hydratePageConstructors);
 }
