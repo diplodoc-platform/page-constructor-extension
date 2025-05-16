@@ -1,11 +1,12 @@
 {
   "extends": "@diplodoc/tsconfig",
   "compilerOptions": {
+    "jsx": "react-jsx",
     "target": "es2022",
     "module": "es2022",
     "declaration": true
   },
-  "include": ["src"],
+  "include": ["src", "example/index.jsx"],
   "exclude": [],
   "ts-node": {
     "esm": true,

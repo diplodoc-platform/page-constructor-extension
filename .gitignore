@@ -7,6 +7,11 @@ node_modules
 /types.d.ts
 example/package-lock.json
 example/build
+example/node/build
+example/node/_assets
+example/node/index-node.html
+example/browser/build
+
 .idea
 
 .vscode

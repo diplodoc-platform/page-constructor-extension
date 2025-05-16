@@ -1,0 +1,8 @@
+.g-root {
+  --g-color-text-link: #027bf3
+}
+
+.yfm-page-constructor img {
+  object-fit: unset;
+  max-height: unset;
+}

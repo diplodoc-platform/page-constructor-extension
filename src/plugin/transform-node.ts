@@ -1,23 +1,31 @@
+import {dirname, join, resolve} from 'node:path';
 import {copyFileSync, mkdirSync} from 'node:fs';
-import {dirname, join} from 'node:path';
 
-import {transform as baseTransform} from './transform';
-import {PluginOptions} from './types';
+import {TransformOptions, transform as baseTransform} from './transform';
+import {Runtime} from './types';
 
 function copy(from: string, to: string) {
     mkdirSync(dirname(to), {recursive: true});
     copyFileSync(from, to);
 }
 
-const onBundle = (env: {bundled: Set<string>}, output: string, runtime: string) => {
-    const file = join(PACKAGE, 'runtime');
-    if (!env.bundled.has(file)) {
-        env.bundled.add(file);
+const onBundle = (env: {bundled: Set<string>}, output: string, runtime: Runtime) => {
+    const PATH_TO_RUNTIME = '../runtime';
+    const runtimeFiles = {
+        'index.js': runtime.script,
+        'index.css': runtime.style,
+    };
 
-        copy(require.resolve(file), join(output, runtime));
+    for (const [originFile, outputFile] of Object.entries(runtimeFiles)) {
+        if (!outputFile) continue;
+        const file = join(PATH_TO_RUNTIME, originFile);
+        if (!env.bundled.has(file)) {
+            env.bundled.add(file);
+            copy(resolve(__dirname, file), join(output, outputFile));
+        }
     }
 };
 
-export const transform = (options: Partial<Omit<PluginOptions, 'onBundle'>>) => {
+export const transform = (options: Partial<TransformOptions> = {}) => {
     return baseTransform({...options, onBundle});
 };
