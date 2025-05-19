@@ -78,9 +78,20 @@ const runtimeBundle = {
     plugins: [sassPlugin()],
 };
 
+// Build React components
+const reactBundle = {
+    ...common,
+    entryPoints: ['src/react/index.ts'],
+    format: 'esm',
+    outfile: 'build/react/index.js',
+    plugins: [sassPlugin()],
+    external: ['react', 'react-dom', 'react-dom/client', '@gravity-ui/page-constructor'],
+};
+
 build(nodePlugin);
 build(browserPlugin);
 build(runtimeBundle);
+build(reactBundle);
 
 function build(config) {
     return esbuild(config)
