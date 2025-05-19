@@ -2,9 +2,7 @@ import {useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import transform from '@diplodoc/transform';
 import notes from '@diplodoc/transform/lib/plugins/notes/index.js';
-import {
-    transform as pageConstructorPlugin,
-} from '@diplodoc/page-constructor-extension/plugin';
+import {transform as pageConstructorPlugin} from '@diplodoc/page-constructor-extension/plugin';
 import {PageConstructorRuntime} from '@diplodoc/page-constructor-extension/react';
 
 import '@diplodoc/page-constructor-extension/runtime/style';
