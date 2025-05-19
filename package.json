@@ -40,6 +40,9 @@
       ],
       "runtime": [
         "./build/runtime/index.d.ts"
+      ],
+      "react": [
+        "./build/react/index.d.ts"
       ]
     }
   },
@@ -91,6 +94,7 @@
   },
   "dependencies": {
     "@diplodoc/directive": "^0.3.1",
+    "@diplodoc/utils": "^2.1.0",
     "@gravity-ui/page-constructor": "^5.28.5",
     "cheerio": "^1.0.0",
     "js-yaml": "^4.1.0",

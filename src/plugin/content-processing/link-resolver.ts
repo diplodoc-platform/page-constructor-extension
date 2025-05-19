@@ -39,6 +39,7 @@ function modifyValuesByKeys<T>(
         ) {
             return modifyFn(value as StringOrStringArray);
         }
+        return undefined;
     }
     return cloneDeepWith(originalObj, customizer);
 }

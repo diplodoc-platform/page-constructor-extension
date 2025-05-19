@@ -110,7 +110,7 @@ export function transform(options: Partial<TransformOptions> = {}) {
                     data: content,
                     getAssetLink: assetLinkResolver || ((link: string) => link),
                     getContentLink: contentLinkResolver || ((link: string) => link),
-                });
+                }) as PageContent;
             }
 
             const transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;

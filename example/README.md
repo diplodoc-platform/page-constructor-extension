@@ -48,23 +48,22 @@ This allows you to use a single runtime that intelligently determines the approp
 
 ### Browser Example
 
-In the browser example, we import the runtime and call `renderPageConstructors()` which automatically detects the rendering type:
+In the browser example, we use the `PageConstructorRuntime` component to automatically initialize and render page constructor elements:
 
 ```jsx
+import {PageConstructorRuntime} from '@diplodoc/page-constructor-extension/react';
 import '@diplodoc/page-constructor-extension/runtime/style';
 
-// Later in the code
-useEffect(() => {
-    if (result && result[ENV_FLAG_NAME]) {
-        import('@diplodoc/page-constructor-extension/runtime')
-            .then(({renderPageConstructors}) => {
-                renderPageConstructors();
-                console.log('Page constructors rendered');
-            })
-            .catch((err) => console.error('Failed to import and render:', err));
-    }
-}, [result]);
+// In the App component
+return (
+    <>
+        <Content html={content} />
+        <PageConstructorRuntime />
+    </>
+);
 ```
+
+The `PageConstructorRuntime` component automatically initializes the runtime and renders all page constructor elements on the page, without needing to check for the presence of page constructor content.
 
 ### Node Example
 

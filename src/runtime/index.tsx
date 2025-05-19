@@ -1,16 +1,18 @@
 import {createRoot, hydrateRoot} from 'react-dom/client';
+import {createLoadQueue, getScriptStore} from '@diplodoc/utils';
 
 import {createPageConstructorElement} from '../renderer/page-constructor-element';
 import {ClassNames} from '../plugin/const';
 
 import './index.scss';
 
-export function renderPageConstructors() {
-    if (typeof document === 'undefined') return;
+export const PAGE_CONSTRUCTOR_STORE_SYMBOL = Symbol.for('page-constructor-store');
+export const SINGLE_QUEUE_SYMBOL = Symbol.for('page-constructor-queue');
 
-    const containers = document.querySelectorAll(`.${ClassNames.PageConstructor}`);
+export type PageConstructorCallback = () => void | Promise<void>;
 
-    containers.forEach((container) => {
+class PageConstructorController {
+    renderContainer(container: Element): void {
         try {
             const isHydrated = container.getAttribute('data-hydrated') === 'true';
             const isRendered = container.getAttribute('data-rendered') === 'true';
@@ -35,43 +37,48 @@ export function renderPageConstructors() {
             // eslint-disable-next-line no-console
             console.error('Failed to render component:', error);
         }
-    });
+    }
+
+    getContainers(): Element[] {
+        if (typeof document === 'undefined') return [];
+
+        return Array.from(document.querySelectorAll(`.${ClassNames.PageConstructor}`));
+    }
+
+    render(): void {
+        const containers = this.getContainers();
+        containers.forEach((container) => this.renderContainer(container));
+    }
 }
 
-export function setupPageConstructorObserver() {
-    if (typeof document === 'undefined' || typeof window === 'undefined') return;
+export const controller = {
+    render: () => {
+        const store = getScriptStore<PageConstructorController>(PAGE_CONSTRUCTOR_STORE_SYMBOL);
 
-    const observer = new MutationObserver((mutations) => {
-        let needsProcessing = false;
+        store.push((controller) => {
+            controller.render();
+        });
+    },
+};
 
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'childList') {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === Node.ELEMENT_NODE) {
-                        if (
-                            (node as Element).classList?.contains(ClassNames.PageConstructor) ||
-                            (node as Element).querySelector?.(`.${ClassNames.PageConstructor}`)
-                        ) {
-                            needsProcessing = true;
-                        }
-                    }
+if (typeof document !== 'undefined') {
+    const store = getScriptStore<PageConstructorController>(PAGE_CONSTRUCTOR_STORE_SYMBOL);
+
+    createLoadQueue({
+        store,
+        createController: () => {
+            const controller = new PageConstructorController();
+
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                controller.render();
+            } else {
+                document.addEventListener('DOMContentLoaded', () => {
+                    controller.render();
                 });
             }
-        });
 
-        if (needsProcessing) {
-            renderPageConstructors();
-        }
+            return controller;
+        },
+        queueKey: SINGLE_QUEUE_SYMBOL,
     });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-    });
-
-    renderPageConstructors();
-}
-
-if (typeof window !== 'undefined') {
-    window.addEventListener('DOMContentLoaded', renderPageConstructors);
 }

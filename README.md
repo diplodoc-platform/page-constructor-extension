@@ -127,18 +127,29 @@ This allows you to use a single runtime that intelligently determines the approp
 // Import the runtime - it will automatically detect the rendering type
 import '@diplodoc/page-constructor-extension/runtime';
 
-// The renderPageConstructors function is called automatically on DOMContentLoaded
-// but you can also call it manually if needed:
-import {renderPageConstructors} from '@diplodoc/page-constructor-extension/runtime';
-renderPageConstructors();
+// The runtime is initialized automatically, but you can also use the React component
+// for more control over the initialization process
+import {PageConstructorRuntime} from '@diplodoc/page-constructor-extension/react';
+
+// Use the component in your React application
+function App() {
+  return (
+    <>
+      {/* Your content */}
+      <PageConstructorRuntime />
+    </>
+  );
+}
 ```
 
-## React component for rendering
+## React components for rendering
 
 The extension provides React components for rendering page constructor content:
 
+### Direct rendering with createPageConstructorElement
+
 ```jsx
-import {createPageConstructorElement} from '@diplodoc/page-constructor-extension/runtime';
+import {createPageConstructorElement} from '@diplodoc/page-constructor-extension/react';
 
 // Your page constructor content
 const content = {
@@ -153,6 +164,49 @@ const content = {
 
 // Render the page constructor
 const element = createPageConstructorElement(content);
+```
+
+### Using the PageConstructorRuntime component
+
+For automatic initialization and rendering of page constructor elements on the page:
+
+```jsx
+import {PageConstructorRuntime} from '@diplodoc/page-constructor-extension/react';
+
+function App() {
+  return (
+    <>
+      {/* Your content with page-constructor elements */}
+      <div dangerouslySetInnerHTML={{__html: htmlContent}} />
+      
+      {/* Add the runtime component to initialize page constructor */}
+      <PageConstructorRuntime />
+    </>
+  );
+}
+```
+
+### Using hooks for more control
+
+```jsx
+import {usePageConstructorController, usePageConstructor} from '@diplodoc/page-constructor-extension/react';
+
+function MyComponent() {
+  // Get the controller
+  const controller = usePageConstructorController();
+  
+  // Get the render function
+  const renderPageConstructors = usePageConstructor();
+  
+  // Render page constructors when needed
+  useEffect(() => {
+    if (controller) {
+      renderPageConstructors();
+    }
+  }, [controller, renderPageConstructors]);
+  
+  return <div>My Component</div>;
+}
 ```
 
 ## Link Resolvers

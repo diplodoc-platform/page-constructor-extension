@@ -46,7 +46,7 @@ async function generateHtml() {
     <body>
         <div id="root" class="yfm">${result.html}</div>
         
-        <!-- Скрипт для запуска гидратации -->
+        <!-- Скрипт для запуска гидратации (автоматически инициализирует рантайм) -->
         ${scriptLinks}
     </body>
 </html>
