@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 const {build: esbuild} = require('esbuild');
 const {sassPlugin} = require('esbuild-sass-plugin');
 const {polyfillNode} = require('esbuild-plugin-polyfill-node');

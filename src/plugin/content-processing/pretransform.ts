@@ -1,16 +1,22 @@
 import type MarkdownIt from 'markdown-it';
 
-import {PreloadParams, TransformerRaw, preprocess} from './preprocess';
+import {ConfigData, Lang, PreloadParams, TransformerRaw, preprocess} from './preprocess';
 
-/**
- * Pre-transforms YFM blocks inside page-constructor content
- *
- * @param content - The page constructor content with blocks
- * @param env - The markdown-it environment
- * @param md - The markdown-it instance
- * @returns The content with transformed YFM blocks
- */
-export function preTransformYfmBlocks(content: {blocks: any}, env: any, md: MarkdownIt) {
+interface MarkdownItEnv {
+    lang?: string;
+    deps?: unknown[];
+    assets?: Set<string>;
+    meta?: {
+        script?: string[];
+        style?: string[];
+        [key: string]: unknown;
+    };
+    pageConstructorProcessed?: boolean;
+    bundled?: Set<string>;
+    [key: string]: unknown;
+}
+
+export function preTransformYfmBlocks(content: ConfigData, env: MarkdownItEnv, md: MarkdownIt) {
     // Extract YFM strings from the content
     const strings = new Set<string>();
     const extract = (_lang: string, string: string) => {
@@ -19,7 +25,7 @@ export function preTransformYfmBlocks(content: {blocks: any}, env: any, md: Mark
     };
 
     // Use preprocess to extract YFM strings
-    const options: PreloadParams = {lang: env.lang || 'en'};
+    const options: PreloadParams = {lang: (env.lang || 'en') as Lang};
     preprocess(content, options, extract);
 
     const keys = [...strings];
@@ -50,7 +56,7 @@ export function preTransformYfmBlocks(content: {blocks: any}, env: any, md: Mark
 
             if (tempEnv.assets) {
                 env.assets = env.assets || new Set();
-                tempEnv.assets.forEach((asset: string) => env.assets.add(asset));
+                tempEnv.assets.forEach((asset: string) => env.assets?.add(asset));
             }
 
             // Merge any metadata
@@ -59,6 +65,7 @@ export function preTransformYfmBlocks(content: {blocks: any}, env: any, md: Mark
                 Object.assign(env.meta, tempEnv.meta);
             }
         } catch (error) {
+            // eslint-disable-next-line no-console
             console.error('Error transforming YFM content:', error);
             // Fall back to the original string if transformation fails
             values[string] = string;

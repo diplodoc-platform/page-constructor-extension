@@ -12,8 +12,7 @@ export function createPageConstructorContent(content: PageContent): string {
         const encodedContent = encodeURIComponent(JSON.stringify(content));
 
         return `<div class="${ClassNames.PageConstructor}" data-content-encoded="${encodedContent}" data-hydrated="false">${html}</div>`;
-    } catch (error: any) {
-        console.error('Error rendering Page Constructor:', error);
-        return `<div class="page-constructor-error">Error rendering component: ${error.message || 'Unknown error'}</div>`;
+    } catch (error: unknown) {
+        return `<div class="page-constructor-error">Error rendering component: ${error instanceof Error ? error.message : String(error)}</div>`;
     }
 }
