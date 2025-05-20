@@ -58,7 +58,7 @@ export function preprocess(
 ) {
     const {lang} = params;
 
-    if (isPageConfig(content) && content.blocks) {
+    if (isPageConfig(content)) {
         return {
             ...content,
             blocks: transformBlocks(content.blocks, lang, customYfmTransformer),
