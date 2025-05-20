@@ -20,14 +20,14 @@ export type TransformOptions = {
           };
     bundle?: boolean;
     assetLinkResolver?: (link: string) => string;
-    contentLinkResolver?: (link: string) => string;
+    contentLinkResolver?: (link: string, currentPath?: string) => string;
     onBundle?: (env: {bundled: Set<string>}, output: string, runtime: Runtime) => void;
 };
 
 type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
     runtime: Runtime;
     assetLinkResolver?: (link: string) => string;
-    contentLinkResolver?: (link: string) => string;
+    contentLinkResolver?: (link: string, currentPath?: string) => string;
 };
 
 const registerTransforms = (
@@ -85,10 +85,12 @@ export function transform(options: Partial<TransformOptions> = {}) {
                   script: '_assets/page-constructor.js',
                   style: '_assets/page-constructor.css',
               };
-    const plugin: MarkdownIt.PluginWithOptions<{output?: string}> = function (
+    const plugin: MarkdownIt.PluginWithOptions<{output?: string; path?: string}> = function (
         md: MarkdownIt,
-        {output = '.'} = {},
+        pluginOptions = {},
     ) {
+        const {output = '.', path = ''} = pluginOptions;
+
         registerTransforms(md, {
             runtime,
             bundle,
@@ -100,20 +102,32 @@ export function transform(options: Partial<TransformOptions> = {}) {
             const yamlContent = load(token.content.trimStart()) as PageContent;
 
             if (!('blocks' in yamlContent)) {
-                throw new Error('Page constructor content must have a "blocks:" property');
+                const contentLines = token.content.trimStart().split('\n');
+                const firstLines = contentLines.slice(0, 3).join('\n');
+
+                throw new Error(
+                    `Page constructor content must have a "blocks:" property\n` +
+                        `Content preview:\n${firstLines}${contentLines.length > 3 ? '\n...' : ''}` +
+                        (path ? `\nFile: ${path}` : ''),
+                );
             }
 
             let content = yamlContent;
 
-            if (assetLinkResolver || contentLinkResolver) {
-                content = modifyPageConstructorLinks({
-                    data: content,
-                    getAssetLink: assetLinkResolver || ((link: string) => link),
-                    getContentLink: contentLinkResolver || ((link: string) => link),
-                }) as PageContent;
-            }
+            content = modifyPageConstructorLinks({
+                data: content,
+                getAssetLink: assetLinkResolver,
+                getContentLink: contentLinkResolver,
+                currentPath: path,
+            }) as PageContent;
 
-            const transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;
+            let transformedContent: PageContent;
+
+            try {
+                transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;
+            } catch (_error) {
+                transformedContent = content;
+            }
 
             return getPageConstructorContent(transformedContent);
         };

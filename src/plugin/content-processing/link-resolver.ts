@@ -1,6 +1,8 @@
-import {cloneDeepWith, every, isArray, isString} from 'lodash';
+import {every, isArray, isString} from 'lodash';
 import {isLocalUrl} from '@diplodoc/transform/lib/utils';
 import {PageContent} from '@gravity-ui/page-constructor';
+
+import {defaultTransformLink} from './default-link-resolver';
 
 type StringOrStringArray = string | string[];
 
@@ -30,18 +32,32 @@ function modifyValuesByKeys<T>(
     keysToFind: string[],
     modifyFn: (value: StringOrStringArray) => StringOrStringArray,
 ): T {
-    function customizer(value: unknown, key?: string | number): StringOrStringArray | undefined {
+    if (originalObj === null || typeof originalObj !== 'object') {
+        return originalObj;
+    }
+
+    if (Array.isArray(originalObj)) {
+        return originalObj.map((item) =>
+            modifyValuesByKeys(item, keysToFind, modifyFn),
+        ) as unknown as T;
+    }
+
+    const result = {...originalObj} as Record<string, unknown>;
+
+    Object.keys(result).forEach((key) => {
+        const value = result[key];
+
         if (
-            key !== undefined &&
-            typeof key === 'string' &&
             keysToFind.includes(key) &&
             (isString(value) || (isArray(value) && every(value, isString)))
         ) {
-            return modifyFn(value as StringOrStringArray);
+            result[key] = modifyFn(value as StringOrStringArray);
+        } else if (typeof value === 'object' && value !== null) {
+            result[key] = modifyValuesByKeys(value, keysToFind, modifyFn);
         }
-        return undefined;
-    }
-    return cloneDeepWith(originalObj, customizer);
+    });
+
+    return result as unknown as T;
 }
 
 function hasFileExtension(link: string, pattern: RegExp): boolean {
@@ -51,14 +67,18 @@ function hasFileExtension(link: string, pattern: RegExp): boolean {
 interface ModifyLinksOptions {
     data: PageContent | unknown;
     getAssetLink?: (link: string) => string;
-    getContentLink?: (link: string) => string;
+    getContentLink?: (link: string, currentPath?: string) => string;
+    currentPath?: string;
 }
 
 function modifyPageConstructorLinks({
     data,
     getAssetLink,
     getContentLink,
+    currentPath,
 }: ModifyLinksOptions): PageContent | unknown {
+    const useDefaultTransform = !getAssetLink && !getContentLink;
+
     return modifyValuesByKeys(
         data,
         LINK_KEYS_PAGE_CONSTRUCTOR_CONFIG,
@@ -68,15 +88,19 @@ function modifyPageConstructorLinks({
                     return item;
                 }
 
-                if (getAssetLink && hasFileExtension(item, FILE_PATTERNS.MEDIA)) {
-                    return getAssetLink(item);
+                if (!useDefaultTransform) {
+                    if (getAssetLink && hasFileExtension(item, FILE_PATTERNS.MEDIA)) {
+                        return getAssetLink(item);
+                    }
+
+                    if (getContentLink && hasFileExtension(item, FILE_PATTERNS.CONTENT)) {
+                        return getContentLink(item, currentPath);
+                    }
+
+                    return item;
                 }
 
-                if (getContentLink && hasFileExtension(item, FILE_PATTERNS.CONTENT)) {
-                    return getContentLink(item);
-                }
-
-                return item;
+                return defaultTransformLink(item, currentPath);
             };
 
             return isArray(link) ? link.map(validateLink) : validateLink(link);
