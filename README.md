@@ -56,7 +56,7 @@ blocks:
 - type: 'header-block'
   title: 'My Header'
   description: 'This is a description'
-:::
+  :::
 ```
 
 **Note:** The `blocks:` property is required. Direct list format without the `blocks:` prefix is not supported.
