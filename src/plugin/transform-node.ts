@@ -3,6 +3,7 @@ import {copyFileSync, mkdirSync} from 'node:fs';
 
 import {TransformOptions, transform as baseTransform} from './transform';
 import {Runtime} from './types';
+import {defaultTransformLink} from './content-processing/default-link-resolver';
 
 function copy(from: string, to: string) {
     mkdirSync(dirname(to), {recursive: true});
@@ -27,5 +28,15 @@ const onBundle = (env: {bundled: Set<string>}, output: string, runtime: Runtime)
 };
 
 export const transform = (options: Partial<TransformOptions> = {}) => {
-    return baseTransform({...options, onBundle});
+    const contentLinkResolver =
+        options.contentLinkResolver ||
+        ((link: string, currentPath?: string) => {
+            return defaultTransformLink(link, currentPath);
+        });
+
+    return baseTransform({
+        ...options,
+        onBundle,
+        contentLinkResolver,
+    });
 };
