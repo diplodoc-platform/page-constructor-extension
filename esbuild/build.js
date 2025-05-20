@@ -74,7 +74,6 @@ const browserPlugin = {
 const runtimeBundle = {
     ...common,
     entryPoints: ['src/runtime/index.tsx'],
-    format: 'esm',
     outfile: 'build/runtime/index.js',
     plugins: [sassPlugin()],
 };
