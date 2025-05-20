@@ -8,6 +8,9 @@
     "node": ">=18",
     "npm": ">=9.*"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./build/plugin/index.d.ts",
@@ -48,13 +51,13 @@
   },
   "scripts": {
     "build": "rm -rf build && run-p build:*",
-    "build:js": "./esbuild/build.js",
     "build:declarations": "tsc --emitDeclarationOnly --outDir ./build",
-    "prepublishOnly": "npm run build",
+    "build:js": "./esbuild/build.js",
     "lint": "lint update && lint",
     "lint:fix": "lint update && lint fix",
     "pre-commit": "lint update && lint-staged",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "page-constructor",
