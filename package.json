@@ -19,8 +19,7 @@
     },
     "./plugin": {
       "node": "./build/plugin/index-node.js",
-      "default": "./build/plugin/index.js",
-      "style": "./build/plugin/index.css"
+      "default": "./build/plugin/index.js"
     },
     "./plugin/style": "./build/plugin/index.css",
     "./runtime/style": "./build/runtime/index.css",
