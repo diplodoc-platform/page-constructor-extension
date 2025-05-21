@@ -11,20 +11,5 @@
     "run:browser": "npm run build:browser && npm run start:browser",
     "run:node": "npm run build:node && npm run start:node",
     "clear": "rm -rf build"
-  },
-  "dependencies": {
-    "@diplodoc/page-constructor-extension": "*",
-    "@diplodoc/transform": "*",
-    "@gravity-ui/page-constructor": "^5.28.5",
-    "@gravity-ui/uikit": "^6.34.0",
-    "esbuild-sass-plugin": "^3.3.1",
-    "markdown-it": "^14.1.0",
-    "process": "^0.11.10",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "esbuild": "^0.23.1",
-    "esbuild-plugin-polyfill-node": "^0.3.0"
   }
 }
