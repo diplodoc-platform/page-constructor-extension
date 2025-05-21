@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.1](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.2.0...v0.2.1) (2025-05-21)
+
+
+### chore
+
+* release 0.2.1 ([d4c3931](https://github.com/diplodoc-platform/page-constructor-extension/commit/d4c39315c8b1bcb641ee540cb8905f1ff1cc7953))
+
+
+### Bug Fixes
+
+* runtime build polyfil util ([827ed6f](https://github.com/diplodoc-platform/page-constructor-extension/commit/827ed6fe4434d933109b2664cb1d03b6a5ba3146))
+
 ## 0.2.0 (2025-05-21)
 
 
