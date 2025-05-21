@@ -79,7 +79,12 @@ const runtimeBundle = {
     ...common,
     entryPoints: ['src/runtime/index.tsx'],
     outfile: 'build/runtime/index.js',
-    plugins: [sassPlugin()],
+    plugins: [
+        sassPlugin(),
+        polyfillNode({
+            include: ['util'],
+        }),
+    ],
 };
 
 // Build React components
