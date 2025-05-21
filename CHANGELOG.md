@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.2.0 (2025-05-21)
+
+
+### chore
+
+* release 0.2.0 ([acca9df](https://github.com/diplodoc-platform/page-constructor-extension/commit/acca9dfe7f6e8cec1b67eaab75aeda265b58f799))
+
+
+### Features
+
+* adding default link handling ([6d0bab8](https://github.com/diplodoc-platform/page-constructor-extension/commit/6d0bab88ba5e3b149569055d53e290fef050e30b))
+* init page-constructor-extension ([#1](https://github.com/diplodoc-platform/page-constructor-extension/issues/1)) ([207a5fc](https://github.com/diplodoc-platform/page-constructor-extension/commit/207a5fce4c30c411f966476d63ec6731015aa912))
+* update runtime connection ([#3](https://github.com/diplodoc-platform/page-constructor-extension/issues/3)) ([594f698](https://github.com/diplodoc-platform/page-constructor-extension/commit/594f698b6d8bfb8502d44f04c72494c111010e90))
+
+
+### Bug Fixes
+
+* do not use esm for runtime build ([466c069](https://github.com/diplodoc-platform/page-constructor-extension/commit/466c0691d32ef1bb111a1e50c50a013eaa7387d6))
+* node pretransform ([055cb6a](https://github.com/diplodoc-platform/page-constructor-extension/commit/055cb6a2e9daddfc57982dea156fd965c0b35828))
+* yfm links inside pc block proccessing ([07040ff](https://github.com/diplodoc-platform/page-constructor-extension/commit/07040ff172f982f8ba4b29bcab369196ecd140f4))
+
 ## [1.3.4](https://github.com/diplodoc-platform/mermaid-extension/compare/v1.3.3...v1.3.4) (2025-02-14)
 
 
