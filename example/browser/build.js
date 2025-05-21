@@ -27,6 +27,8 @@ await esbuild.build({
     alias: {
         '~@gravity-ui/uikit/styles/styles.css': '@gravity-ui/uikit/styles/styles.css',
         '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
+        '@diplodoc/page-constructor-extension': '../build',
+        '@diplodoc/page-constructor-extension/runtime/style': '../build/runtime/index.css'
     },
 });
 
