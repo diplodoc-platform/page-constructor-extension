@@ -121,13 +121,7 @@ export function transform(options: Partial<TransformOptions> = {}) {
                 currentPath: path,
             }) as PageContent;
 
-            let transformedContent: PageContent;
-
-            try {
-                transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;
-            } catch (_error) {
-                transformedContent = content;
-            }
+            const transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;
 
             return getPageConstructorContent(transformedContent);
         };

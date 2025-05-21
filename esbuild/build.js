@@ -9,7 +9,11 @@ const {processBuildMeta} = require('./utils/dev');
 const common = {
     bundle: true,
     sourcemap: true,
-    minify: process.env.NODE_ENV !== 'development',
+    minify: false, //when set to true, yfm links inside pc block stop being processed correctly
+    minifyWhitespace: true,
+    minifySyntax: true,
+    minifyIdentifiers: true,
+    keepNames: true,
     tsconfig: './tsconfig.json',
     metafile: process.env.NODE_ENV === 'development',
     alias: {
