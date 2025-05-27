@@ -1,7 +1,8 @@
 import {useCallback, useEffect, useState} from 'react';
 import {ControllerLoadedCallback, getScriptStore} from '@diplodoc/utils';
 
-import {PAGE_CONSTRUCTOR_STORE_SYMBOL, PageConstructorControllerType} from '../common/constants';
+import {PAGE_CONSTRUCTOR_STORE_SYMBOL} from '../constants';
+import {PageConstructorControllerType} from '../types';
 
 //TODO: use useController from @diplodoc/utils
 function useController<T>(storeSymbol: symbol): T | null {

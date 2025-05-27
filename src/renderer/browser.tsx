@@ -1,6 +1,6 @@
 import {PageContent} from '@gravity-ui/page-constructor';
 
-import {ClassNames} from '../common/constants';
+import {ClassNames} from '../constants';
 
 export function createPageConstructorContent(content: PageContent): string {
     try {
