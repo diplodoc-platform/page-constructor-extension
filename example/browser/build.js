@@ -28,7 +28,10 @@ await esbuild.build({
         '~@gravity-ui/uikit/styles/styles.css': '@gravity-ui/uikit/styles/styles.css',
         '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
         '@diplodoc/page-constructor-extension': '../build',
-        '@diplodoc/page-constructor-extension/runtime/style': '../build/runtime/index.css'
+        '@diplodoc/page-constructor-extension/runtime/style': '../build/runtime/index.css',
+        '@diplodoc/page-constructor-extension/react': '../build/react/index.js',
+        '@diplodoc/page-constructor-extension/runtime': '../build/runtime/index.js',
+        '@diplodoc/page-constructor-extension/plugin': '../build/plugin/index.js'
     },
 });
 

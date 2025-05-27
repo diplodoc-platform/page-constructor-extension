@@ -49,22 +49,73 @@ This allows you to use a single runtime that intelligently determines the approp
 
 ### Browser Example
 
-In the browser example, we use the `PageConstructorRuntime` component to automatically initialize and render page constructor elements:
+In the browser example, we demonstrate two approaches to initializing the Page Constructor runtime:
+
+#### 1. Using the PageConstructorRuntime Component (Traditional Approach)
 
 ```jsx
+import {useState} from 'react';
 import {PageConstructorRuntime} from '@diplodoc/page-constructor-extension/react';
+
+import '@diplodoc/page-constructor-extension/runtime';
 import '@diplodoc/page-constructor-extension/runtime/style';
 
-// In the App component
-return (
-  <>
-    <Content html={content} />
-    <PageConstructorRuntime />
-  </>
-);
+function App() {
+  return (
+    <>
+      <Content html={content} />
+      <PageConstructorRuntime />
+    </>
+  );
+}
 ```
 
 The `PageConstructorRuntime` component automatically initializes the runtime and renders all page constructor elements on the page, without needing to check for the presence of page constructor content.
+
+#### 2. Conditional Runtime Loading (Performance Optimized Approach)
+
+```jsx
+import {useState, useEffect} from 'react';
+import transform from '@diplodoc/transform';
+import {
+  transform as pageConstructorPlugin,
+  PAGE_CONSTRUCTOR_RUNTIME
+} from '@diplodoc/page-constructor-extension/plugin';
+import {PageConstructorRuntime} from '@diplodoc/page-constructor-extension/react';
+
+function App() {
+  // Transform content using the plugin
+  const {result} = transform(content, {
+    plugins: [pageConstructorPlugin()]
+  });
+  
+  const [runtimeLoaded, setRuntimeLoaded] = useState(false);
+
+  // Asynchronously load runtime only if needed
+  useEffect(() => {
+    // Check if page constructor script is included in metadata
+    if (result.meta?.script?.includes(PAGE_CONSTRUCTOR_RUNTIME)) {
+      // Load runtime asynchronously
+      Promise.all([
+        import('@diplodoc/page-constructor-extension/runtime'),
+        import('@diplodoc/page-constructor-extension/runtime/style')
+      ]).then(() => {
+        setRuntimeLoaded(true);
+      });
+    }
+  }, [result.meta?.script]);
+
+  return (
+    <>
+      <Content html={result.html} />
+      {/* Render PageConstructorRuntime component only after runtime is loaded */}
+      {runtimeLoaded && <PageConstructorRuntime />}
+    </>
+  );
+}
+```
+
+This approach only loads the runtime when it's actually needed, improving performance by avoiding unnecessary code loading when page constructor elements aren't present in the content.
 
 ### Node Example
 

@@ -3,7 +3,7 @@ import {load} from 'js-yaml';
 import {PageContent} from '@gravity-ui/page-constructor';
 
 import {getPageConstructorContent} from '../renderer/factory';
-import {ENV_FLAG_NAME} from '../constants';
+import {ENV_FLAG_NAME, PAGE_CONSTRUCTOR_RUNTIME, PAGE_CONSTRUCTOR_STYLE} from '../constants';
 import {Runtime, TransformOptions} from '../types';
 
 import {hidden} from './utils';
@@ -69,8 +69,8 @@ export function transform(options: Partial<TransformOptions> = {}) {
         typeof options.runtime === 'string'
             ? {script: options.runtime, style: options.runtime}
             : options.runtime || {
-                  script: '_assets/page-constructor.js',
-                  style: '_assets/page-constructor.css',
+                  script: PAGE_CONSTRUCTOR_RUNTIME,
+                  style: PAGE_CONSTRUCTOR_STYLE,
               };
     const plugin: MarkdownIt.PluginWithOptions<{output?: string; path?: string}> = function (
         md: MarkdownIt,
