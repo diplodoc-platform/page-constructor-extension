@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.2.1...v0.3.0) (2025-05-27)
+
+
+### Features
+
+* add conditional runtime loading for client-side rendering ([76f0996](https://github.com/diplodoc-platform/page-constructor-extension/commit/76f09964b2b246381f51bdb677857e7197a48310))
+
+
+### Bug Fixes
+
+* remove runtime dependency from react module ([a4bc9bf](https://github.com/diplodoc-platform/page-constructor-extension/commit/a4bc9bf0118da2216f530ae760e2533cd58c68a6))
+
 ## [0.2.1](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.2.0...v0.2.1) (2025-05-21)
 
 
