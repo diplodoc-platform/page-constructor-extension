@@ -1,11 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {ControllerLoadedCallback, getScriptStore} from '@diplodoc/utils';
 
-import {PAGE_CONSTRUCTOR_STORE_SYMBOL, controller} from '../runtime';
-
-export type PageConstructorControllerType = {
-    render: () => void;
-};
+import {PAGE_CONSTRUCTOR_STORE_SYMBOL, PageConstructorControllerType} from '../common/constants';
 
 //TODO: use useController from @diplodoc/utils
 function useController<T>(storeSymbol: symbol): T | null {
@@ -36,15 +32,19 @@ export function usePageConstructorController() {
 }
 
 export function usePageConstructor() {
+    const controller = usePageConstructorController();
+
     return useCallback(() => {
-        controller.render();
-    }, []);
+        controller?.render();
+    }, [controller]);
 }
 
 export function PageConstructorRuntime() {
+    const controller = usePageConstructorController();
+
     useEffect(() => {
-        controller.render();
-    }, []);
+        controller?.render();
+    }, [controller]);
 
     return null;
 }

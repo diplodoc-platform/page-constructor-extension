@@ -2,12 +2,9 @@ import {createRoot, hydrateRoot} from 'react-dom/client';
 import {createLoadQueue, getScriptStore} from '@diplodoc/utils';
 
 import {createPageConstructorElement} from '../renderer/page-constructor-element';
-import {ClassNames} from '../plugin/const';
+import {ClassNames, PAGE_CONSTRUCTOR_STORE_SYMBOL, SINGLE_QUEUE_SYMBOL} from '../common/constants';
 
 import './index.scss';
-
-export const PAGE_CONSTRUCTOR_STORE_SYMBOL = Symbol.for('page-constructor-store');
-export const SINGLE_QUEUE_SYMBOL = Symbol.for('page-constructor-queue');
 
 export type PageConstructorCallback = () => void | Promise<void>;
 
@@ -50,16 +47,6 @@ class PageConstructorController {
         containers.forEach((container) => this.renderContainer(container));
     }
 }
-
-export const controller = {
-    render: () => {
-        const store = getScriptStore<PageConstructorController>(PAGE_CONSTRUCTOR_STORE_SYMBOL);
-
-        store.push((controller) => {
-            controller.render();
-        });
-    },
-};
 
 if (typeof document !== 'undefined') {
     const store = getScriptStore<PageConstructorController>(PAGE_CONSTRUCTOR_STORE_SYMBOL);

@@ -1,7 +1,7 @@
 import {renderToString} from 'react-dom/server';
 import {PageContent} from '@gravity-ui/page-constructor';
 
-import {ClassNames} from '../plugin/const';
+import {ClassNames} from '../common/constants';
 
 import {createPageConstructorElement} from './page-constructor-element';
 

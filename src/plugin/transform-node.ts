@@ -1,8 +1,9 @@
 import {dirname, join, resolve} from 'node:path';
 import {copyFileSync, mkdirSync} from 'node:fs';
 
-import {TransformOptions, transform as baseTransform} from './transform';
-import {Runtime} from './types';
+import {Runtime, TransformOptions} from '../common/types';
+
+import {transform as baseTransform} from './transform';
 import {defaultTransformLink} from './content-processing/default-link-resolver';
 
 function copy(from: string, to: string) {
