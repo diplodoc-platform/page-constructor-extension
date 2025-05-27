@@ -2,7 +2,7 @@ import type MarkdownIt from 'markdown-it';
 
 import {directiveParser, registerContainerDirective} from '@diplodoc/directive';
 
-import {ClassNames, ENV_FLAG_NAME, TokenType} from '../common/constants';
+import {ClassNames, ENV_FLAG_NAME, TokenType} from '../constants';
 
 export const pageConstructorDirective: MarkdownIt.PluginSimple = (md) => {
     md.use(directiveParser());

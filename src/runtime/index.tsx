@@ -2,7 +2,7 @@ import {createRoot, hydrateRoot} from 'react-dom/client';
 import {createLoadQueue, getScriptStore} from '@diplodoc/utils';
 
 import {createPageConstructorElement} from '../renderer/page-constructor-element';
-import {ClassNames, PAGE_CONSTRUCTOR_STORE_SYMBOL, SINGLE_QUEUE_SYMBOL} from '../common/constants';
+import {ClassNames, PAGE_CONSTRUCTOR_STORE_SYMBOL, SINGLE_QUEUE_SYMBOL} from '../constants';
 
 import './index.scss';
 

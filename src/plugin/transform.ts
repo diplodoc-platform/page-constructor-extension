@@ -3,8 +3,8 @@ import {load} from 'js-yaml';
 import {PageContent} from '@gravity-ui/page-constructor';
 
 import {getPageConstructorContent} from '../renderer/factory';
-import {ENV_FLAG_NAME} from '../common/constants';
-import {Runtime, TransformOptions} from '../common/types';
+import {ENV_FLAG_NAME} from '../constants';
+import {Runtime, TransformOptions} from '../types';
 
 import {hidden} from './utils';
 import {pageConstructorDirective} from './directive';
