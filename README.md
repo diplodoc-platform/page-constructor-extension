@@ -43,6 +43,18 @@ import '@diplodoc/page-constructor-extension/runtime/style';
 // Or include it in your HTML
 <script src='_assets/page-constructor.js'></script>
 <link rel='stylesheet' href='_assets/page-constructor.css' />
+
+// Or load it conditionally only when needed
+import {PAGE_CONSTRUCTOR_RUNTIME} from '@diplodoc/page-constructor-extension/plugin';
+
+// Check if page constructor is used in the content
+if (result.meta?.script?.includes(PAGE_CONSTRUCTOR_RUNTIME)) {
+  // Load runtime asynchronously
+  Promise.all([
+    import('@diplodoc/page-constructor-extension/runtime'),
+    import('@diplodoc/page-constructor-extension/runtime/style')
+  ]);
+}
 ```
 
 ## Syntax
@@ -138,7 +150,7 @@ This allows you to use a single runtime that intelligently determines the approp
 
 ## Initialization Methods
 
-There are two ways to initialize the Page Constructor runtime:
+There are three ways to initialize the Page Constructor runtime:
 
 #### 1. React Component
 
@@ -172,6 +184,50 @@ Best for:
 ```js
 // Import the runtime - it will automatically detect the rendering type
 import '@diplodoc/page-constructor-extension/runtime';
+```
+
+#### 3. Conditional Runtime Loading
+
+Best for:
+
+- Performance optimization
+- When you want to load the runtime only if it's needed
+- Large applications where page constructor might not be used on every page
+
+```jsx
+import {useState, useEffect} from 'react';
+import {
+  transform as pageConstructorPlugin,
+  PAGE_CONSTRUCTOR_RUNTIME
+} from '@diplodoc/page-constructor-extension/plugin';
+import {PageConstructorRuntime} from '@diplodoc/page-constructor-extension/react';
+
+function App() {
+  const {result} = transform(content, {
+    plugins: [pageConstructorPlugin()]
+  });
+  const [runtimeLoaded, setRuntimeLoaded] = useState(false);
+
+  // Asynchronously load runtime only if needed
+  useEffect(() => {
+    if (result.meta?.script?.includes(PAGE_CONSTRUCTOR_RUNTIME)) {
+      // Load runtime asynchronously
+      Promise.all([
+        import('@diplodoc/page-constructor-extension/runtime'),
+        import('@diplodoc/page-constructor-extension/runtime/style')
+      ]).then(() => {
+        setRuntimeLoaded(true);
+      });
+    }
+  }, [result.meta?.script]);
+
+  return (
+    <>
+      <div dangerouslySetInnerHTML={{__html: result.html}} />
+      {runtimeLoaded && <PageConstructorRuntime />}
+    </>
+  );
+}
 ```
 
 ## React hooks
