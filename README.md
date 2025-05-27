@@ -198,13 +198,13 @@ Best for:
 import {useState, useEffect} from 'react';
 import {
   transform as pageConstructorPlugin,
-  PAGE_CONSTRUCTOR_RUNTIME
+  PAGE_CONSTRUCTOR_RUNTIME,
 } from '@diplodoc/page-constructor-extension/plugin';
 import {PageConstructorRuntime} from '@diplodoc/page-constructor-extension/react';
 
 function App() {
   const {result} = transform(content, {
-    plugins: [pageConstructorPlugin()]
+    plugins: [pageConstructorPlugin()],
   });
   const [runtimeLoaded, setRuntimeLoaded] = useState(false);
 
@@ -214,7 +214,7 @@ function App() {
       // Load runtime asynchronously
       Promise.all([
         import('@diplodoc/page-constructor-extension/runtime'),
-        import('@diplodoc/page-constructor-extension/runtime/style')
+        import('@diplodoc/page-constructor-extension/runtime/style'),
       ]).then(() => {
         setRuntimeLoaded(true);
       });
