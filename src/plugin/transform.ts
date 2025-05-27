@@ -3,26 +3,13 @@ import {load} from 'js-yaml';
 import {PageContent} from '@gravity-ui/page-constructor';
 
 import {getPageConstructorContent} from '../renderer/factory';
+import {ENV_FLAG_NAME} from '../common/constants';
+import {Runtime, TransformOptions} from '../common/types';
 
 import {hidden} from './utils';
-import {ENV_FLAG_NAME} from './const';
 import {pageConstructorDirective} from './directive';
 import {preTransformYfmBlocks} from './content-processing/pretransform';
 import {modifyPageConstructorLinks} from './content-processing/link-resolver';
-import {Runtime} from './types';
-
-export type TransformOptions = {
-    runtime?:
-        | string
-        | {
-              script: string;
-              style: string;
-          };
-    bundle?: boolean;
-    assetLinkResolver?: (link: string) => string;
-    contentLinkResolver?: (link: string, currentPath?: string) => string;
-    onBundle?: (env: {bundled: Set<string>}, output: string, runtime: Runtime) => void;
-};
 
 type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
     runtime: Runtime;

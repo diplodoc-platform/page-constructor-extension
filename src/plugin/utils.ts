@@ -12,8 +12,3 @@ export function hidden<B extends Record<string | symbol, unknown>, F extends str
 
     return box as B & {[P in F]: V};
 }
-
-export type Runtime = {
-    script: string;
-    style: string;
-};
