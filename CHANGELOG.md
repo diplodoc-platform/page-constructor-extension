@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.3.0...v0.3.1) (2025-05-29)
+
+
+### Bug Fixes
+
+* move transform to peer ([#11](https://github.com/diplodoc-platform/page-constructor-extension/issues/11)) ([9116672](https://github.com/diplodoc-platform/page-constructor-extension/commit/911667244997faeb705d8530641d04adf908a796))
+
 ## [0.3.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.2.1...v0.3.0) (2025-05-27)
 
 
