@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.3.1...v0.4.0) (2025-05-29)
+
+
+### Features
+
+* add separate plugin and vendor styles ([d777766](https://github.com/diplodoc-platform/page-constructor-extension/commit/d777766343f4f2eb5741de3769d4bbc956d45f90))
+
 ## [0.3.1](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.3.0...v0.3.1) (2025-05-29)
 
 
