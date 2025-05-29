@@ -87,13 +87,6 @@ const runtimeBundle = {
     ],
 };
 
-const runtimeStyleBundle = {
-    ...common,
-    entryPoints: ['src/runtime/index.scss'],
-    outfile: 'build/runtime/plugin.css',
-    plugins: [sassPlugin()],
-};
-
 // Build React components
 const reactBundle = {
     ...common,
@@ -104,11 +97,18 @@ const reactBundle = {
     external: ['react', 'react-dom', 'react-dom/client', '@gravity-ui/page-constructor'],
 };
 
+const styleBundle = {
+    minify: true,
+    entryPoints: ['src/styles/index.scss'],
+    outfile: 'build/index.css',
+    plugins: [sassPlugin()],
+};
+
 build(nodePlugin);
 build(browserPlugin);
 build(runtimeBundle);
-build(runtimeStyleBundle);
 build(reactBundle);
+build(styleBundle);
 
 function build(config) {
     return esbuild(config)
