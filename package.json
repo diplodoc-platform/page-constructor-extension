@@ -21,8 +21,9 @@
       "node": "./build/plugin/index-node.js",
       "default": "./build/plugin/index.js"
     },
-    "./style": "./build/runtime/index.css",
-    "./style/plugin": "./build//runtime/plugin.css",
+    "./styles": "./build/index.css",
+    "./runtime/styles": "./build/index.css",
+    "./styles/plugin": "./build/runtime/plugin.css",
     "./runtime": {
       "types": "./build/runtime/index.d.ts",
       "default": "./build/runtime/index.js"
