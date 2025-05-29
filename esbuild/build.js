@@ -87,6 +87,13 @@ const runtimeBundle = {
     ],
 };
 
+const runtimeStyleBundle = {
+    ...common,
+    entryPoints: ['src/runtime/index.scss'],
+    outfile: 'build/runtime/plugin.css',
+    plugins: [sassPlugin()],
+};
+
 // Build React components
 const reactBundle = {
     ...common,
@@ -100,6 +107,7 @@ const reactBundle = {
 build(nodePlugin);
 build(browserPlugin);
 build(runtimeBundle);
+build(runtimeStyleBundle);
 build(reactBundle);
 
 function build(config) {
