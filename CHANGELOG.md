@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.4.0...v0.5.0) (2025-05-29)
+
+
+### Features
+
+* reorganization of style export ([#14](https://github.com/diplodoc-platform/page-constructor-extension/issues/14)) ([f52f197](https://github.com/diplodoc-platform/page-constructor-extension/commit/f52f19780721fb329371f947fa0c47bce87861b8))
+
 ## [0.4.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.3.1...v0.4.0) (2025-05-29)
 
 
