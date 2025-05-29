@@ -69,13 +69,13 @@
     "build"
   ],
   "peerDependencies": {
+    "@diplodoc/transform": "^4.57.7",
     "markdown-it": "^13.0.0",
     "react": "^16.8.0  || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0  || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "@diplodoc/lint": "^1.1.3",
-    "@diplodoc/transform": "^4.7.2",
     "@diplodoc/tsconfig": "^1.0.2",
     "@hyrious/esbuild-plugin-commonjs": "^0.2.5",
     "@types/js-yaml": "^4.0.9",
