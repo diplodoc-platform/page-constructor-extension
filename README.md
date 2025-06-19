@@ -38,7 +38,7 @@ Don't forget to add the runtime to make page constructor interactive:
 ```js
 // Import the runtime in your application
 import '@diplodoc/page-constructor-extension/runtime';
-import '@diplodoc/page-constructor-extension/runtime/style';
+import '@diplodoc/page-constructor-extension/runtime/styles';
 
 // Or include it in your HTML
 <script src='_assets/page-constructor.js'></script>
@@ -52,7 +52,7 @@ if (result.meta?.script?.includes(PAGE_CONSTRUCTOR_RUNTIME)) {
   // Load runtime asynchronously
   Promise.all([
     import('@diplodoc/page-constructor-extension/runtime'),
-    import('@diplodoc/page-constructor-extension/runtime/style')
+    import('@diplodoc/page-constructor-extension/runtime/styles')
   ]);
 }
 ```
@@ -214,7 +214,7 @@ function App() {
       // Load runtime asynchronously
       Promise.all([
         import('@diplodoc/page-constructor-extension/runtime'),
-        import('@diplodoc/page-constructor-extension/runtime/style'),
+        import('@diplodoc/page-constructor-extension/runtime/styles'),
       ]).then(() => {
         setRuntimeLoaded(true);
       });
