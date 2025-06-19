@@ -2,7 +2,11 @@ import {PageContent} from '@gravity-ui/page-constructor';
 
 import {ClassNames} from '../constants';
 
-export function createPageConstructorContent(content: PageContent): string {
+export function createPageConstructorContent(
+    content: PageContent,
+    _hydrationContent?: PageContent,
+    _projectSettings?: {disableCompress?: boolean},
+): string {
     try {
         const encodedContent = encodeURIComponent(JSON.stringify(content));
 

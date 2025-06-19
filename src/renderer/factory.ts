@@ -1,8 +1,11 @@
 import {PageContent} from '@gravity-ui/page-constructor';
 
+import {ProjectSettings} from '../types';
+
 export type CreatePageConstructorContentFn = (
     content: PageContent,
     hydrationContent?: PageContent,
+    projectSettings?: ProjectSettings,
 ) => string;
 
 let currentImplementation: CreatePageConstructorContentFn | null = null;
@@ -16,6 +19,7 @@ export function setPageConstructorImplementation(
 export function getPageConstructorContent(
     content: PageContent,
     hydrationContent?: PageContent,
+    projectSettings?: ProjectSettings,
 ): string {
     if (!currentImplementation) {
         throw new Error(
@@ -23,5 +27,5 @@ export function getPageConstructorContent(
         );
     }
 
-    return currentImplementation(content, hydrationContent);
+    return currentImplementation(content, hydrationContent, projectSettings);
 }

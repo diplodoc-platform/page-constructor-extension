@@ -5,9 +5,13 @@ import {ClassNames} from '../constants';
 
 import {createPageConstructorElement} from './page-constructor-element';
 
-export function createPageConstructorContent(content: PageContent): string {
+export function createPageConstructorContent(
+    content: PageContent,
+    _hydrationContent?: PageContent,
+    projectSettings?: {disableCompress?: boolean},
+): string {
     try {
-        const html = renderToString(createPageConstructorElement(content, true));
+        const html = renderToString(createPageConstructorElement(content, true, projectSettings));
 
         const encodedContent = encodeURIComponent(JSON.stringify(content));
 

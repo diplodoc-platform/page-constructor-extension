@@ -110,7 +110,11 @@ export function transform(options: Partial<TransformOptions> = {}) {
 
             const transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;
 
-            return getPageConstructorContent(transformedContent);
+            return getPageConstructorContent(
+                transformedContent,
+                undefined,
+                options.projectSettings,
+            );
         };
     };
 

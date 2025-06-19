@@ -3,6 +3,10 @@ export type Runtime = {
     style: string;
 };
 
+export type ProjectSettings = {
+    disableCompress?: boolean;
+};
+
 export type TransformOptions = {
     runtime?:
         | string
@@ -14,6 +18,7 @@ export type TransformOptions = {
     assetLinkResolver?: (link: string) => string;
     contentLinkResolver?: (link: string, currentPath?: string) => string;
     onBundle?: (env: {bundled: Set<string>}, output: string, runtime: Runtime) => void;
+    projectSettings?: ProjectSettings;
 };
 
 export type PageConstructorControllerType = {
