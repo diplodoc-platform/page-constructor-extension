@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.5.0...v0.6.0) (2025-06-19)
+
+
+### Features
+
+* allow set projectSettings for PageConstructorProvider ([dc6d8b9](https://github.com/diplodoc-platform/page-constructor-extension/commit/dc6d8b9ea0ebb82d0e5115ed45581433fcfb04b9))
+
 ## [0.5.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.4.0...v0.5.0) (2025-05-29)
 
 
