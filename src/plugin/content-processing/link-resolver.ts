@@ -1,6 +1,7 @@
 import {every, isArray, isString} from 'lodash';
 import {isLocalUrl} from '@diplodoc/transform/lib/utils';
 import {PageContent} from '@gravity-ui/page-constructor';
+import {join, parse, resolve} from 'path';
 
 import {defaultTransformLink} from './default-link-resolver';
 
@@ -66,7 +67,7 @@ function hasFileExtension(link: string, pattern: RegExp): boolean {
 
 interface ModifyLinksOptions {
     data: PageContent | unknown;
-    getAssetLink?: (link: string) => string;
+    getAssetLink?: (link: string, currentPath?: string) => string;
     getContentLink?: (link: string, currentPath?: string) => string;
     currentPath?: string;
 }
@@ -108,4 +109,79 @@ function modifyPageConstructorLinks({
     );
 }
 
-export {modifyPageConstructorLinks};
+const CWD = process.cwd() + '/';
+
+function resolveRelativePath(fromPath: string, relativePath: string): string {
+    const {dir: fromDir} = parse(fromPath);
+
+    const result = resolve(fromDir, relativePath);
+
+    if (!result.startsWith(CWD)) {
+        return relativePath;
+    }
+
+    return result.replace(CWD, '');
+}
+
+function getAssetApiPath({
+    currentPath,
+    src,
+    prefix,
+}: {
+    currentPath: string;
+    src: string;
+    prefix: string;
+}): string {
+    const path = resolveRelativePath(currentPath, src);
+
+    const publicSrc = join(prefix, path);
+
+    //if the path has ".." it means it is outside the content folder, so we don't process it
+    return path.includes('..') ? src : publicSrc;
+}
+
+function pathNormalize(path: string): string {
+    return path
+        .replace(/\.(md|ya?ml|html)(?=[?#]|$)/i, '') // Remove extension if followed by #, ?, or end of line
+        .replace(/\/index(?=[?#]|$)/, '/') // ./index.md?x=y => ./?x=y; ./index.md#hash => ./#hash; ./index => ./;
+        .replace(/^index(?=[?#]|$)/, './'); // index.md => ./; index => ./
+}
+
+function canonicalLink(link: string): string {
+    return (
+        pathNormalize(link)
+            .replace(/^\.\/$/, '/')
+            .replace(/^\/+/, '') || '/'
+    );
+}
+
+function isExternalHref(href: string): boolean {
+    return href.startsWith('http') || href.startsWith('//');
+}
+
+function normalizeRelativeLinksToBase({
+    item,
+    lang,
+    filePath,
+}: {
+    item: string;
+    lang: string;
+    filePath: string;
+}): string {
+    if (item && !isExternalHref(item)) {
+        const relativePath = resolveRelativePath(filePath, item);
+        return relativePath.includes('../') ? item : canonicalLink(join(lang, relativePath));
+    }
+
+    return item;
+}
+
+export {
+    modifyPageConstructorLinks,
+    resolveRelativePath,
+    getAssetApiPath,
+    pathNormalize,
+    canonicalLink,
+    isExternalHref,
+    normalizeRelativeLinksToBase,
+};
