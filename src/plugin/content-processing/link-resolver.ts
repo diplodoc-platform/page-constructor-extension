@@ -1,7 +1,9 @@
 import {every, isArray, isString} from 'lodash';
+import {join, parse, relative, resolve} from 'path';
+import url from 'url';
 import {isLocalUrl} from '@diplodoc/transform/lib/utils';
+import {resolveRelativePath} from '@diplodoc/transform/lib/utilsFS';
 import {PageContent} from '@gravity-ui/page-constructor';
-import {join, parse, resolve} from 'path';
 
 import {defaultTransformLink} from './default-link-resolver';
 
@@ -67,19 +69,21 @@ function hasFileExtension(link: string, pattern: RegExp): boolean {
 
 interface ModifyLinksOptions {
     data: PageContent | unknown;
-    getAssetLink?: (link: string, currentPath?: string) => string;
-    getContentLink?: (link: string, currentPath?: string) => string;
-    currentPath?: string;
+    getAssetLink?: (link: string, path?: string) => string;
+    getContentLink?: (link: string, path?: string) => string;
+    path: string;
+    assetsPublicPath?: string;
+    transformLink?: (link: string) => string;
 }
 
 function modifyPageConstructorLinks({
     data,
     getAssetLink,
     getContentLink,
-    currentPath,
+    path,
+    assetsPublicPath,
+    transformLink,
 }: ModifyLinksOptions): PageContent | unknown {
-    const useDefaultTransform = !getAssetLink && !getContentLink;
-
     return modifyValuesByKeys(
         data,
         LINK_KEYS_PAGE_CONSTRUCTOR_CONFIG,
@@ -89,19 +93,31 @@ function modifyPageConstructorLinks({
                     return item;
                 }
 
-                if (!useDefaultTransform) {
-                    if (getAssetLink && hasFileExtension(item, FILE_PATTERNS.MEDIA)) {
-                        return getAssetLink(item);
-                    }
+                if (hasFileExtension(item, FILE_PATTERNS.MEDIA)) {
+                    if (getAssetLink) return getAssetLink(item, path);
 
-                    if (getContentLink && hasFileExtension(item, FILE_PATTERNS.CONTENT)) {
-                        return getContentLink(item, currentPath);
-                    }
+                    if (assetsPublicPath) {
+                        const relativePath = resolveRelativePath(path, item);
+                        const relativeToRoot = relative(process.cwd(), relativePath);
+                        const publicSrc = join('/', assetsPublicPath, relativeToRoot);
 
-                    return item;
+                        return publicSrc;
+                    }
                 }
 
-                return defaultTransformLink(item, currentPath);
+                if (hasFileExtension(item, FILE_PATTERNS.CONTENT)) {
+                    if (getContentLink) return getContentLink(item, path);
+
+                    if (transformLink) {
+                        const {pathname} = url.parse(item);
+                        const file = resolve(parse(path).dir, pathname || '');
+                        const relativePath = relative(process.cwd(), file);
+
+                        return transformLink(relativePath);
+                    }
+                }
+
+                return defaultTransformLink(item, path);
             };
 
             return isArray(link) ? link.map(validateLink) : validateLink(link);
@@ -109,79 +125,4 @@ function modifyPageConstructorLinks({
     );
 }
 
-const CWD = process.cwd() + '/';
-
-function resolveRelativePath(fromPath: string, relativePath: string): string {
-    const {dir: fromDir} = parse(fromPath);
-
-    const result = resolve(fromDir, relativePath);
-
-    if (!result.startsWith(CWD)) {
-        return relativePath;
-    }
-
-    return result.replace(CWD, '');
-}
-
-function getAssetApiPath({
-    currentPath,
-    src,
-    prefix,
-}: {
-    currentPath: string;
-    src: string;
-    prefix: string;
-}): string {
-    const path = resolveRelativePath(currentPath, src);
-
-    const publicSrc = join(prefix, path);
-
-    //if the path has ".." it means it is outside the content folder, so we don't process it
-    return path.includes('..') ? src : publicSrc;
-}
-
-function pathNormalize(path: string): string {
-    return path
-        .replace(/\.(md|ya?ml|html)(?=[?#]|$)/i, '') // Remove extension if followed by #, ?, or end of line
-        .replace(/\/index(?=[?#]|$)/, '/') // ./index.md?x=y => ./?x=y; ./index.md#hash => ./#hash; ./index => ./;
-        .replace(/^index(?=[?#]|$)/, './'); // index.md => ./; index => ./
-}
-
-function canonicalLink(link: string): string {
-    return (
-        pathNormalize(link)
-            .replace(/^\.\/$/, '/')
-            .replace(/^\/+/, '') || '/'
-    );
-}
-
-function isExternalHref(href: string): boolean {
-    return href.startsWith('http') || href.startsWith('//');
-}
-
-function normalizeRelativeLinksToBase({
-    item,
-    lang,
-    filePath,
-}: {
-    item: string;
-    lang: string;
-    filePath: string;
-}): string {
-    if (item && !isExternalHref(item)) {
-        const relativePath = resolveRelativePath(filePath, item);
-        return relativePath.includes('../') ? item : canonicalLink(join(lang, relativePath));
-    }
-
-    return item;
-}
-
-export {
-    modifyPageConstructorLinks,
-    resolveRelativePath,
-    getAssetApiPath,
-    pathNormalize,
-    canonicalLink,
-    isExternalHref,
-    normalizeRelativeLinksToBase,
-};
+export {modifyPageConstructorLinks, resolveRelativePath};

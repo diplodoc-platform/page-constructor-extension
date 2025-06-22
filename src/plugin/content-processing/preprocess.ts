@@ -37,8 +37,8 @@ export interface PreloadParams {
     lang: `${Lang}` | Lang;
     pageName?: string;
     pageReferer?: string;
-    assetLinkResolver?: (link: string) => string;
-    contentLinkResolver?: (link: string) => string;
+    assetLinkResolver?: (link: string, path?: string) => string;
+    contentLinkResolver?: (link: string, path?: string) => string;
 }
 
 interface BlockConfig {
