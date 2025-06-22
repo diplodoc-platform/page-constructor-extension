@@ -13,8 +13,8 @@ import {modifyPageConstructorLinks} from './content-processing/link-resolver';
 
 type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
     runtime: Runtime;
-    assetLinkResolver?: (link: string) => string;
-    contentLinkResolver?: (link: string, currentPath?: string) => string;
+    assetLinkResolver?: (link: string, path?: string) => string;
+    contentLinkResolver?: (link: string, path?: string) => string;
 };
 
 const registerTransforms = (
@@ -72,11 +72,13 @@ export function transform(options: Partial<TransformOptions> = {}) {
                   script: PAGE_CONSTRUCTOR_RUNTIME,
                   style: PAGE_CONSTRUCTOR_STYLE,
               };
-    const plugin: MarkdownIt.PluginWithOptions<{output?: string; path?: string}> = function (
-        md: MarkdownIt,
-        pluginOptions = {},
-    ) {
-        const {output = '.', path = ''} = pluginOptions;
+    const plugin: MarkdownIt.PluginWithOptions<{
+        output?: string;
+        path?: string;
+        transformLink?: (href: string) => string;
+        assetsPublicPath?: string;
+    }> = function (md: MarkdownIt, pluginOptions = {}) {
+        const {output = '.', path = '', assetsPublicPath, transformLink} = pluginOptions;
 
         registerTransforms(md, {
             runtime,
@@ -99,13 +101,13 @@ export function transform(options: Partial<TransformOptions> = {}) {
                 );
             }
 
-            let content = yamlContent;
-
-            content = modifyPageConstructorLinks({
-                data: content,
+            const content = modifyPageConstructorLinks({
+                data: yamlContent,
                 getAssetLink: assetLinkResolver,
                 getContentLink: contentLinkResolver,
-                currentPath: path,
+                path,
+                assetsPublicPath,
+                transformLink,
             }) as PageContent;
 
             const transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;

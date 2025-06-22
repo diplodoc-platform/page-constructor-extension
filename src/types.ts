@@ -15,8 +15,8 @@ export type TransformOptions = {
               style: string;
           };
     bundle?: boolean;
-    assetLinkResolver?: (link: string) => string;
-    contentLinkResolver?: (link: string, currentPath?: string) => string;
+    assetLinkResolver?: (link: string, path?: string) => string;
+    contentLinkResolver?: (link: string, path?: string) => string;
     onBundle?: (env: {bundled: Set<string>}, output: string, runtime: Runtime) => void;
     projectSettings?: ProjectSettings;
 };
