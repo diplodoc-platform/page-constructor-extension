@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.7.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.6.0...v0.7.0) (2025-06-22)
+
+
+### Features
+
+* add asset & content link resolvers ([3e9e7fa](https://github.com/diplodoc-platform/page-constructor-extension/commit/3e9e7fa559ad28c52febe3bfaadf149dab571d33))
+* use default transform asset&content link resolvers ([7980b97](https://github.com/diplodoc-platform/page-constructor-extension/commit/7980b97b833ade727bfcab836533ff0ce510569e))
+
+
+### Bug Fixes
+
+* delete extra content link resolver ([8394995](https://github.com/diplodoc-platform/page-constructor-extension/commit/8394995dd342b97c4a084728b513401a6ece05ae))
+
 ## [0.6.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.5.0...v0.6.0) (2025-06-19)
 
 
