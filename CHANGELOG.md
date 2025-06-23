@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.7.0...v0.7.1) (2025-06-23)
+
+
+### Bug Fixes
+
+* do not import styles in runtime ([079e40a](https://github.com/diplodoc-platform/page-constructor-extension/commit/079e40a42297b6808d20debb9d3fd00f48781acb))
+
 ## [0.7.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.6.0...v0.7.0) (2025-06-22)
 
 
