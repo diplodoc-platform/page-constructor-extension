@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.2](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.7.1...v0.7.2) (2025-06-24)
+
+
+### Bug Fixes
+
+* pass assetsPublicPath into custom asset link resolver ([1dcecd7](https://github.com/diplodoc-platform/page-constructor-extension/commit/1dcecd7ca8aac1a0d6739d947d514babc7db6cae))
+* pass root arg into custom link resolvers ([4fab867](https://github.com/diplodoc-platform/page-constructor-extension/commit/4fab867805391dec6529b9d186a7c28ca6de2da4))
+
 ## [0.7.1](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.7.0...v0.7.1) (2025-06-23)
 
 
