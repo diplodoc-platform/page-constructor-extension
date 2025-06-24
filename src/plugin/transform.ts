@@ -13,8 +13,8 @@ import {modifyPageConstructorLinks} from './content-processing/link-resolver';
 
 type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
     runtime: Runtime;
-    assetLinkResolver?: (link: string, path?: string) => string;
-    contentLinkResolver?: (link: string, path?: string) => string;
+    assetLinkResolver?: (link: string, path?: string, root?: string) => string;
+    contentLinkResolver?: (link: string, path?: string, root?: string) => string;
 };
 
 const registerTransforms = (
@@ -75,10 +75,11 @@ export function transform(options: Partial<TransformOptions> = {}) {
     const plugin: MarkdownIt.PluginWithOptions<{
         output?: string;
         path?: string;
+        root?: string;
         transformLink?: (href: string) => string;
         assetsPublicPath?: string;
     }> = function (md: MarkdownIt, pluginOptions = {}) {
-        const {output = '.', path = '', assetsPublicPath, transformLink} = pluginOptions;
+        const {output = '.', path = '', root, assetsPublicPath, transformLink} = pluginOptions;
 
         registerTransforms(md, {
             runtime,
@@ -106,6 +107,7 @@ export function transform(options: Partial<TransformOptions> = {}) {
                 getAssetLink: assetLinkResolver,
                 getContentLink: contentLinkResolver,
                 path,
+                root,
                 assetsPublicPath,
                 transformLink,
             }) as PageContent;

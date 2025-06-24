@@ -69,9 +69,10 @@ function hasFileExtension(link: string, pattern: RegExp): boolean {
 
 interface ModifyLinksOptions {
     data: PageContent | unknown;
-    getAssetLink?: (link: string, path?: string) => string;
-    getContentLink?: (link: string, path?: string) => string;
+    getAssetLink?: (link: string, path?: string, root?: string) => string;
+    getContentLink?: (link: string, path?: string, root?: string) => string;
     path: string;
+    root?: string;
     assetsPublicPath?: string;
     transformLink?: (link: string) => string;
 }
@@ -81,6 +82,7 @@ function modifyPageConstructorLinks({
     getAssetLink,
     getContentLink,
     path,
+    root,
     assetsPublicPath,
     transformLink,
 }: ModifyLinksOptions): PageContent | unknown {
@@ -94,7 +96,7 @@ function modifyPageConstructorLinks({
                 }
 
                 if (hasFileExtension(item, FILE_PATTERNS.MEDIA)) {
-                    if (getAssetLink) return getAssetLink(item, path);
+                    if (getAssetLink) return getAssetLink(item, path, root);
 
                     if (assetsPublicPath) {
                         const relativePath = resolveRelativePath(path, item);
@@ -106,7 +108,7 @@ function modifyPageConstructorLinks({
                 }
 
                 if (hasFileExtension(item, FILE_PATTERNS.CONTENT)) {
-                    if (getContentLink) return getContentLink(item, path);
+                    if (getContentLink) return getContentLink(item, path, root);
 
                     if (transformLink) {
                         const {pathname} = url.parse(item);
