@@ -1,6 +1,6 @@
 {
   "name": "@diplodoc/page-constructor-extension",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Page constructor plugin for Diplodoc transformer and builder",
   "main": "build/plugin/index.js",
   "types": "build/plugin/index.d.ts",
