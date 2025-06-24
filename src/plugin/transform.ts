@@ -13,7 +13,12 @@ import {modifyPageConstructorLinks} from './content-processing/link-resolver';
 
 type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
     runtime: Runtime;
-    assetLinkResolver?: (link: string, path?: string, root?: string) => string;
+    assetLinkResolver?: (
+        link: string,
+        path?: string,
+        root?: string,
+        assetsPublicPath?: string,
+    ) => string;
     contentLinkResolver?: (link: string, path?: string, root?: string) => string;
 };
 

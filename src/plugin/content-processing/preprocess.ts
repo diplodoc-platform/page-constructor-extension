@@ -37,7 +37,12 @@ export interface PreloadParams {
     lang: `${Lang}` | Lang;
     pageName?: string;
     pageReferer?: string;
-    assetLinkResolver?: (link: string, path?: string, root?: string) => string;
+    assetLinkResolver?: (
+        link: string,
+        path?: string,
+        root?: string,
+        assetsPublicPath?: string,
+    ) => string;
     contentLinkResolver?: (link: string, path?: string, root?: string) => string;
 }
 

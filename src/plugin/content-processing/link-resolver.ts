@@ -69,7 +69,12 @@ function hasFileExtension(link: string, pattern: RegExp): boolean {
 
 interface ModifyLinksOptions {
     data: PageContent | unknown;
-    getAssetLink?: (link: string, path?: string, root?: string) => string;
+    getAssetLink?: (
+        link: string,
+        path?: string,
+        root?: string,
+        assetsPublicPath?: string,
+    ) => string;
     getContentLink?: (link: string, path?: string, root?: string) => string;
     path: string;
     root?: string;
@@ -96,7 +101,7 @@ function modifyPageConstructorLinks({
                 }
 
                 if (hasFileExtension(item, FILE_PATTERNS.MEDIA)) {
-                    if (getAssetLink) return getAssetLink(item, path, root);
+                    if (getAssetLink) return getAssetLink(item, path, root, assetsPublicPath);
 
                     if (assetsPublicPath) {
                         const relativePath = resolveRelativePath(path, item);
