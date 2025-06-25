@@ -9,9 +9,12 @@ export function createPageConstructorContent(
     content: PageContent,
     _hydrationContent?: PageContent,
     projectSettings?: {disableCompress?: boolean},
+    theme?: string,
 ): string {
     try {
-        const html = renderToString(createPageConstructorElement(content, true, projectSettings));
+        const html = renderToString(
+            createPageConstructorElement(content, true, projectSettings, theme),
+        );
 
         const encodedContent = encodeURIComponent(JSON.stringify(content));
 

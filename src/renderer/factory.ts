@@ -6,6 +6,7 @@ export type CreatePageConstructorContentFn = (
     content: PageContent,
     hydrationContent?: PageContent,
     projectSettings?: ProjectSettings,
+    theme?: string,
 ) => string;
 
 let currentImplementation: CreatePageConstructorContentFn | null = null;
@@ -20,6 +21,7 @@ export function getPageConstructorContent(
     content: PageContent,
     hydrationContent?: PageContent,
     projectSettings?: ProjectSettings,
+    theme?: string,
 ): string {
     if (!currentImplementation) {
         throw new Error(
@@ -27,5 +29,5 @@ export function getPageConstructorContent(
         );
     }
 
-    return currentImplementation(content, hydrationContent, projectSettings);
+    return currentImplementation(content, hydrationContent, projectSettings, theme);
 }

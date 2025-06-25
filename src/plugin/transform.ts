@@ -83,8 +83,16 @@ export function transform(options: Partial<TransformOptions> = {}) {
         root?: string;
         transformLink?: (href: string) => string;
         assetsPublicPath?: string;
+        theme?: string;
     }> = function (md: MarkdownIt, pluginOptions = {}) {
-        const {output = '.', path = '', root, assetsPublicPath, transformLink} = pluginOptions;
+        const {
+            output = '.',
+            path = '',
+            root,
+            assetsPublicPath,
+            transformLink,
+            theme,
+        } = pluginOptions;
 
         registerTransforms(md, {
             runtime,
@@ -123,6 +131,7 @@ export function transform(options: Partial<TransformOptions> = {}) {
                 transformedContent,
                 undefined,
                 options.projectSettings,
+                theme,
             );
         };
     };

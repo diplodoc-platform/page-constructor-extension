@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from 'react';
 import {ControllerLoadedCallback, getScriptStore} from '@diplodoc/utils';
 
 import {PAGE_CONSTRUCTOR_STORE_SYMBOL} from '../constants';
-import {PageConstructorControllerType} from '../types';
+import {PageConstructorControllerType, PreMountHook} from '../types';
 
 //TODO: use useController from @diplodoc/utils
 function useController<T>(storeSymbol: symbol): T | null {
@@ -32,20 +32,32 @@ export function usePageConstructorController() {
     return useController<PageConstructorControllerType>(PAGE_CONSTRUCTOR_STORE_SYMBOL);
 }
 
-export function usePageConstructor() {
+export function usePageConstructor({
+    theme,
+    preMountHook,
+}: {
+    theme?: string;
+    preMountHook?: PreMountHook;
+}) {
     const controller = usePageConstructorController();
 
     return useCallback(() => {
-        controller?.render();
-    }, [controller]);
+        controller?.render(theme, preMountHook);
+    }, [controller, theme, preMountHook]);
 }
 
-export function PageConstructorRuntime() {
+export function PageConstructorRuntime({
+    theme,
+    preMountHook,
+}: {
+    theme?: string;
+    preMountHook?: PreMountHook;
+}) {
     const controller = usePageConstructorController();
 
     useEffect(() => {
-        controller?.render();
-    }, [controller]);
+        controller?.render(theme, preMountHook);
+    }, [controller, theme, preMountHook]);
 
     return null;
 }

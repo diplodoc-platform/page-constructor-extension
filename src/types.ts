@@ -26,6 +26,13 @@ export type TransformOptions = {
     projectSettings?: ProjectSettings;
 };
 
+export type PreMountHook = (element: HTMLElement) => void | Promise<void>;
+
 export type PageConstructorControllerType = {
-    render: () => void;
+    render: (theme?: string, preMountHook?: PreMountHook) => void;
 };
+
+export interface PageConstructorRuntimeProps {
+    theme?: string;
+    preMountHook?: PreMountHook;
+}

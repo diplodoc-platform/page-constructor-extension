@@ -1,13 +1,13 @@
+import type {PreMountHook} from '../types';
+
 import {createRoot, hydrateRoot} from 'react-dom/client';
 import {createLoadQueue, getScriptStore} from '@diplodoc/utils';
 
 import {createPageConstructorElement} from '../renderer/page-constructor-element';
 import {ClassNames, PAGE_CONSTRUCTOR_STORE_SYMBOL, SINGLE_QUEUE_SYMBOL} from '../constants';
 
-export type PageConstructorCallback = () => void | Promise<void>;
-
 class PageConstructorController {
-    renderContainer(container: Element): void {
+    renderContainer(container: HTMLElement, theme?: string, preMountHook?: PreMountHook): void {
         try {
             const isHydrated = container.getAttribute('data-hydrated') === 'true';
             const isRendered = container.getAttribute('data-rendered') === 'true';
@@ -19,13 +19,23 @@ class PageConstructorController {
 
             const decodedContent = decodeURIComponent(encodedContent);
             const contentData = JSON.parse(decodedContent);
+            const element = createPageConstructorElement(
+                contentData,
+                false,
+                undefined,
+                theme,
+            ) as React.ReactNode;
+
+            if (preMountHook) {
+                preMountHook(container);
+            }
 
             if (!isHydrated && container.innerHTML.trim() !== '') {
-                hydrateRoot(container, createPageConstructorElement(contentData, false));
+                hydrateRoot(container, element);
                 container.setAttribute('data-hydrated', 'true');
             } else if (!isRendered) {
                 const root = createRoot(container);
-                root.render(createPageConstructorElement(contentData, false));
+                root.render(element);
                 container.setAttribute('data-rendered', 'true');
             }
         } catch (error) {
@@ -40,9 +50,11 @@ class PageConstructorController {
         return Array.from(document.querySelectorAll(`.${ClassNames.PageConstructor}`));
     }
 
-    render(): void {
+    render(theme?: string, preMountHook?: PreMountHook): void {
         const containers = this.getContainers();
-        containers.forEach((container) => this.renderContainer(container));
+        containers.forEach((container) =>
+            this.renderContainer(container as HTMLElement, theme, preMountHook),
+        );
     }
 }
 
@@ -53,14 +65,6 @@ if (typeof document !== 'undefined') {
         store,
         createController: () => {
             const controller = new PageConstructorController();
-
-            if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                controller.render();
-            } else {
-                document.addEventListener('DOMContentLoaded', () => {
-                    controller.render();
-                });
-            }
 
             return controller;
         },

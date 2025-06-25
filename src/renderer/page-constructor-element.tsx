@@ -4,6 +4,7 @@ export function createPageConstructorElement(
     content: PageContent,
     isServer?: boolean,
     projectSettings?: {disableCompress?: boolean},
+    theme?: string,
 ) {
     const isServerEnv =
         isServer === undefined
@@ -13,6 +14,7 @@ export function createPageConstructorElement(
         <PageConstructorProvider
             ssrConfig={{isServer: isServerEnv}}
             projectSettings={{disableCompress: true, ...projectSettings}}
+            theme={theme}
         >
             <PageConstructor content={content} />
         </PageConstructorProvider>
