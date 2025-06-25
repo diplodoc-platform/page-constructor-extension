@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.7.2...v0.8.0) (2025-06-25)
+
+
+### Features
+
+* add theme & preMountHook props ([3e21bd4](https://github.com/diplodoc-platform/page-constructor-extension/commit/3e21bd4b2304ee642317d6e4045c7060b9aeeadb))
+
 ## [0.7.2](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.7.1...v0.7.2) (2025-06-24)
 
 
