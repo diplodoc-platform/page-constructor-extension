@@ -186,6 +186,11 @@ Best for:
 import '@diplodoc/page-constructor-extension/runtime';
 ```
 
+**Additional parameters:**
+
+- `theme` (optional) - Sets the theme for Page Constructor components. Available values: `'light' | 'dark'`
+- `preMountHook` (optional) - Callback function that is called before mounting the component. Receives the container element as parameter.
+
 #### 3. Conditional Runtime Loading
 
 Best for:
