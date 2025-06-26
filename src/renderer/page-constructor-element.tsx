@@ -1,4 +1,9 @@
-import {PageConstructor, PageConstructorProvider, PageContent} from '@gravity-ui/page-constructor';
+import {
+    PageConstructor,
+    PageConstructorProvider,
+    PageContent,
+    Theme,
+} from '@gravity-ui/page-constructor';
 
 export function createPageConstructorElement(
     content: PageContent,
@@ -14,7 +19,7 @@ export function createPageConstructorElement(
         <PageConstructorProvider
             ssrConfig={{isServer: isServerEnv}}
             projectSettings={{disableCompress: true, ...projectSettings}}
-            theme={theme}
+            theme={theme as Theme}
         >
             <PageConstructor content={content} />
         </PageConstructorProvider>
