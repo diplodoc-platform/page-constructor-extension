@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.8.1...v0.9.0) (2025-06-27)
+
+
+### Features
+
+* add react 19 peer ([270b5fc](https://github.com/diplodoc-platform/page-constructor-extension/commit/270b5fc15ebdb0458d0b8178415aa130f4d3dd74))
+
 ## [0.8.1](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.8.0...v0.8.1) (2025-06-26)
 
 
