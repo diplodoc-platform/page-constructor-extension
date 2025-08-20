@@ -235,6 +235,17 @@ function App() {
 }
 ```
 
+## Transform styles and runtime
+
+The `@diplodoc/page-constructor-extension` package does not bundle the `@diplodoc/transform` CSS and JS at runtime, so you need to import them manually:
+
+```css
+@import '~@diplodoc/transform/dist/css/yfm.css';
+```
+```js
+import '@diplodoc/transform/dist/js/yfm';
+```
+
 ## React hooks
 
 In addition to the `PageConstructorRuntime` component described in the [Initialization Methods](#initialization-methods) section, the extension provides React hooks for more control over the rendering process:

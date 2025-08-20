@@ -2,9 +2,12 @@ import {readFile, writeFile, copyFile} from 'node:fs/promises';
 import path from 'node:path';
 import transform from '@diplodoc/transform';
 import notes from '@diplodoc/transform/lib/plugins/notes/index.js';
+import term from '@diplodoc/transform/lib/plugins/term/index.js';
 import {transform as pageConstructorPlugin} from '@diplodoc/page-constructor-extension/plugin';
 
 copyFile('../build/runtime/index.js.map', './build/index.js.map')
+copyFile('../node_modules/@diplodoc/transform/dist/css/yfm.css', './build/transform.css')
+copyFile('../node_modules/@diplodoc/transform/dist/js/yfm.js', './build/transform.js')
 
 async function generateHtml() {
     const markdown = await readFile('./README.md', 'utf8');
@@ -23,6 +26,7 @@ async function generateHtml() {
                 },
             ),
             notes,
+            term
         ],
     });
 
@@ -44,12 +48,14 @@ async function generateHtml() {
         <title>Test useRenderPageConstructorBlocks</title>
         ${styleLinks}
         <link rel="stylesheet" href="example.css">
+        <link rel="stylesheet" href="../build/transform.css">
     </head>
     <body>
         <div id="root" class="yfm">${result.html}</div>
-        
+
         <!-- Скрипт для запуска гидратации (автоматически инициализирует рантайм) -->
         ${scriptLinks}
+        <script src="../build/transform.js" type="module"></script>
     </body>
 </html>
     `;

@@ -77,6 +77,7 @@ const browserPlugin = {
 // Build runtime bundle for browser
 const runtimeBundle = {
     ...common,
+    format: 'esm',
     entryPoints: ['src/runtime/index.tsx'],
     outfile: 'build/runtime/index.js',
     plugins: [
@@ -85,6 +86,7 @@ const runtimeBundle = {
             include: ['util'],
         }),
     ],
+    external: ['@diplodoc/transform'],
 };
 
 // Build React components

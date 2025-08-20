@@ -22,7 +22,7 @@ These commands will render the documentation using [@diplodoc/transform](https:/
 
 This example includes:
 
-- **Browser Example**: Shows how to use the Page Constructor extension in a browser environment
+- **Browser Example**: Shows how to use the [Page Constructor](*pc) extension in a browser environment
 
   - `browser/browser.jsx`: Main entry point for the browser example
   - `browser/build.js`: Build script for the browser example
@@ -88,7 +88,7 @@ function App() {
   const {result} = transform(content, {
     plugins: [pageConstructorPlugin()]
   });
-  
+
   const [runtimeLoaded, setRuntimeLoaded] = useState(false);
 
   // Asynchronously load runtime only if needed
@@ -133,7 +133,7 @@ const html = `
     </head>
     <body>
         <div id="root" class="yfm">${result.html}</div>
-        
+
         <!-- Script for automatic rendering detection -->
         ${scriptLinks}
     </body>
@@ -552,3 +552,4 @@ blocks:
 
 You can customize the Page Constructor blocks by modifying the YAML content in the page-constructor directive. See the [Page Constructor documentation](https://github.com/gravity-ui/page-constructor) for more information on available block types and their properties.
 
+[*pc]: [https://github.com/gravity-ui/page-constructor](https://github.com/gravity-ui/page-constructor).

@@ -2,6 +2,8 @@ import {useState, useEffect} from 'react';
 import {createRoot} from 'react-dom/client';
 import transform from '@diplodoc/transform';
 import notes from '@diplodoc/transform/lib/plugins/notes/index.js';
+import term from '@diplodoc/transform/lib/plugins/term/index.js';
+
 import {
     transform as pageConstructorPlugin,
     PAGE_CONSTRUCTOR_RUNTIME,
@@ -9,7 +11,7 @@ import {
 import {PageConstructorRuntime} from '@diplodoc/page-constructor-extension/react';
 
 const transformConfig = {
-    plugins: [pageConstructorPlugin({bundle: false}), notes],
+    plugins: [pageConstructorPlugin({bundle: false}), notes, term],
 };
 
 const Content = ({html}) => <div dangerouslySetInnerHTML={{__html: html}} />;
