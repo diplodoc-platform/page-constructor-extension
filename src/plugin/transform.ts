@@ -1,10 +1,11 @@
+import type {PageContent} from '@gravity-ui/page-constructor';
+import type {Runtime, TransformOptions} from '../types';
+
 import MarkdownIt from 'markdown-it';
 import {load} from 'js-yaml';
-import {PageContent} from '@gravity-ui/page-constructor';
 
 import {getPageConstructorContent} from '../renderer/factory';
 import {ENV_FLAG_NAME, PAGE_CONSTRUCTOR_RUNTIME, PAGE_CONSTRUCTOR_STYLE} from '../constants';
-import {Runtime, TransformOptions} from '../types';
 
 import {hidden} from './utils';
 import {pageConstructorDirective} from './directive';

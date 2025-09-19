@@ -1,5 +1,6 @@
 import url from 'url';
 import path from 'path';
+
 import {isLocalUrl} from '../utils';
 
 const PAGE_LINK_REGEXP = /\.(md|ya?ml)$/i;

@@ -1,6 +1,5 @@
-import {PageContent} from '@gravity-ui/page-constructor';
-
-import {ProjectSettings} from '../types';
+import type {PageContent} from '@gravity-ui/page-constructor';
+import type {ProjectSettings} from '../types';
 
 export type CreatePageConstructorContentFn = (
     content: PageContent,
