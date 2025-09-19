@@ -1,6 +1,6 @@
 import url from 'url';
 import path from 'path';
-import {defaultTransformLink as baseTransformLink, isLocalUrl} from '@diplodoc/transform/lib/utils';
+import {isLocalUrl} from '../utils';
 
 const PAGE_LINK_REGEXP = /\.(md|ya?ml)$/i;
 
@@ -12,7 +12,10 @@ export function defaultTransformLink(link: string, currentPath?: string): string
     const parsed = url.parse(link);
 
     if (!parsed.pathname || parsed.pathname.startsWith('/') || !currentPath) {
-        return baseTransformLink(link);
+        return url.format({
+            ...parsed,
+            pathname: parsed.pathname?.replace(PAGE_LINK_REGEXP, '.html'),
+        });
     }
 
     const newPathname = parsed.pathname.replace(PAGE_LINK_REGEXP, '.html');

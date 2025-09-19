@@ -1,3 +1,7 @@
+export function isLocalUrl(url: string) {
+    return !/^(?:[a-z]+:)?\/\//i.test(url);
+}
+
 export function hidden<B extends Record<string | symbol, unknown>, F extends string | symbol, V>(
     box: B,
     field: F,

@@ -1,11 +1,15 @@
 import {every, isArray, isString} from 'lodash';
-import {join, parse, relative, resolve} from 'path';
+import {dirname, join, parse, relative, resolve} from 'path';
 import url from 'url';
-import {isLocalUrl} from '@diplodoc/transform/lib/utils';
-import {resolveRelativePath} from '@diplodoc/transform/lib/utilsFS';
 import {PageContent} from '@gravity-ui/page-constructor';
 
+import {isLocalUrl} from '../utils';
+
 import {defaultTransformLink} from './default-link-resolver';
+
+function resolveRelativePath(fromPath: string, relativePath: string) {
+    return resolve(dirname(fromPath), relativePath);
+}
 
 type StringOrStringArray = string | string[];
 
