@@ -1,7 +1,7 @@
+import type {Runtime, TransformOptions} from '../types';
+
 import {dirname, join, resolve} from 'node:path';
 import {copyFileSync, mkdirSync} from 'node:fs';
-
-import {Runtime, TransformOptions} from '../types';
 
 import {transform as baseTransform} from './transform';
 

@@ -1,16 +1,16 @@
-import {
+import type {
     Block,
     ConstructorBlock,
     NavigationData as ConstructorNavigaitonData,
     PageContent as ConstructorPageContentBase,
 } from '@gravity-ui/page-constructor';
-import {
+import type {
     BlocksConfig,
     TransformerRaw as GravityTransformerRaw,
     Parser,
-    config,
-    contentTransformer,
 } from '@gravity-ui/page-constructor/server';
+
+import {config, contentTransformer} from '@gravity-ui/page-constructor/server';
 
 export type TransformerRaw = GravityTransformerRaw;
 

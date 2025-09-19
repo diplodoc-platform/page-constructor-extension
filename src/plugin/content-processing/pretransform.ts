@@ -1,6 +1,7 @@
 import type MarkdownIt from 'markdown-it';
+import type {ConfigData, Lang, PreloadParams, TransformerRaw} from './preprocess';
 
-import {ConfigData, Lang, PreloadParams, TransformerRaw, preprocess} from './preprocess';
+import {preprocess} from './preprocess';
 
 interface MarkdownItEnv {
     lang?: string;

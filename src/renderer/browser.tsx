@@ -1,4 +1,4 @@
-import {PageContent} from '@gravity-ui/page-constructor';
+import type {PageContent} from '@gravity-ui/page-constructor';
 
 import {ClassNames} from '../constants';
 

@@ -1,9 +1,6 @@
-import {
-    PageConstructor,
-    PageConstructorProvider,
-    PageContent,
-    Theme,
-} from '@gravity-ui/page-constructor';
+import type {PageContent, Theme} from '@gravity-ui/page-constructor';
+
+import {PageConstructor, PageConstructorProvider} from '@gravity-ui/page-constructor';
 
 export function createPageConstructorElement(
     content: PageContent,

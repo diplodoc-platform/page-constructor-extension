@@ -1,5 +1,6 @@
+import type {PageContent} from '@gravity-ui/page-constructor';
+
 import {renderToString} from 'react-dom/server';
-import {PageContent} from '@gravity-ui/page-constructor';
 
 import {ClassNames} from '../constants';
 

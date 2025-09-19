@@ -1,7 +1,8 @@
+import type {PageContent} from '@gravity-ui/page-constructor';
+
 import {every, isArray, isString} from 'lodash';
 import {dirname, join, parse, relative, resolve} from 'path';
 import url from 'url';
-import {PageContent} from '@gravity-ui/page-constructor';
 
 import {isLocalUrl} from '../utils';
 
