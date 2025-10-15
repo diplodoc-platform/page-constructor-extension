@@ -40,6 +40,7 @@ const nodeExternals = [
     '@gravity-ui/page-constructor/server',
 ];
 
+// Build node plugin with server side rendering
 /** @type {import('esbuild').BuildOptions} */
 const nodePlugin = {
     ...common,
@@ -66,6 +67,16 @@ const nodePlugin = {
             },
         },
     ],
+    external: nodeExternals,
+};
+
+// Build node plugin with client side rendering
+/** @type {import('esbuild').BuildOptions} */
+const nodeCsrPlugin = {
+    ...common,
+    entryPoints: ['src/plugin/index-node-csr.ts'],
+    platform: 'node',
+    outfile: 'build/plugin/index-node-csr.js',
     external: nodeExternals,
 };
 
@@ -126,6 +137,7 @@ const styleBundle = {
 };
 
 build(nodePlugin);
+build(nodeCsrPlugin);
 build(browserPlugin);
 build(runtimeBundle);
 build(reactBundle);
