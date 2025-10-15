@@ -105,7 +105,7 @@
   "dependencies": {
     "@diplodoc/directive": "^0.3.1",
     "@diplodoc/utils": "^2.1.0",
-    "@gravity-ui/page-constructor": "^5.28.5",
+    "@gravity-ui/page-constructor": "^7.18.0",
     "cheerio": "^1.0.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"
