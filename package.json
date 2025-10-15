@@ -18,7 +18,13 @@
       "default": "./build/plugin/index.js"
     },
     "./plugin": {
+      "types": "./build/plugin/index.d.ts",
       "node": "./build/plugin/index-node.js",
+      "default": "./build/plugin/index.js"
+    },
+    "./plugin/csr": {
+      "types": "./build/plugin/index.d.ts",
+      "node": "./build/plugin/index-node-csr.js",
       "default": "./build/plugin/index.js"
     },
     "./styles": "./build/index.css",
