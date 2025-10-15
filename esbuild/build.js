@@ -28,6 +28,19 @@ const minifyCommon = {
     keepNames: true,
 };
 
+const nodeExternals = [
+    'node:*',
+    'react',
+    'react-dom',
+    'markdown-it',
+    '@diplodoc/directive',
+    '@diplodoc/utils',
+    'js-yaml',
+    'lodash',
+    '@gravity-ui/page-constructor/server',
+];
+
+/** @type {import('esbuild').BuildOptions} */
 const nodePlugin = {
     ...common,
     entryPoints: ['src/plugin/index-node.ts'],
@@ -53,7 +66,7 @@ const nodePlugin = {
             },
         },
     ],
-    external: ['node:*', 'react', 'react-dom', 'markdown-it'],
+    external: nodeExternals,
 };
 
 // Build browser plugin
