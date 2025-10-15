@@ -22,8 +22,7 @@
       "default": "./build/plugin/index.js"
     },
     "./styles": "./build/index.css",
-    "./runtime/styles": "./build/index.css",
-    "./styles/plugin": "./build/runtime/plugin.css",
+    "./runtime/styles": "./build/runtime/index.css",
     "./runtime": {
       "types": "./build/runtime/index.d.ts",
       "default": "./build/runtime/index.js"
