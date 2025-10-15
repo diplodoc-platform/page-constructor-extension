@@ -6,14 +6,11 @@ const {polyfillNode} = require('esbuild-plugin-polyfill-node');
 
 const {processBuildMeta} = require('./utils/dev');
 
+/** @type {import('esbuild').BuildOptions} */
 const common = {
     bundle: true,
     sourcemap: true,
     minify: false, //when set to true, yfm links inside pc block stop being processed correctly
-    minifyWhitespace: true,
-    minifySyntax: true,
-    minifyIdentifiers: true,
-    keepNames: true,
     tsconfig: './tsconfig.json',
     metafile: process.env.NODE_ENV === 'development',
     alias: {
@@ -22,6 +19,29 @@ const common = {
     },
 };
 
+/** @type {import('esbuild').BuildOptions} */
+const minifyCommon = {
+    ...common,
+    minifyWhitespace: true,
+    minifySyntax: true,
+    minifyIdentifiers: true,
+    keepNames: true,
+};
+
+const nodeExternals = [
+    'node:*',
+    'react',
+    'react-dom',
+    'markdown-it',
+    '@diplodoc/directive',
+    '@diplodoc/utils',
+    'js-yaml',
+    'lodash',
+    '@gravity-ui/page-constructor/server',
+];
+
+// Build node plugin with server side rendering
+/** @type {import('esbuild').BuildOptions} */
 const nodePlugin = {
     ...common,
     entryPoints: ['src/plugin/index-node.ts'],
@@ -47,12 +67,22 @@ const nodePlugin = {
             },
         },
     ],
-    external: ['node:*', 'react', 'react-dom', 'markdown-it'],
+    external: nodeExternals,
+};
+
+// Build node plugin with client side rendering
+/** @type {import('esbuild').BuildOptions} */
+const nodeCsrPlugin = {
+    ...common,
+    entryPoints: ['src/plugin/index-node-csr.ts'],
+    platform: 'node',
+    outfile: 'build/plugin/index-node-csr.js',
+    external: nodeExternals,
 };
 
 // Build browser plugin
 const browserPlugin = {
-    ...common,
+    ...minifyCommon,
     entryPoints: ['src/plugin/index.ts'],
     platform: 'neutral',
     format: 'esm',
@@ -76,7 +106,7 @@ const browserPlugin = {
 
 // Build runtime bundle for browser
 const runtimeBundle = {
-    ...common,
+    ...minifyCommon,
     format: 'esm',
     entryPoints: ['src/runtime/index.tsx'],
     outfile: 'build/runtime/index.js',
@@ -107,6 +137,7 @@ const styleBundle = {
 };
 
 build(nodePlugin);
+build(nodeCsrPlugin);
 build(browserPlugin);
 build(runtimeBundle);
 build(reactBundle);
