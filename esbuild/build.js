@@ -6,20 +6,26 @@ const {polyfillNode} = require('esbuild-plugin-polyfill-node');
 
 const {processBuildMeta} = require('./utils/dev');
 
+/** @type {import('esbuild').BuildOptions} */
 const common = {
     bundle: true,
     sourcemap: true,
     minify: false, //when set to true, yfm links inside pc block stop being processed correctly
-    minifyWhitespace: true,
-    minifySyntax: true,
-    minifyIdentifiers: true,
-    keepNames: true,
     tsconfig: './tsconfig.json',
     metafile: process.env.NODE_ENV === 'development',
     alias: {
         '~@diplodoc/transform/dist/css/yfm.css': '@diplodoc/transform/dist/css/yfm.css',
         '~@gravity-ui/uikit/styles/styles.css': '@gravity-ui/uikit/styles/styles.css',
     },
+};
+
+/** @type {import('esbuild').BuildOptions} */
+const minifyCommon = {
+    ...common,
+    minifyWhitespace: true,
+    minifySyntax: true,
+    minifyIdentifiers: true,
+    keepNames: true,
 };
 
 const nodePlugin = {
@@ -52,7 +58,7 @@ const nodePlugin = {
 
 // Build browser plugin
 const browserPlugin = {
-    ...common,
+    ...minifyCommon,
     entryPoints: ['src/plugin/index.ts'],
     platform: 'neutral',
     format: 'esm',
@@ -76,7 +82,7 @@ const browserPlugin = {
 
 // Build runtime bundle for browser
 const runtimeBundle = {
-    ...common,
+    ...minifyCommon,
     format: 'esm',
     entryPoints: ['src/runtime/index.tsx'],
     outfile: 'build/runtime/index.js',
