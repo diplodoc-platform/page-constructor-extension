@@ -36,3 +36,5 @@ export interface PageConstructorRuntimeProps {
     theme?: string;
     preMountHook?: PreMountHook;
 }
+
+export type {ConstructorBlock, PageContent} from '@gravity-ui/page-constructor';
