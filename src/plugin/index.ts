@@ -6,3 +6,4 @@ setPageConstructorImplementation(createPageConstructorContent);
 
 export {transform} from './transform';
 export {PAGE_CONSTRUCTOR_RUNTIME, PAGE_CONSTRUCTOR_STYLE, ClassNames};
+export type {ConstructorBlock, PageContent} from '../types';
