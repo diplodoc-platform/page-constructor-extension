@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.10.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.9.0...v0.10.0) (2025-10-17)
+
+
+### Features
+
+* runtime manual import of transform styles and scripts ([5ecf915](https://github.com/diplodoc-platform/page-constructor-extension/commit/5ecf9158d05cab57812c56356a7436ebaf36f52c))
+
+
+### Bug Fixes
+
+* exported pc-types ([bad8761](https://github.com/diplodoc-platform/page-constructor-extension/commit/bad8761f39a813bcd79516d38f19f7d02abb0fa4))
+* lock ([75229ba](https://github.com/diplodoc-platform/page-constructor-extension/commit/75229baa7dfc8244f00bf136a9fa2ff5434191a8))
+* transform up 4.58.1 ([f0578dd](https://github.com/diplodoc-platform/page-constructor-extension/commit/f0578ddfab1b3655bf879bfd648d771fe84ab9a4))
+
 ## [0.9.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.8.1...v0.9.0) (2025-06-27)
 
 
