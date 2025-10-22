@@ -2,6 +2,8 @@ import type {PageContent} from '@gravity-ui/page-constructor';
 
 import {ClassNames} from '../constants';
 
+import {renderError} from './error';
+
 export function createPageConstructorContent(
     content: PageContent,
     _hydrationContent?: PageContent,
@@ -12,6 +14,6 @@ export function createPageConstructorContent(
 
         return `<div class="${ClassNames.PageConstructor}" data-content-encoded="${encodedContent}" data-rendered="false"></div>`;
     } catch (error: unknown) {
-        return `<div class="page-constructor-error">Error creating placeholder: ${error instanceof Error ? error.message : String(error)}</div>`;
+        return renderError('Error creating placeholder: ', error);
     }
 }

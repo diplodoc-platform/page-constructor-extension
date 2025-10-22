@@ -6,6 +6,7 @@ import {load} from 'js-yaml';
 
 import {getPageConstructorContent} from '../renderer/factory';
 import {ENV_FLAG_NAME, PAGE_CONSTRUCTOR_RUNTIME, PAGE_CONSTRUCTOR_STYLE} from '../constants';
+import {renderError} from '../renderer/error';
 
 import {hidden} from './utils';
 import {pageConstructorDirective} from './directive';
@@ -109,11 +110,16 @@ export function transform(options: Partial<TransformOptions> = {}) {
                 const contentLines = token.content.trimStart().split('\n');
                 const firstLines = contentLines.slice(0, 3).join('\n');
 
-                throw new Error(
+                const message =
                     `Page constructor content must have a "blocks:" property\n` +
-                        `Content preview:\n${firstLines}${contentLines.length > 3 ? '\n...' : ''}` +
-                        (path ? `\nFile: ${path}` : ''),
-                );
+                    `Content preview:\n${firstLines}${contentLines.length > 3 ? '\n...' : ''}` +
+                    (path ? `\nFile: ${path}` : '');
+
+                if (options.throwOnInvalid === false) {
+                    return renderError(message);
+                }
+
+                throw new Error(message);
             }
 
             const content = modifyPageConstructorLinks({

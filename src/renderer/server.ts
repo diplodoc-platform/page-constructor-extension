@@ -5,6 +5,7 @@ import {renderToString} from 'react-dom/server';
 import {ClassNames} from '../constants';
 
 import {createPageConstructorElement} from './page-constructor-element';
+import {renderError} from './error';
 
 export function createPageConstructorContent(
     content: PageContent,
@@ -21,6 +22,6 @@ export function createPageConstructorContent(
 
         return `<div class="${ClassNames.PageConstructor}" data-content-encoded="${encodedContent}" data-hydrated="false">${html}</div>`;
     } catch (error: unknown) {
-        return `<div class="page-constructor-error">Error rendering component: ${error instanceof Error ? error.message : String(error)}</div>`;
+        return renderError('Error rendering component: ', error);
     }
 }
