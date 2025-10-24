@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.10.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.9.0...v0.10.0) (2025-10-24)
+
+
+### Features
+
+* **plugin:** add node plugin with client side rendering ([d1495fe](https://github.com/diplodoc-platform/page-constructor-extension/commit/d1495feb995d66540c5c3bd6411fefa7cd6e1593))
+* **plugin:** add option to render error instead of throwing error ([#28](https://github.com/diplodoc-platform/page-constructor-extension/issues/28)) ([678cd63](https://github.com/diplodoc-platform/page-constructor-extension/commit/678cd6335c224a5f80ad112b2373557f32992530))
+* runtime manual import of transform styles and scripts ([5ecf915](https://github.com/diplodoc-platform/page-constructor-extension/commit/5ecf9158d05cab57812c56356a7436ebaf36f52c))
+
+
+### Bug Fixes
+
+* exported pc-types ([bad8761](https://github.com/diplodoc-platform/page-constructor-extension/commit/bad8761f39a813bcd79516d38f19f7d02abb0fa4))
+* fix runtime styles export ([4967d24](https://github.com/diplodoc-platform/page-constructor-extension/commit/4967d24a07ed15c76d330ed8d54c8d8cb6329c73))
+* lock ([75229ba](https://github.com/diplodoc-platform/page-constructor-extension/commit/75229baa7dfc8244f00bf136a9fa2ff5434191a8))
+* **plugin:** add constants re-export to node plugin ([a84770b](https://github.com/diplodoc-platform/page-constructor-extension/commit/a84770b0731ed6f9ea33fdf087e89e0c8dc35776))
+* transform up 4.58.1 ([f0578dd](https://github.com/diplodoc-platform/page-constructor-extension/commit/f0578ddfab1b3655bf879bfd648d771fe84ab9a4))
+
 ## [0.9.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.8.1...v0.9.0) (2025-06-27)
 
 
