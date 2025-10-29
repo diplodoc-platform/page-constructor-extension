@@ -6,20 +6,41 @@ export type LoadPageContentResult =
     | {success: true; content: PageContent}
     | {success: false; error: string};
 export function loadPageContent(content: string): LoadPageContentResult {
-    const yamlContent = load(content.trimStart()) as PageContent;
+    let yamlContent;
+    try {
+        yamlContent = load(content.trimStart()) as PageContent | undefined;
+    } catch (err) {
+        return {
+            success: false,
+            error: err instanceof Error ? err.name + ': ' + err.message : String(err),
+        };
+    }
 
-    if (!('blocks' in yamlContent)) {
-        const contentLines = content.trimStart().split('\n');
-        const firstLines = contentLines.slice(0, 3).join('\n');
+    if (typeof yamlContent !== 'object' || !Array.isArray(yamlContent.blocks)) {
+        return {
+            success: false,
+            error:
+                `Page constructor content must have a "blocks:" property\n` + getContentPreview(),
+        };
+    }
 
-        const message =
-            `Page constructor content must have a "blocks:" property\n` +
-            `Content preview:\n${firstLines}${contentLines.length > 3 ? '\n...' : ''}`;
-
-        return {success: false, error: message};
+    if (yamlContent.blocks.some((val) => !val || !val.type)) {
+        return {
+            success: false,
+            error:
+                `Page constructor content must contains blocks with a "type: <name>" property\n` +
+                getContentPreview(),
+        };
     }
 
     return {success: true, content: yamlContent};
+
+    function getContentPreview() {
+        const contentLines = content.trimStart().split('\n');
+        const firstLines = contentLines.slice(0, 3).join('\n');
+
+        return `Content preview:\n${firstLines}${contentLines.length > 3 ? '\n...' : ''}`;
+    }
 }
 
 export function isLocalUrl(url: string) {
