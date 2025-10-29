@@ -2,13 +2,12 @@ import type {PageContent} from '@gravity-ui/page-constructor';
 import type {Runtime, TransformOptions} from '../types';
 
 import MarkdownIt from 'markdown-it';
-import {load} from 'js-yaml';
 
 import {getPageConstructorContent} from '../renderer/factory';
 import {ENV_FLAG_NAME, PAGE_CONSTRUCTOR_RUNTIME, PAGE_CONSTRUCTOR_STYLE} from '../constants';
 import {renderError} from '../renderer/error';
 
-import {hidden} from './utils';
+import {hidden, loadPageContent} from './utils';
 import {pageConstructorDirective} from './directive';
 import {preTransformYfmBlocks} from './content-processing/pretransform';
 import {modifyPageConstructorLinks} from './content-processing/link-resolver';
@@ -104,23 +103,18 @@ export function transform(options: Partial<TransformOptions> = {}) {
         });
         md.renderer.rules['yfm_page-constructor'] = (tokens, idx, _options, env, _self) => {
             const token = tokens[idx];
-            const yamlContent = load(token.content.trimStart()) as PageContent;
+            const loadResult = loadPageContent(token.content);
 
-            if (!('blocks' in yamlContent)) {
-                const contentLines = token.content.trimStart().split('\n');
-                const firstLines = contentLines.slice(0, 3).join('\n');
-
-                const message =
-                    `Page constructor content must have a "blocks:" property\n` +
-                    `Content preview:\n${firstLines}${contentLines.length > 3 ? '\n...' : ''}` +
-                    (path ? `\nFile: ${path}` : '');
-
+            if (loadResult.success === false) {
+                const message = loadResult.error + (path ? `\nFile: ${path}` : '');
                 if (options.throwOnInvalid === false) {
                     return renderError(message);
                 }
 
                 throw new Error(message);
             }
+
+            const yamlContent = loadResult.content;
 
             const content = modifyPageConstructorLinks({
                 data: yamlContent,
