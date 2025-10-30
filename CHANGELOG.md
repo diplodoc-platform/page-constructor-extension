@@ -10,16 +10,15 @@
 * **plugin:** export yaml content parsing function ([1e4c620](https://github.com/diplodoc-platform/page-constructor-extension/commit/1e4c620e2f750b605b605bc2aca3b52443705a43))
 * **plugin:** strict yaml content validation ([c433db4](https://github.com/diplodoc-platform/page-constructor-extension/commit/c433db4bfeb888a5d9604410356a52c6faa206f5))
 * runtime manual import of transform styles and scripts ([5ecf915](https://github.com/diplodoc-platform/page-constructor-extension/commit/5ecf9158d05cab57812c56356a7436ebaf36f52c))
+* **deps:** update `@diplodoc/transform` to v4.62.0
 
 
 ### Bug Fixes
 
 * exported pc-types ([bad8761](https://github.com/diplodoc-platform/page-constructor-extension/commit/bad8761f39a813bcd79516d38f19f7d02abb0fa4))
 * fix runtime styles export ([4967d24](https://github.com/diplodoc-platform/page-constructor-extension/commit/4967d24a07ed15c76d330ed8d54c8d8cb6329c73))
-* lock ([75229ba](https://github.com/diplodoc-platform/page-constructor-extension/commit/75229baa7dfc8244f00bf136a9fa2ff5434191a8))
 * **plugin:** add constants re-export to node plugin ([a84770b](https://github.com/diplodoc-platform/page-constructor-extension/commit/a84770b0731ed6f9ea33fdf087e89e0c8dc35776))
 * **plugin:** spot import from lodash ([#29](https://github.com/diplodoc-platform/page-constructor-extension/issues/29)) ([40fa1ec](https://github.com/diplodoc-platform/page-constructor-extension/commit/40fa1ec875b79cfb28cf65d0f95671c2f0effe11))
-* transform up 4.58.1 ([f0578dd](https://github.com/diplodoc-platform/page-constructor-extension/commit/f0578ddfab1b3655bf879bfd648d771fe84ab9a4))
 
 ## [0.9.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.8.1...v0.9.0) (2025-06-27)
 
