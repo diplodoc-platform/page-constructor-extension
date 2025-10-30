@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.12.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.11.0...v0.12.0) (2025-10-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* bump page-constructor to v7 ([#25](https://github.com/diplodoc-platform/page-constructor-extension/issues/25))
+
+### Features
+
+* bump page-constructor to v7 ([#25](https://github.com/diplodoc-platform/page-constructor-extension/issues/25)) ([e573103](https://github.com/diplodoc-platform/page-constructor-extension/commit/e573103b7cce59b942ba9e05a4eb621c1c72946e))
+
 ## [0.11.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.9.0...v0.11.0) (2025-10-30)
 
 
