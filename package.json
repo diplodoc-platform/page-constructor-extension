@@ -8,6 +8,10 @@
     "node": ">=18",
     "npm": ">=9.*"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:diplodoc-platform/page-constructor-extension.git"
+  },
   "publishConfig": {
     "access": "public"
   },
