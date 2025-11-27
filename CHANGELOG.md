@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.1](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.12.0...v0.12.1) (2025-11-27)
+
+
+### Dependency update
+
+* updated @gravity-ui/page-constructor ([d4f275b](https://github.com/diplodoc-platform/page-constructor-extension/commit/d4f275b20d53999278fd9e1a6daa29638b7e4d6e))
+
 ## [0.12.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.11.0...v0.12.0) (2025-10-30)
 
 
