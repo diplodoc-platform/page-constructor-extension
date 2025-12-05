@@ -136,12 +136,22 @@ const styleBundle = {
     plugins: [sassPlugin()],
 };
 
+const rendererBundle = {
+    ...minifyCommon,
+    entryPoints: ['src/renderer/index.ts'],
+    format: 'esm',
+    outfile: 'build/renderer/index.js',
+    plugins: [sassPlugin()],
+    external: ['react', 'react-dom', '@gravity-ui/page-constructor'],
+};
+
 build(nodePlugin);
 build(nodeCsrPlugin);
 build(browserPlugin);
 build(runtimeBundle);
 build(reactBundle);
 build(styleBundle);
+build(rendererBundle);
 
 function build(config) {
     return esbuild(config)

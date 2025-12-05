@@ -36,6 +36,10 @@
     "./react": {
       "types": "./build/react/index.d.ts",
       "default": "./build/react/index.js"
+    },
+    "./renderer": {
+      "types": "./build/renderer/index.d.ts",
+      "default": "./build/renderer/index.js"
     }
   },
   "typesVersions": {
@@ -51,6 +55,9 @@
       ],
       "react": [
         "./build/react/index.d.ts"
+      ],
+      "renderer": [
+        "./build/renderer/index.d.ts"
       ]
     }
   },
