@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.12.1...v0.13.0) (2025-12-09)
+
+
+### Features
+
+* add renderer export ([e5363e8](https://github.com/diplodoc-platform/page-constructor-extension/commit/e5363e8735d770e6f1fe69e2d4b1d78c61a109d9))
+
 ## [0.12.1](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.12.0...v0.12.1) (2025-11-27)
 
 
