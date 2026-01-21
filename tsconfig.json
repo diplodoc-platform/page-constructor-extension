@@ -6,8 +6,8 @@
     "module": "es2022",
     "declaration": true
   },
-  "include": ["src", "example/index.jsx"],
-  "exclude": [],
+  "include": ["src"],
+  "exclude": ["node_modules", "build", "example"],
   "ts-node": {
     "esm": true,
     "transpileOnly": true

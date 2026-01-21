@@ -130,7 +130,7 @@ Best for:
 
 ```js
 import '@diplodoc/page-constructor-extension/runtime';
-import '@diplodoc/page-constructor-extension/runtime/style';
+import '@diplodoc/page-constructor-extension/runtime/styles';
 ```
 
 ## Rendering Detection
@@ -242,6 +242,7 @@ The `@diplodoc/page-constructor-extension` package does not bundle the `@diplodo
 ```css
 @import '~@diplodoc/transform/dist/css/yfm.css';
 ```
+
 ```js
 import '@diplodoc/transform/dist/js/yfm';
 ```
