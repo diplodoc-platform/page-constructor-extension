@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`page-constructor integration tests should match snapshot for complex page 1`] = `
+{
+  "className": "yfm-page-constructor",
+  "dataAttributes": {
+    "data-pc-content": {
+      "blocks": [
+        {
+          "buttons": [
+            {
+              "text": "Get Started",
+              "theme": "primary",
+              "url": "/get-started",
+            },
+            {
+              "text": "Learn More",
+              "theme": "secondary",
+              "url": "/learn-more",
+            },
+          ],
+          "description": "<p>The most comprehensive solution for your needs</p>
+",
+          "image": "header-image.jpg",
+          "title": "Welcome to Our Platform",
+          "type": "header-block",
+        },
+        {
+          "features": [
+            {
+              "description": "Integrate with your existing systems seamlessly",
+              "icon": "integration-icon.svg",
+              "title": "Easy Integration",
+            },
+            {
+              "description": "Gain insights with comprehensive analytics",
+              "icon": "analytics-icon.svg",
+              "title": "Powerful Analytics",
+            },
+            {
+              "description": "Enterprise-grade security for your data",
+              "icon": "security-icon.svg",
+              "title": "Secure Platform",
+            },
+          ],
+          "title": "Key Features",
+          "type": "features-block",
+        },
+        {
+          "testimonials": [
+            {
+              "author": "John Smith",
+              "avatar": "john-smith.jpg",
+              "company": "Acme Inc.",
+              "quote": "This platform has transformed our business operations.",
+            },
+            {
+              "author": "Jane Doe",
+              "avatar": "jane-doe.jpg",
+              "company": "XYZ Corp",
+              "quote": "The best solution we have found after years of searching.",
+            },
+          ],
+          "title": "What Our Customers Say",
+          "type": "testimonials-block",
+        },
+        {
+          "button": {
+            "text": "Sign Up Now",
+            "theme": "primary",
+            "url": "/signup",
+          },
+          "description": "Join thousands of satisfied customers today",
+          "title": "Ready to Get Started?",
+          "type": "cta-block",
+        },
+      ],
+    },
+    "data-pc-id": undefined,
+  },
+  "tagName": "div",
+}
+`;
