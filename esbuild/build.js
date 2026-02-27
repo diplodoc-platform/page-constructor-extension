@@ -115,8 +115,38 @@ const runtimeBundle = {
         polyfillNode({
             include: ['util'],
         }),
+        // Strip @diplodoc/transform — replace with empty module at build time.
+        //
+        // The dependency chain (runtime → page-constructor components → @diplodoc/transform)
+        // pulls in a side-effect script (yfm.js) that registers DOM handlers
+        // (cut/details, copy-to-clipboard, term tooltips, wide-mode tables).
+        //
+        // This script is already loaded by the main Diplodoc app bundle
+        // (packages/client/src/components/App/index.tsx imports yfm.js),
+        // so bundling it here would duplicate ~43KB of code.
+        //
+        // We can't use esbuild's `external` option because with format:'esm'
+        // it leaves a bare `import "@diplodoc/transform/..."` in the output.
+        // The runtime is loaded via <script defer> (not <script type="module">),
+        // so the browser throws: SyntaxError: Cannot use import statement outside a module.
+        // This caused the runtime to silently fail since commit 5ecf915 (2025-08-20).
+        //
+        // For standalone usage (outside Diplodoc CLI), consumers should import
+        // @diplodoc/transform styles and scripts manually — see README.
+        {
+            name: 'strip-diplodoc-transform',
+            setup(build) {
+                build.onResolve({filter: /^@diplodoc\/transform/}, (args) => ({
+                    path: args.path,
+                    namespace: 'strip-diplodoc-transform',
+                }));
+                build.onLoad({filter: /.*/, namespace: 'strip-diplodoc-transform'}, () => ({
+                    contents: '',
+                    loader: 'js',
+                }));
+            },
+        },
     ],
-    external: ['@diplodoc/transform'],
 };
 
 // Build React components
