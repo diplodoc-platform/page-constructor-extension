@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.1](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.0...v0.13.1) (2026-02-27)
+
+
+### Bug Fixes
+
+* strip @diplodoc/transform from runtime bundle ([6da84cd](https://github.com/diplodoc-platform/page-constructor-extension/commit/6da84cda6161900ffa523114494b6da79b5a5a9d))
+
 ## [0.13.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.12.1...v0.13.0) (2025-12-09)
 
 
