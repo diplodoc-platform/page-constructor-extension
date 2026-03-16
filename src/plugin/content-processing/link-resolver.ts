@@ -113,9 +113,10 @@ function modifyPageConstructorLinks({
                     if (assetsPublicPath) {
                         const relativePath = resolveRelativePath(path, item);
                         const relativeToRoot = relative(process.cwd(), relativePath);
-                        const publicSrc = join('/', assetsPublicPath, relativeToRoot);
+                        const publicSrc = join(assetsPublicPath, relativeToRoot);
 
-                        return publicSrc;
+                        // Normalize path separators to forward slashes for cross-platform compatibility
+                        return publicSrc.replace(/\\/g, '/');
                     }
                 }
 
