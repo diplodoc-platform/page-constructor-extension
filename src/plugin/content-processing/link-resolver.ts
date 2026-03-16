@@ -21,7 +21,7 @@ const FILE_PATTERNS = {
     CONTENT: /^\S.*\.(md|ya?ml|html)$/m,
 };
 
-const LINK_KEYS_PAGE_CONSTRUCTOR_CONFIG = [
+export const LINK_KEYS_PAGE_CONSTRUCTOR_CONFIG = [
     'src',
     'url',
     'href',
@@ -140,4 +140,13 @@ function modifyPageConstructorLinks({
     );
 }
 
-export {modifyPageConstructorLinks, resolveRelativePath};
+function walkPageConstructorLinks<T>(data: T, modify: (value: string) => string): T {
+    return modifyValuesByKeys(
+        data,
+        LINK_KEYS_PAGE_CONSTRUCTOR_CONFIG,
+        (value: StringOrStringArray): StringOrStringArray =>
+            isArray(value) ? value.map(modify) : modify(value as string),
+    ) as T;
+}
+
+export {modifyPageConstructorLinks, walkPageConstructorLinks, resolveRelativePath};

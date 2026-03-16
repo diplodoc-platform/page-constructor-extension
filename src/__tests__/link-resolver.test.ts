@@ -1,7 +1,10 @@
 import {join} from 'node:path';
 import {describe, expect, it} from 'vitest';
 
-import {modifyPageConstructorLinks} from '../plugin/content-processing/link-resolver';
+import {
+    modifyPageConstructorLinks,
+    walkPageConstructorLinks,
+} from '../plugin/content-processing/link-resolver';
 
 const CWD = process.cwd();
 const FILE_PATH = join(CWD, 'docs/ru/page.md');
@@ -105,5 +108,37 @@ describe('modifyPageConstructorLinks', () => {
             expect(typeof result.image).toBe('string');
             expect(result.image.length).toBeGreaterThan(0);
         });
+    });
+});
+
+describe('walkPageConstructorLinks', () => {
+    it('calls modify for each matched string key', () => {
+        const data = {src: 'a.png', url: 'page.md', unrelated: 'skip'};
+        const result = walkPageConstructorLinks(data, (v) => `MODIFIED:${v}`) as typeof data;
+
+        expect(result.src).toBe('MODIFIED:a.png');
+        expect(result.url).toBe('MODIFIED:page.md');
+        expect(result.unrelated).toBe('skip');
+    });
+
+    it('handles array values — calls modify for each element', () => {
+        const data = {src: ['a.png', 'b.png']};
+        const result = walkPageConstructorLinks(data, (v) => `x/${v}`) as typeof data;
+
+        expect(result.src).toEqual(['x/a.png', 'x/b.png']);
+    });
+
+    it('recurses into nested objects', () => {
+        const data = {blocks: [{image: 'nested.png'}]};
+        const result = walkPageConstructorLinks(data, (v) => `p/${v}`) as typeof data;
+
+        expect(result.blocks[0].image).toBe('p/nested.png');
+    });
+
+    it('does not mutate the original object', () => {
+        const data = {src: 'original.png'};
+        walkPageConstructorLinks(data, (v) => `changed/${v}`);
+
+        expect(data.src).toBe('original.png');
     });
 });

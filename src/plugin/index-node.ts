@@ -6,5 +6,9 @@ setPageConstructorImplementation(createPageConstructorContent);
 
 export {transform} from './transform-node';
 export {loadPageContent, type LoadPageContentResult} from './utils';
+export {
+    LINK_KEYS_PAGE_CONSTRUCTOR_CONFIG,
+    walkPageConstructorLinks,
+} from './content-processing/link-resolver';
 export {PAGE_CONSTRUCTOR_RUNTIME, PAGE_CONSTRUCTOR_STYLE, ClassNames};
 export type {ConstructorBlock, PageContent} from '../types';
