@@ -44,6 +44,10 @@
     "./renderer": {
       "types": "./build/renderer/index.d.ts",
       "default": "./build/renderer/index.js"
+    },
+    "./editor": {
+      "types": "./build/editor/index.d.ts",
+      "default": "./build/editor/index.js"
     }
   },
   "typesVersions": {
@@ -62,6 +66,9 @@
       ],
       "renderer": [
         "./build/renderer/index.d.ts"
+      ],
+      "editor": [
+        "./build/editor/index.d.ts"
       ]
     }
   },
@@ -94,7 +101,7 @@
     "react-dom": "^16.8.0  || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@diplodoc/lint": "^1.12.0",
+    "@diplodoc/lint": "^1.14.1",
     "@diplodoc/transform": "^4.62.0",
     "@diplodoc/tsconfig": "^1.0.2",
     "@hyrious/esbuild-plugin-commonjs": "^0.2.5",
