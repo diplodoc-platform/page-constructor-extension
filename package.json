@@ -44,6 +44,10 @@
     "./renderer": {
       "types": "./build/renderer/index.d.ts",
       "default": "./build/renderer/index.js"
+    },
+    "./editor": {
+      "types": "./build/editor/index.d.ts",
+      "default": "./build/editor/index.js"
     }
   },
   "typesVersions": {
@@ -62,6 +66,9 @@
       ],
       "renderer": [
         "./build/renderer/index.d.ts"
+      ],
+      "editor": [
+        "./build/editor/index.d.ts"
       ]
     }
   },
