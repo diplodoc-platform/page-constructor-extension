@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.13.3](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.2...v0.13.3) (2026-04-20)
+
+
+### Bug Fixes
+
+* fixed ([ac793b7](https://github.com/diplodoc-platform/page-constructor-extension/commit/ac793b77b8c0f639a3296721dec2b5bb8a55c716))
+* moved the createPageConstructorElement export to a separate bundle ([73c6ac4](https://github.com/diplodoc-platform/page-constructor-extension/commit/73c6ac473a364acf51f13c25a838c6466b6a9f88))
+* moved the createPageConstructorElement export to a separate bundle ([9b13ed5](https://github.com/diplodoc-platform/page-constructor-extension/commit/9b13ed5f0c40d21d2ac14f034b7353919b4a6c34))
+
 ## [0.13.2](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.1...v0.13.2) (2026-03-16)
 
 
