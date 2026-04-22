@@ -175,15 +175,6 @@ const rendererBundle = {
     external: ['react', 'react-dom', '@gravity-ui/page-constructor'],
 };
 
-const editorBundle = {
-    ...common,
-    entryPoints: ['src/editor/index.ts'],
-    format: 'esm',
-    outfile: 'build/editor/index.js',
-    plugins: [sassPlugin()],
-    external: ['react', 'react-dom', '@gravity-ui/page-constructor'],
-};
-
 build(nodePlugin);
 build(nodeCsrPlugin);
 build(browserPlugin);
@@ -191,7 +182,6 @@ build(runtimeBundle);
 build(reactBundle);
 build(styleBundle);
 build(rendererBundle);
-build(editorBundle);
 
 function build(config) {
     return esbuild(config)
