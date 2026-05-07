@@ -7,10 +7,9 @@ import {getPageConstructorContent} from '../renderer/factory';
 import {ENV_FLAG_NAME, PAGE_CONSTRUCTOR_RUNTIME, PAGE_CONSTRUCTOR_STYLE} from '../constants';
 import {renderError} from '../renderer/error';
 
-import {hidden, loadPageContent} from './utils';
+import {hidden} from './utils';
 import {pageConstructorDirective} from './directive';
-import {preTransformYfmBlocks} from './content-processing/pretransform';
-import {modifyPageConstructorLinks} from './content-processing/link-resolver';
+import {normalizePageConstructorContent} from './normalize';
 
 type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
     runtime: Runtime;
@@ -103,30 +102,27 @@ export function transform(options: Partial<TransformOptions> = {}) {
         });
         md.renderer.rules['yfm_page-constructor'] = (tokens, idx, _options, env, _self) => {
             const token = tokens[idx];
-            const loadResult = loadPageContent(token.content);
+            let transformedContent: PageContent;
 
-            if (loadResult.success === false) {
-                const message = loadResult.error + (path ? `\nFile: ${path}` : '');
+            try {
+                transformedContent = normalizePageConstructorContent(token.content, {
+                    path,
+                    root,
+                    assetsPublicPath,
+                    transformLink,
+                    assetLinkResolver,
+                    contentLinkResolver,
+                    env,
+                    md,
+                });
+            } catch (error) {
+                const message = error instanceof Error ? error.message : String(error);
                 if (options.throwOnInvalid === false) {
                     return renderError(message);
                 }
 
-                throw new Error(message);
+                throw error;
             }
-
-            const yamlContent = loadResult.content;
-
-            const content = modifyPageConstructorLinks({
-                data: yamlContent,
-                getAssetLink: assetLinkResolver,
-                getContentLink: contentLinkResolver,
-                path,
-                root,
-                assetsPublicPath,
-                transformLink,
-            }) as PageContent;
-
-            const transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;
 
             return getPageConstructorContent(
                 transformedContent,

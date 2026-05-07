@@ -5,6 +5,7 @@ import {ClassNames, PAGE_CONSTRUCTOR_RUNTIME, PAGE_CONSTRUCTOR_STYLE} from '../c
 setPageConstructorImplementation(createPageConstructorContent);
 
 export {transform} from './transform-node';
+export {normalizePageConstructorContent, type NormalizePageConstructorOptions} from './normalize';
 export {loadPageContent, type LoadPageContentResult} from './utils';
 export {
     LINK_KEYS_PAGE_CONSTRUCTOR_CONFIG,
