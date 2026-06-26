@@ -1,6 +1,15 @@
-# Diplodoc page-constructor extension
+**english** | [русский](https://github.com/diplodoc-platform/page-constructor-extension/blob/master/README.ru.md)
+
+---
 
 [![NPM version](https://img.shields.io/npm/v/@diplodoc/page-constructor-extension.svg?style=flat)](https://www.npmjs.org/package/@diplodoc/page-constructor-extension)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=diplodoc-platform_page-constructor-extension&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=diplodoc-platform_page-constructor-extension)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=diplodoc-platform_page-constructor-extension&metric=coverage)](https://sonarcloud.io/summary/new_code?id=diplodoc-platform_page-constructor-extension)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=diplodoc-platform_page-constructor-extension&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=diplodoc-platform_page-constructor-extension)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=diplodoc-platform_page-constructor-extension&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=diplodoc-platform_page-constructor-extension)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=diplodoc-platform_page-constructor-extension&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=diplodoc-platform_page-constructor-extension)
+
+# Diplodoc page-constructor extension
 
 This is an extension of the Diplodoc platform, which allows using the [Page Constructor](https://github.com/gravity-ui/page-constructor) component from Gravity UI in your documentation. Page Constructor is a library for rendering web pages or their parts based on YAML data. This extension enables creating rich, interactive page layouts with various block types directly in your markdown files.
 
