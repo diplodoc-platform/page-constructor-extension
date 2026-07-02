@@ -76,7 +76,8 @@
     "prepare": "husky || true",
     "prepublishOnly": "npm run lint && npm test && npm run build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run src --config vitest.config.mjs"
+    "test": "vitest run src --config vitest.config.mjs",
+    "lock": "npm install --no-workspaces --package-lock-only --ignore-scripts"
   },
   "keywords": [
     "page-constructor",
@@ -94,7 +95,7 @@
     "react-dom": "^16.8.0  || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@diplodoc/infra": "2.0.7",
+    "@diplodoc/infra": "2.1.0",
     "@diplodoc/transform": "^4.62.0",
     "@diplodoc/tsconfig": "^1.0.2",
     "@hyrious/esbuild-plugin-commonjs": "^0.2.5",
