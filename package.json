@@ -97,7 +97,6 @@
   "devDependencies": {
     "@diplodoc/infra": "2.2.0",
     "@diplodoc/transform": "^4.62.0",
-    "@diplodoc/tsconfig": "^1.0.2",
     "@hyrious/esbuild-plugin-commonjs": "^0.2.5",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash": "^4.17.12",
