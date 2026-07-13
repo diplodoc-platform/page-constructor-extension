@@ -1,4 +1,4 @@
-import url from 'url';
+import {formatHref, parseHref} from '@diplodoc/utils';
 import path from 'path';
 
 import {isLocalUrl} from '../utils';
@@ -10,10 +10,10 @@ export function defaultTransformLink(link: string, currentPath?: string): string
         return link;
     }
 
-    const parsed = url.parse(link);
+    const parsed = parseHref(link);
 
     if (!parsed.pathname || parsed.pathname.startsWith('/') || !currentPath) {
-        return url.format({
+        return formatHref({
             ...parsed,
             pathname: parsed.pathname?.replace(PAGE_LINK_REGEXP, '.html'),
         });
@@ -27,7 +27,7 @@ export function defaultTransformLink(link: string, currentPath?: string): string
 
     const fullPath = path.posix.join(currentDir, cleanPath);
 
-    return url.format({
+    return formatHref({
         ...parsed,
         pathname: fullPath,
     });

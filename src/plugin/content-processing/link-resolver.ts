@@ -3,8 +3,8 @@ import type {PageContent} from '@gravity-ui/page-constructor';
 import every from 'lodash/every';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
+import {parseHref} from '@diplodoc/utils';
 import {dirname, join, parse, relative, resolve} from 'node:path';
-import url from 'node:url';
 
 import {isLocalUrl} from '../utils';
 
@@ -124,7 +124,7 @@ function modifyPageConstructorLinks({
                     if (getContentLink) return getContentLink(item, path, root);
 
                     if (transformLink) {
-                        const {pathname} = url.parse(item);
+                        const {pathname} = parseHref(item);
                         const file = resolve(parse(path).dir, pathname || '');
                         const relativePath = relative(process.cwd(), file);
 
