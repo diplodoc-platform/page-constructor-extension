@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.7](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.6...v0.13.7) (2026-07-14)
+
+
+### Bug Fixes
+
+* remove node url DOCSTOOLS-6242 ([768baeb](https://github.com/diplodoc-platform/page-constructor-extension/commit/768baeb84d6c172cfc51e318bfd16c035d71745e))
+
 ## [0.13.6](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.5...v0.13.6) (2026-05-28)
 
 
