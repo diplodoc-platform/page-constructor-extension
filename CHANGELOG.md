@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.9](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.8...v0.13.9) (2026-07-21)
+
+
+### Bug Fixes
+
+* update react ([#81](https://github.com/diplodoc-platform/page-constructor-extension/issues/81)) ([2ccbc75](https://github.com/diplodoc-platform/page-constructor-extension/commit/2ccbc75a2c2eaf9d33ae67eec373ee656de6119b))
+
 ## [0.13.8](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.7...v0.13.8) (2026-07-20)
 
 
