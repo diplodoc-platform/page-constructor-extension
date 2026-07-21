@@ -12,19 +12,19 @@ class PageConstructorController {
             const isHydrated = container.getAttribute('data-hydrated') === 'true';
             const isRendered = container.getAttribute('data-rendered') === 'true';
 
-            if (isHydrated || isRendered) return;
+            if (isHydrated || isRendered) {
+                return;
+            }
 
             const encodedContent = container.getAttribute('data-content-encoded');
-            if (!encodedContent) return;
+
+            if (!encodedContent) {
+                return;
+            }
 
             const decodedContent = decodeURIComponent(encodedContent);
             const contentData = JSON.parse(decodedContent);
-            const element = createPageConstructorElement(
-                contentData,
-                false,
-                undefined,
-                theme,
-            ) as React.ReactNode;
+            const element = createPageConstructorElement(contentData, false, undefined, theme);
 
             if (preMountHook) {
                 preMountHook(container);
@@ -45,7 +45,9 @@ class PageConstructorController {
     }
 
     getContainers(): Element[] {
-        if (typeof document === 'undefined') return [];
+        if (typeof document === 'undefined') {
+            return [];
+        }
 
         return Array.from(document.querySelectorAll(`.${ClassNames.PageConstructor}`));
     }
