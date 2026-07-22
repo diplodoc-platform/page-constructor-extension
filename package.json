@@ -96,7 +96,7 @@
   },
   "devDependencies": {
     "@diplodoc/infra": "2.2.1",
-    "@diplodoc/transform": "^4.76.10",
+    "@diplodoc/transform": "^4.77.3",
     "@hyrious/esbuild-plugin-commonjs": "^0.2.5",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash": "^4.17.12",
@@ -116,7 +116,7 @@
   },
   "dependencies": {
     "@diplodoc/directive": "^0.3.4",
-    "@diplodoc/utils": "^2.3.3",
+    "@diplodoc/utils": "^2.3.5",
     "@gravity-ui/page-constructor": "^8.14.2",
     "cheerio": "^1.0.0",
     "js-yaml": "^4.1.0",
