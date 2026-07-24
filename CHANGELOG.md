@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.11](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.10...v0.13.11) (2026-07-24)
+
+
+### Bug Fixes
+
+* **deps:** Update dev:@diplodoc/transform@4.77.5 ([#88](https://github.com/diplodoc-platform/page-constructor-extension/issues/88)) ([17e323d](https://github.com/diplodoc-platform/page-constructor-extension/commit/17e323d48132a02d578c0dc91c11c23240eb3278))
+
 ## [0.13.10](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.9...v0.13.10) (2026-07-22)
 
 
