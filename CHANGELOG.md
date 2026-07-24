@@ -1,5 +1,81 @@
 # Changelog
 
+## [0.11.0](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.11...v0.11.0) (2026-07-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* bump page-constructor to v7 ([#25](https://github.com/diplodoc-platform/page-constructor-extension/issues/25))
+
+### Features
+
+* add asset & content link resolvers ([3e9e7fa](https://github.com/diplodoc-platform/page-constructor-extension/commit/3e9e7fa559ad28c52febe3bfaadf149dab571d33))
+* add conditional runtime loading for client-side rendering ([76f0996](https://github.com/diplodoc-platform/page-constructor-extension/commit/76f09964b2b246381f51bdb677857e7197a48310))
+* add react 19 peer ([270b5fc](https://github.com/diplodoc-platform/page-constructor-extension/commit/270b5fc15ebdb0458d0b8178415aa130f4d3dd74))
+* add renderer export ([e5363e8](https://github.com/diplodoc-platform/page-constructor-extension/commit/e5363e8735d770e6f1fe69e2d4b1d78c61a109d9))
+* add separate plugin and vendor styles ([d777766](https://github.com/diplodoc-platform/page-constructor-extension/commit/d777766343f4f2eb5741de3769d4bbc956d45f90))
+* add theme & preMountHook props ([3e21bd4](https://github.com/diplodoc-platform/page-constructor-extension/commit/3e21bd4b2304ee642317d6e4045c7060b9aeeadb))
+* adding default link handling ([6d0bab8](https://github.com/diplodoc-platform/page-constructor-extension/commit/6d0bab88ba5e3b149569055d53e290fef050e30b))
+* allow set projectSettings for PageConstructorProvider ([dc6d8b9](https://github.com/diplodoc-platform/page-constructor-extension/commit/dc6d8b9ea0ebb82d0e5115ed45581433fcfb04b9))
+* bump page-constructor to v7 ([#25](https://github.com/diplodoc-platform/page-constructor-extension/issues/25)) ([e573103](https://github.com/diplodoc-platform/page-constructor-extension/commit/e573103b7cce59b942ba9e05a4eb621c1c72946e))
+* init page-constructor-extension ([#1](https://github.com/diplodoc-platform/page-constructor-extension/issues/1)) ([207a5fc](https://github.com/diplodoc-platform/page-constructor-extension/commit/207a5fce4c30c411f966476d63ec6731015aa912))
+* **plugin:** add node plugin with client side rendering ([d1495fe](https://github.com/diplodoc-platform/page-constructor-extension/commit/d1495feb995d66540c5c3bd6411fefa7cd6e1593))
+* **plugin:** add option to render error instead of throwing error ([#28](https://github.com/diplodoc-platform/page-constructor-extension/issues/28)) ([678cd63](https://github.com/diplodoc-platform/page-constructor-extension/commit/678cd6335c224a5f80ad112b2373557f32992530))
+* **plugin:** export yaml content parsing function ([1e4c620](https://github.com/diplodoc-platform/page-constructor-extension/commit/1e4c620e2f750b605b605bc2aca3b52443705a43))
+* **plugin:** strict yaml content validation ([c433db4](https://github.com/diplodoc-platform/page-constructor-extension/commit/c433db4bfeb888a5d9604410356a52c6faa206f5))
+* reorganization of style export ([#14](https://github.com/diplodoc-platform/page-constructor-extension/issues/14)) ([f52f197](https://github.com/diplodoc-platform/page-constructor-extension/commit/f52f19780721fb329371f947fa0c47bce87861b8))
+* runtime manual import of transform styles and scripts ([5ecf915](https://github.com/diplodoc-platform/page-constructor-extension/commit/5ecf9158d05cab57812c56356a7436ebaf36f52c))
+* update runtime connection ([#3](https://github.com/diplodoc-platform/page-constructor-extension/issues/3)) ([594f698](https://github.com/diplodoc-platform/page-constructor-extension/commit/594f698b6d8bfb8502d44f04c72494c111010e90))
+* use default transform asset&content link resolvers ([7980b97](https://github.com/diplodoc-platform/page-constructor-extension/commit/7980b97b833ade727bfcab836533ff0ce510569e))
+
+
+### Bug Fixes
+
+* add info about theme and preMountHook ([c9b4a52](https://github.com/diplodoc-platform/page-constructor-extension/commit/c9b4a524c1244c3f54086ca9ae36f8c866a0ce4b))
+* delete extra content link resolver ([8394995](https://github.com/diplodoc-platform/page-constructor-extension/commit/8394995dd342b97c4a084728b513401a6ece05ae))
+* **deps:** Update @diplodoc/directive@0.3.4 ([24fd405](https://github.com/diplodoc-platform/page-constructor-extension/commit/24fd4058e967e4cc9792f0aec3b7d515e19c4c6f))
+* **deps:** Update @diplodoc/directive@0.3.4 ([9d59116](https://github.com/diplodoc-platform/page-constructor-extension/commit/9d59116dd854068779129e94e89b9515613bf9aa))
+* **deps:** Update @diplodoc/utils@2.2.3 ([f9783d3](https://github.com/diplodoc-platform/page-constructor-extension/commit/f9783d3f7a52244f304a16cf033d267b919e7fb5))
+* **deps:** Update @diplodoc/utils@2.2.3 ([8d827ad](https://github.com/diplodoc-platform/page-constructor-extension/commit/8d827ad20e2423a9f4c72d6a57f9db614fee5d9b))
+* **deps:** Update @diplodoc/utils@2.3.5, dev:@diplodoc/transform@4.77.3 ([#86](https://github.com/diplodoc-platform/page-constructor-extension/issues/86)) ([2c7598d](https://github.com/diplodoc-platform/page-constructor-extension/commit/2c7598d0fad97e74b16c0730b33f6498eb126fc0))
+* **deps:** Update dev:@diplodoc/transform@4.77.5 ([#88](https://github.com/diplodoc-platform/page-constructor-extension/issues/88)) ([17e323d](https://github.com/diplodoc-platform/page-constructor-extension/commit/17e323d48132a02d578c0dc91c11c23240eb3278))
+* **deps:** updated node to 24 ([1d18d17](https://github.com/diplodoc-platform/page-constructor-extension/commit/1d18d1793b253a697204a493c43c7a1befdbe096))
+* **deps:** updated node to 24 ([b3512a7](https://github.com/diplodoc-platform/page-constructor-extension/commit/b3512a7f5b6db8f3b328e41f1439da8161fa2ad1))
+* do not import styles in runtime ([079e40a](https://github.com/diplodoc-platform/page-constructor-extension/commit/079e40a42297b6808d20debb9d3fd00f48781acb))
+* do not use esm for runtime build ([466c069](https://github.com/diplodoc-platform/page-constructor-extension/commit/466c0691d32ef1bb111a1e50c50a013eaa7387d6))
+* export pc-types ([e2bafcb](https://github.com/diplodoc-platform/page-constructor-extension/commit/e2bafcbb10a2b3ab0cc3bf5b22fc05554d2075db))
+* exported pc-types ([bad8761](https://github.com/diplodoc-platform/page-constructor-extension/commit/bad8761f39a813bcd79516d38f19f7d02abb0fa4))
+* exported some functions ([e0be985](https://github.com/diplodoc-platform/page-constructor-extension/commit/e0be98538adf9d91156a2bed19adda4c71c964b7))
+* fix runtime styles export ([4967d24](https://github.com/diplodoc-platform/page-constructor-extension/commit/4967d24a07ed15c76d330ed8d54c8d8cb6329c73))
+* fixed ([ac793b7](https://github.com/diplodoc-platform/page-constructor-extension/commit/ac793b77b8c0f639a3296721dec2b5bb8a55c716))
+* fixed link-resolver ([280be98](https://github.com/diplodoc-platform/page-constructor-extension/commit/280be98b27b86ec369c83ddf8fe196d5ff944d41))
+* fixed link-resolver ([3d8db53](https://github.com/diplodoc-platform/page-constructor-extension/commit/3d8db53c6b5d6092a33556fd81d23910e9c97295))
+* lock ([75229ba](https://github.com/diplodoc-platform/page-constructor-extension/commit/75229baa7dfc8244f00bf136a9fa2ff5434191a8))
+* move transform to peer ([#11](https://github.com/diplodoc-platform/page-constructor-extension/issues/11)) ([9116672](https://github.com/diplodoc-platform/page-constructor-extension/commit/911667244997faeb705d8530641d04adf908a796))
+* moved the createPageConstructorElement export to a separate bundle ([73c6ac4](https://github.com/diplodoc-platform/page-constructor-extension/commit/73c6ac473a364acf51f13c25a838c6466b6a9f88))
+* moved the createPageConstructorElement export to a separate bundle ([9b13ed5](https://github.com/diplodoc-platform/page-constructor-extension/commit/9b13ed5f0c40d21d2ac14f034b7353919b4a6c34))
+* node pretransform ([055cb6a](https://github.com/diplodoc-platform/page-constructor-extension/commit/055cb6a2e9daddfc57982dea156fd965c0b35828))
+* pass assetsPublicPath into custom asset link resolver ([1dcecd7](https://github.com/diplodoc-platform/page-constructor-extension/commit/1dcecd7ca8aac1a0d6739d947d514babc7db6cae))
+* pass root arg into custom link resolvers ([4fab867](https://github.com/diplodoc-platform/page-constructor-extension/commit/4fab867805391dec6529b9d186a7c28ca6de2da4))
+* **plugin:** add constants re-export to node plugin ([a84770b](https://github.com/diplodoc-platform/page-constructor-extension/commit/a84770b0731ed6f9ea33fdf087e89e0c8dc35776))
+* **plugin:** spot import from lodash ([#29](https://github.com/diplodoc-platform/page-constructor-extension/issues/29)) ([40fa1ec](https://github.com/diplodoc-platform/page-constructor-extension/commit/40fa1ec875b79cfb28cf65d0f95671c2f0effe11))
+* remove node url DOCSTOOLS-6242 ([768baeb](https://github.com/diplodoc-platform/page-constructor-extension/commit/768baeb84d6c172cfc51e318bfd16c035d71745e))
+* remove runtime dependency from react module ([a4bc9bf](https://github.com/diplodoc-platform/page-constructor-extension/commit/a4bc9bf0118da2216f530ae760e2533cd58c68a6))
+* runtime build polyfil util ([827ed6f](https://github.com/diplodoc-platform/page-constructor-extension/commit/827ed6fe4434d933109b2664cb1d03b6a5ba3146))
+* strip @diplodoc/transform from runtime bundle ([6da84cd](https://github.com/diplodoc-platform/page-constructor-extension/commit/6da84cda6161900ffa523114494b6da79b5a5a9d))
+* transform up 4.58.1 ([f0578dd](https://github.com/diplodoc-platform/page-constructor-extension/commit/f0578ddfab1b3655bf879bfd648d771fe84ab9a4))
+* up page-constructor ([#83](https://github.com/diplodoc-platform/page-constructor-extension/issues/83)) ([f13ac4b](https://github.com/diplodoc-platform/page-constructor-extension/commit/f13ac4bb7542f1f3c4faa354694106ba81f8b91b))
+* update react ([#81](https://github.com/diplodoc-platform/page-constructor-extension/issues/81)) ([2ccbc75](https://github.com/diplodoc-platform/page-constructor-extension/commit/2ccbc75a2c2eaf9d33ae67eec373ee656de6119b))
+* updated pc ([7f14c41](https://github.com/diplodoc-platform/page-constructor-extension/commit/7f14c4165114165e6ebce4ed761f82a3724b674c))
+* updated pc ([ffd3baa](https://github.com/diplodoc-platform/page-constructor-extension/commit/ffd3baa719522c1b3eac733633b972c8a6eeaa87))
+* yfm links inside pc block proccessing ([07040ff](https://github.com/diplodoc-platform/page-constructor-extension/commit/07040ff172f982f8ba4b29bcab369196ecd140f4))
+
+
+### Miscellaneous Chores
+
+* release 0.2.0 ([acca9df](https://github.com/diplodoc-platform/page-constructor-extension/commit/acca9dfe7f6e8cec1b67eaab75aeda265b58f799))
+* release 0.2.1 ([d4c3931](https://github.com/diplodoc-platform/page-constructor-extension/commit/d4c39315c8b1bcb641ee540cb8905f1ff1cc7953))
+
 ## [0.13.11](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.10...v0.13.11) (2026-07-24)
 
 
