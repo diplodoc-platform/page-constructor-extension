@@ -119,7 +119,6 @@
     "@diplodoc/utils": "^2.3.5",
     "@gravity-ui/page-constructor": "^8.14.2",
     "cheerio": "^1.0.0",
-    "js-yaml": "^4.1.0",
-    "lodash": "^4.17.21"
+    "ts-dedent": "^2.2.0"
   }
 }
