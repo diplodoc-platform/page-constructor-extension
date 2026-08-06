@@ -9,5 +9,9 @@
     "**/__snapshots__/**",
     "**/*.test.*",
     "**/*.spec.*"
-  ]
+  ],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "types": ["node"]
+  }
 }
