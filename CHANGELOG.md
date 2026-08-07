@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.13.12](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.11...v0.13.12) (2026-08-07)
+
+
+### Bug Fixes
+
+* exclude build:clean from the parallel build glob ([a6aad28](https://github.com/diplodoc-platform/page-constructor-extension/commit/a6aad28233131c49e0eacfece81502b7328824b1))
+* Upgrade typescript to 5.9.3 DOCSTOOLS-6357 ([2d41e37](https://github.com/diplodoc-platform/page-constructor-extension/commit/2d41e37d961a5f9148a88a897b5fd71b6c4d1d7c))
+* Upgrade typescript to 6.0.3 DOCSTOOLS-6359 ([44472bb](https://github.com/diplodoc-platform/page-constructor-extension/commit/44472bbbdb595899e57317b48bf543779b296ef2))
+
 ## [0.13.11](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.10...v0.13.11) (2026-07-24)
 
 
