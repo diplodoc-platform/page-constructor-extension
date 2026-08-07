@@ -6,5 +6,10 @@ export default defineConfig({
         globals: false,
         include: ['src/**/*.test.ts', 'src/**/*.spec.ts'],
         exclude: ['node_modules', 'build', 'dist', 'coverage', 'example'],
+        server: {
+            deps: {
+                inline: [/@gravity-ui\//],
+            },
+        },
     },
 });

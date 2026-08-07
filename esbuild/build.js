@@ -28,6 +28,21 @@ const minifyCommon = {
     keepNames: true,
 };
 
+// The Page Constructor dependency tree still contains packages that only support React 18.
+// Keep React 19 for the workspace and external library entrypoints, but make the standalone
+// browser runtime use one isolated React 18 pair.
+const standaloneReact18Alias = {
+    'react/jsx-runtime': 'react18/jsx-runtime',
+    'react/jsx-dev-runtime': 'react18/jsx-dev-runtime',
+    'react-dom/client': 'react-dom18/client',
+    'react-dom/server': 'react-dom18/server',
+    'react-dom/server.browser': 'react-dom18/server.browser',
+    'react-dom/server.node': 'react-dom18/server.node',
+    'react-dom/test-utils': 'react-dom18/test-utils',
+    react: 'react18',
+    'react-dom': 'react-dom18',
+};
+
 const nodeExternals = [
     'node:*',
     'react',
@@ -107,6 +122,10 @@ const browserPlugin = {
 // Build runtime bundle for browser
 const runtimeBundle = {
     ...minifyCommon,
+    alias: {
+        ...minifyCommon.alias,
+        ...standaloneReact18Alias,
+    },
     format: 'esm',
     entryPoints: ['src/runtime/index.tsx'],
     outfile: 'build/runtime/index.js',
