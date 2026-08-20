@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.13](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.12...v0.13.13) (2026-08-20)
+
+
+### Bug Fixes
+
+* **runtime:** bundle isolated React 18 to restore PC blocks ([#97](https://github.com/diplodoc-platform/page-constructor-extension/issues/97)) ([4f0b64e](https://github.com/diplodoc-platform/page-constructor-extension/commit/4f0b64ec32eac4a6eb8616c4c1372562bca1a9b5))
+
 ## [0.13.12](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.11...v0.13.12) (2026-08-07)
 
 
