@@ -7,6 +7,18 @@ import {ClassNames} from '../constants';
 import {createPageConstructorElement} from './page-constructor-element';
 import {renderError} from './error';
 
+function escapeHtmlAttribute(value: string): string {
+    const entities: Record<string, string> = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;',
+    };
+
+    return value.replace(/[&<>'"]/g, (character) => entities[character]);
+}
+
 export function createPageConstructorContent(
     content: PageContent,
     _hydrationContent?: PageContent,
@@ -19,8 +31,9 @@ export function createPageConstructorContent(
         );
 
         const encodedContent = encodeURIComponent(JSON.stringify(content));
+        const encodedTheme = escapeHtmlAttribute(theme ?? '');
 
-        return `<div class="${ClassNames.PageConstructor}" data-content-encoded="${encodedContent}" data-hydrated="false">${html}</div>`;
+        return `<div class="${ClassNames.PageConstructor}" data-content-encoded="${encodedContent}" data-hydrated="false" data-theme="${encodedTheme}">${html}</div>`;
     } catch (error: unknown) {
         return renderError('Error rendering component: ', error);
     }

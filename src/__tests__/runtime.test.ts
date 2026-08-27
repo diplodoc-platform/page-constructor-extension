@@ -19,11 +19,24 @@ describe('React runtime integration', () => {
             ],
         } satisfies PageContent;
 
-        const html = createPageConstructorContent(content);
+        const html = createPageConstructorContent(content, undefined, undefined, 'dark');
 
         expect(html).toContain('class="yfm-page-constructor"');
         expect(html).toContain('data-hydrated="false"');
+        expect(html).toContain('data-theme="dark"');
         expect(html).toContain('React integration smoke test');
         expect(html).not.toContain('page-constructor-error');
     }, 15_000);
+
+    it('escapes the theme attribute in server-rendered markup', async () => {
+        const {createPageConstructorContent} = await import('../renderer/server');
+        const html = createPageConstructorContent(
+            {blocks: []},
+            undefined,
+            undefined,
+            'dark"&light',
+        );
+
+        expect(html).toContain('data-theme="dark&quot;&amp;light"');
+    });
 });
