@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.15](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.14...v0.13.15) (2026-08-28)
+
+
+### Bug Fixes
+
+* page constructor theme updates ([39562b7](https://github.com/diplodoc-platform/page-constructor-extension/commit/39562b743a3c7dab507a27c3c7e6a5b3c86e9383))
+
 ## [0.13.14](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.13...v0.13.14) (2026-08-27)
 
 
