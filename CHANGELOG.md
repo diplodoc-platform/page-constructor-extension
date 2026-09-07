@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.16](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.15...v0.13.16) (2026-09-07)
+
+
+### Bug Fixes
+
+* update page constructor for React 19 ([#103](https://github.com/diplodoc-platform/page-constructor-extension/issues/103)) ([04b0fae](https://github.com/diplodoc-platform/page-constructor-extension/commit/04b0faead8c3193028b2e94a5162feb5677c6afb))
+
 ## [0.13.15](https://github.com/diplodoc-platform/page-constructor-extension/compare/v0.13.14...v0.13.15) (2026-08-28)
 
 
