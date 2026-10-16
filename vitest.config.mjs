@@ -8,7 +8,8 @@ export default defineConfig({
         exclude: ['node_modules', 'build', 'dist', 'coverage', 'example'],
         server: {
             deps: {
-                inline: [/@gravity-ui\//],
+                // Transform Gravity UI sources, not nested CommonJS dependencies such as uuid.
+                inline: [/@gravity-ui\/[^/]+\/(?!node_modules\/)/],
             },
         },
     },
