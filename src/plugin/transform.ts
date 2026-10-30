@@ -1,4 +1,5 @@
 import type {PageContent} from '@gravity-ui/page-constructor';
+import type transformYFM from '@diplodoc/transform';
 import type {Runtime, TransformOptions} from '../types';
 
 import MarkdownIt from 'markdown-it';
@@ -64,6 +65,24 @@ type InputOptions = {
     destRoot: string;
 };
 
+type PluginOptions = {
+    output?: string;
+    path?: string;
+    root?: string;
+    transformLink?: (href: string) => string;
+    assetsPublicPath?: string;
+    theme?: string;
+};
+
+type InstalledTransformOptions = NonNullable<Parameters<typeof transformYFM>[1]>;
+type InstalledTransformPlugin = NonNullable<InstalledTransformOptions['plugins']>[number];
+type SupportedPlugin = MarkdownIt.PluginWithOptions<PluginOptions> &
+    InstalledTransformPlugin & {
+        collect(input: string, options: InputOptions): void;
+    };
+
+/** Creates a plugin for native markdown-it 13 and the installed Transform host. */
+export function transform(options?: Partial<TransformOptions>): SupportedPlugin;
 export function transform(options: Partial<TransformOptions> = {}) {
     const {bundle = true, assetLinkResolver, contentLinkResolver, onBundle} = options;
 
@@ -78,14 +97,10 @@ export function transform(options: Partial<TransformOptions> = {}) {
                   script: PAGE_CONSTRUCTOR_RUNTIME,
                   style: PAGE_CONSTRUCTOR_STYLE,
               };
-    const plugin: MarkdownIt.PluginWithOptions<{
-        output?: string;
-        path?: string;
-        root?: string;
-        transformLink?: (href: string) => string;
-        assetsPublicPath?: string;
-        theme?: string;
-    }> = function (md: MarkdownIt, pluginOptions = {}) {
+    const plugin: MarkdownIt.PluginWithOptions<PluginOptions> = function (
+        md: MarkdownIt,
+        pluginOptions = {},
+    ) {
         const {
             output = '.',
             path = '',
