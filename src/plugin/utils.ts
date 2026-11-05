@@ -3,8 +3,7 @@ import type {PageContent} from '@gravity-ui/page-constructor';
 import {load} from 'js-yaml';
 
 export type LoadPageContentResult =
-    | {success: true; content: PageContent}
-    | {success: false; error: string};
+    {success: true; content: PageContent} | {success: false; error: string};
 export function loadPageContent(content: string): LoadPageContentResult {
     let yamlContent;
     try {
