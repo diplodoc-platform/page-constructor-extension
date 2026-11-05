@@ -38,6 +38,7 @@ const nodeExternals = [
     'js-yaml',
     'lodash',
     '@gravity-ui/page-constructor/server',
+    '@gravity-ui/uikit',
 ];
 
 // Build node plugin with server side rendering
@@ -99,6 +100,7 @@ const browserPlugin = {
         'react',
         'react-dom',
         '@gravity-ui/page-constructor',
+        '@gravity-ui/uikit',
         'undici',
         'markdown-it',
     ],
@@ -156,7 +158,13 @@ const reactBundle = {
     format: 'esm',
     outfile: 'build/react/index.js',
     plugins: [sassPlugin()],
-    external: ['react', 'react-dom', 'react-dom/client', '@gravity-ui/page-constructor'],
+    external: [
+        'react',
+        'react-dom',
+        'react-dom/client',
+        '@gravity-ui/page-constructor',
+        '@gravity-ui/uikit',
+    ],
 };
 
 const styleBundle = {
@@ -172,7 +180,7 @@ const rendererBundle = {
     format: 'esm',
     outfile: 'build/renderer/index.js',
     plugins: [sassPlugin()],
-    external: ['react', 'react-dom', '@gravity-ui/page-constructor'],
+    external: ['react', 'react-dom', '@gravity-ui/page-constructor', '@gravity-ui/uikit'],
 };
 
 build(nodePlugin);
