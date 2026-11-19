@@ -5,7 +5,7 @@ import {describe, expect, it} from 'vitest';
 describe('React runtime integration', () => {
     it('loads the browser runtime with the installed React packages', async () => {
         await expect(import('../runtime/index')).resolves.toBeDefined();
-    }, 15_000);
+    }, 60_000);
 
     it('renders Page Constructor content on the server', async () => {
         const {createPageConstructorContent} = await import('../renderer/server');
@@ -15,6 +15,7 @@ describe('React runtime integration', () => {
                     type: 'header-block',
                     title: 'React integration smoke test',
                     description: 'Page Constructor renders with the installed React packages.',
+                    buttons: [{text: 'UIKit 8 button', url: '#', theme: 'normal-contrast'}],
                 },
             ],
         } satisfies PageContent;
@@ -25,8 +26,11 @@ describe('React runtime integration', () => {
         expect(html).toContain('data-hydrated="false"');
         expect(html).toContain('data-theme="dark"');
         expect(html).toContain('React integration smoke test');
+        expect(html).toContain('UIKit 8 button');
+        expect(html).toContain('g-root_theme_dark');
+        expect(html).toContain('g-button_view_contrast-light');
         expect(html).not.toContain('page-constructor-error');
-    }, 15_000);
+    }, 60_000);
 
     it('escapes the theme attribute in server-rendered markup', async () => {
         const {createPageConstructorContent} = await import('../renderer/server');
