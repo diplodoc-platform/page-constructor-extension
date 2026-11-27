@@ -27,7 +27,9 @@ const onBundle = (env: {bundled: Set<string>}, output: string, runtime: Runtime)
     }
 };
 
-export const transform = (options: Partial<TransformOptions> = {}) => {
+export const transform = (
+    options: Partial<TransformOptions> = {},
+): ReturnType<typeof baseTransform> => {
     return baseTransform({
         ...options,
         onBundle,
