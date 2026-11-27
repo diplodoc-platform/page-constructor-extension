@@ -1,5 +1,6 @@
 import type {PageContent, Theme} from '@gravity-ui/page-constructor';
 
+import {Provider} from '@gravity-ui/uikit';
 import {PageConstructor, PageConstructorProvider} from '@gravity-ui/page-constructor';
 
 export function createPageConstructorElement(
@@ -13,12 +14,14 @@ export function createPageConstructorElement(
             ? typeof window === 'undefined' && typeof global !== 'undefined'
             : isServer;
     return (
-        <PageConstructorProvider
-            ssrConfig={{isServer: isServerEnv}}
-            projectSettings={{disableCompress: true, ...projectSettings}}
-            theme={theme as Theme}
-        >
-            <PageConstructor content={content} />
-        </PageConstructorProvider>
+        <Provider theme={theme === 'dark' ? 'dark' : 'light'} scoped>
+            <PageConstructorProvider
+                ssrConfig={{isServer: isServerEnv}}
+                projectSettings={{disableCompress: true, ...projectSettings}}
+                theme={theme as Theme}
+            >
+                <PageConstructor content={content} />
+            </PageConstructorProvider>
+        </Provider>
     );
 }

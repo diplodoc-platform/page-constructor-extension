@@ -41,6 +41,7 @@ const nodeExternals = [
 ];
 
 // Build node plugin with server side rendering
+// UIKit stays in this bundle so the CSS mock covers its stylesheet imports in Node.
 /** @type {import('esbuild').BuildOptions} */
 const nodePlugin = {
     ...common,
@@ -99,6 +100,7 @@ const browserPlugin = {
         'react',
         'react-dom',
         '@gravity-ui/page-constructor',
+        '@gravity-ui/uikit',
         'undici',
         'markdown-it',
     ],
@@ -156,7 +158,13 @@ const reactBundle = {
     format: 'esm',
     outfile: 'build/react/index.js',
     plugins: [sassPlugin()],
-    external: ['react', 'react-dom', 'react-dom/client', '@gravity-ui/page-constructor'],
+    external: [
+        'react',
+        'react-dom',
+        'react-dom/client',
+        '@gravity-ui/page-constructor',
+        '@gravity-ui/uikit',
+    ],
 };
 
 const styleBundle = {
@@ -172,7 +180,7 @@ const rendererBundle = {
     format: 'esm',
     outfile: 'build/renderer/index.js',
     plugins: [sassPlugin()],
-    external: ['react', 'react-dom', '@gravity-ui/page-constructor'],
+    external: ['react', 'react-dom', '@gravity-ui/page-constructor', '@gravity-ui/uikit'],
 };
 
 build(nodePlugin);

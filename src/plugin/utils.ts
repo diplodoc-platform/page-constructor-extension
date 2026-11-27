@@ -47,11 +47,7 @@ export function isLocalUrl(url: string) {
     return !/^(?:[a-z]+:)?\/\//i.test(url);
 }
 
-export function hidden<B extends Record<string | symbol, unknown>, F extends string | symbol, V>(
-    box: B,
-    field: F,
-    value: V,
-) {
+export function hidden<B extends object, F extends string | symbol, V>(box: B, field: F, value: V) {
     if (!(field in box)) {
         Object.defineProperty(box, field, {
             enumerable: false,

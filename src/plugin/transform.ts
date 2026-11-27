@@ -1,5 +1,8 @@
 import type {PageContent} from '@gravity-ui/page-constructor';
+import type transformYFM from '@diplodoc/transform';
+import type {MarkdownIt as MarkdownItInstance} from 'markdown-it';
 import type {Runtime, TransformOptions} from '../types';
+import type {MarkdownItEnv} from './content-processing/pretransform';
 
 import MarkdownIt from 'markdown-it';
 
@@ -24,7 +27,7 @@ type NormalizedPluginOptions = Omit<TransformOptions, 'runtime'> & {
 };
 
 const registerTransforms = (
-    md: MarkdownIt,
+    md: MarkdownItInstance,
     {
         runtime,
         bundle,
@@ -40,22 +43,20 @@ const registerTransforms = (
     md.use(pageConstructorDirective);
 
     md.core.ruler.push('yfm_page_constructor', ({env}) => {
-        hidden(env, 'bundled', new Set<string>());
+        const bundleEnv = hidden(env as MarkdownItEnv, 'bundled', new Set<string>());
 
         // Check if we've already processed this environment
-        if (env?.[ENV_FLAG_NAME] && !env.pageConstructorProcessed) {
-            env.meta = env.meta || {};
-            env.meta.script = env.meta.script || [];
-            env.meta.script.push(runtime.script);
-            env.meta.style = env.meta.style || [];
-            env.meta.style.push(runtime.style);
+        if (bundleEnv[ENV_FLAG_NAME] && !bundleEnv.pageConstructorProcessed) {
+            const meta = (bundleEnv.meta ||= {});
+            (meta.script ||= []).push(runtime.script);
+            (meta.style ||= []).push(runtime.style);
 
             if (bundle && onBundle) {
-                onBundle(env, output, runtime);
+                onBundle(bundleEnv, output, runtime);
             }
 
             // Mark as processed so we don't add scripts multiple times
-            env.pageConstructorProcessed = true;
+            bundleEnv.pageConstructorProcessed = true;
         }
     });
 };
@@ -64,6 +65,25 @@ type InputOptions = {
     destRoot: string;
 };
 
+type PluginOptions = {
+    output?: string;
+    path?: string;
+    root?: string;
+    transformLink?: (href: string) => string;
+    assetsPublicPath?: string;
+    theme?: string;
+};
+
+type InstalledTransformOptions = NonNullable<Parameters<typeof transformYFM>[1]>;
+type InstalledTransformPlugin = NonNullable<InstalledTransformOptions['plugins']>[number];
+type NativePlugin = (md: MarkdownItInstance, options?: PluginOptions) => void;
+type SupportedPlugin = InstalledTransformPlugin &
+    NativePlugin & {
+        collect(input: string, options: InputOptions): void;
+    };
+
+/** Creates a plugin for native markdown-it 15 and the installed Transform host. */
+export function transform(options?: Partial<TransformOptions>): SupportedPlugin;
 export function transform(options: Partial<TransformOptions> = {}) {
     const {bundle = true, assetLinkResolver, contentLinkResolver, onBundle} = options;
 
@@ -78,14 +98,7 @@ export function transform(options: Partial<TransformOptions> = {}) {
                   script: PAGE_CONSTRUCTOR_RUNTIME,
                   style: PAGE_CONSTRUCTOR_STYLE,
               };
-    const plugin: MarkdownIt.PluginWithOptions<{
-        output?: string;
-        path?: string;
-        root?: string;
-        transformLink?: (href: string) => string;
-        assetsPublicPath?: string;
-        theme?: string;
-    }> = function (md: MarkdownIt, pluginOptions = {}) {
+    const plugin: NativePlugin = function (md, pluginOptions = {}) {
         const {
             output = '.',
             path = '',
@@ -126,7 +139,7 @@ export function transform(options: Partial<TransformOptions> = {}) {
                 transformLink,
             }) as PageContent;
 
-            const transformedContent = preTransformYfmBlocks(content, env, md) as PageContent;
+            const transformedContent = preTransformYfmBlocks(content, env ?? {}, md) as PageContent;
 
             return getPageConstructorContent(
                 transformedContent,
@@ -139,7 +152,7 @@ export function transform(options: Partial<TransformOptions> = {}) {
 
     Object.assign(plugin, {
         collect(input: string, {destRoot = '.'}: InputOptions) {
-            const md = new MarkdownIt().use((md: MarkdownIt) => {
+            const md = new MarkdownIt().use((md: MarkdownItInstance) => {
                 registerTransforms(md, {
                     runtime,
                     bundle,
