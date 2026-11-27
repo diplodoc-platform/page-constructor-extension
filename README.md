@@ -13,6 +13,8 @@
 
 This is an extension of the Diplodoc platform, which allows using the [Page Constructor](https://github.com/gravity-ui/page-constructor) component from Gravity UI in your documentation. Page Constructor is a library for rendering web pages or their parts based on YAML data. This extension enables creating rich, interactive page layouts with various block types directly in your markdown files.
 
+Version 1 uses Page Constructor 9, UIKit 8, and React 18.
+
 The extension contains some parts:
 
 - [Prepared runtime](#prepared-runtime)
