@@ -1,9 +1,9 @@
-import type MarkdownIt from 'markdown-it';
+import type {MarkdownIt} from 'markdown-it';
 import type {ConfigData, Lang, PreloadParams, TransformerRaw} from './preprocess';
 
 import {preprocess} from './preprocess';
 
-interface MarkdownItEnv {
+export interface MarkdownItEnv {
     lang?: string;
     deps?: unknown[];
     assets?: Set<string>;
